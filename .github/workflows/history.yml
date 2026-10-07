@@ -1,0 +1,41 @@
+name: Historical data acquisition
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/history.yml']
+permissions:
+  contents: write
+concurrency:
+  group: quantlab-data-writer
+  cancel-in-progress: false
+jobs:
+  history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 270
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.lock
+      - run: python -m pytest -q
+      - run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Acquire, verify, checkpoint and prune
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python remote_history.py
+      - name: Preserve diagnostic files on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-acquisition-diagnostics
+          path: |
+            reports/
+            manifest.jsonl
+            data/
+          retention-days: 14

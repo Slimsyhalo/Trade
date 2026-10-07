@@ -1,3 +1,5 @@
+> Publication update 2026-10-07: the former GitHub 403 is resolved. The code and 18 passing pilot partitions (36 Release assets) are published; full readback and an isolated restoration passed. See reports/remote_execution.json. The original pilot findings below remain historical evidence; full-window extraction and C15 are still incomplete.
+
 # Remote execution
 
 GitHub connector write access was verified on 2026-10-07 by commit 8182005568a5502449324ccbdeb4ca9a0681141a. Earlier audit documents describe the original local pilot and its previous 403 blocker. Their data QA findings remain applicable.

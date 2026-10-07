@@ -1,27 +1,27 @@
-# Binance QuantLab — Data Foundation pilot
+# Binance QuantLab — Data Foundation
 
-**Status: INCOMPLETE / BLOCKED. No strategy, orders or profitability claims.**
+**Phase 1 incomplete. Remote pilot verified; historical expansion starting.**
 
-BTCUSDT · ETHUSDT · SOLUSDT, Binance USD-M perpetual. Authorized historical bounds: 2024-10-07 through 2026-10-07 UTC inclusive. Only sampled data listed in `data_catalog.json` exists; the two-year extraction has not run.
+BTCUSDT, ETHUSDT and SOLUSDT — Binance USD-M perpetual futures. Authorized window: 2024-10-07 through 2026-10-07 UTC. No trading, strategy optimization or profitability claims.
 
-Implemented and tested locally: public archive download/checksums, explicit schemas, Parquet/ZSTD, exact decimal precision, disk budget, resumable manifests, partition QA, causal replay primitives, bar reconstruction, current routed WebSocket capture and GitHub release adapter (mock-tested).
+## Verified results
 
-**Publication update (2026-10-07):** GitHub connector write access is verified. Code publication is in progress; datasets are not yet remotely verified. The local shell has no GitHub write credential. **REST blocker:** Binance Futures returns HTTP 451 from this environment. Archive downloads and public WebSockets work.
+- 33 local tests pass; the initial remote job also passed its 31-test suite.
+- 18 passing pilot partitions were reconstructed, uploaded as 36 immutable hash-named Release assets and fully read back for SHA-256/size verification.
+- A restored BTC aggTrades Parquet matched its manifest: 1,459,023 rows.
+- The pilot covers 2024-10-07 only. Its 3,428,256 aggregate trades are not two years of history.
+- Three individual-trade partitions remain quarantined locally due to ID gaps.
 
-Read in order:
-1. AUDIT_SUMMARY.md / AUDIT_SUMMARY.json — actual results and unresolved gates.
-2. DATA_COVERAGE.md / data_catalog.json — downloaded coverage and every missing partition.
-3. QA_REPORT.md — tests, hashes and reconstruction discrepancies.
-4. REPRODUCIBILITY.md — install, sync, validate, upload and restore.
-5. RESEARCH_HANDOFF.md — interpretation and safeguards for the next researcher.
+## Current acquisition
 
-```bash
-python bootstrap.py
-.venv/bin/python -m pytest -q
-.venv/bin/python quantlab.py status
-.venv/bin/python quantlab.py validate
-```
+The Historical data acquisition workflow scans the authorized range for klines, markPriceKlines, indexPriceKlines, premiumIndexKlines and metrics. It checkpoints every 25 partitions, pushes manifests before pruning, respects the 2 GB data budget and pauses after four hours. It can be resumed through workflow_dispatch. It stops on failed QA or remote verification; unavailable archives are recorded explicitly.
 
-Data files are excluded from ordinary Git. Original ZIPs stay unmodified. Remote deletion of local originals is disabled until successful full readback verification. No Binance keys are used. No capital-connected capability exists.
+Bulk trades/aggTrades require the stratified storage review. Funding and full live order-book readiness remain unresolved. A successful pilot is not a complete C15 foundation.
 
-This pilot is not an approved C15 foundation. Complete the checkpoint gates in CHECKPOINTS.md before moving to Phase 2.
+[Release datasets](https://github.com/Slimsyhalo/Trade/releases) · [Actions](https://github.com/Slimsyhalo/Trade/actions)
+
+Current evidence: reports/remote_execution.json, reports/historical_execution.json (when the first historical checkpoint is written), manifest.jsonl and data_catalog.json. Original audit reports describe the initial local pilot; their new publication notices supersede the former GitHub 403 blocker.
+
+**DO NOT ASSUME DATA EXISTS UNLESS LISTED IN THE CATALOG.**
+
+See REPRODUCIBILITY.md and RESEARCH_HANDOFF.md for schemas, restoration and research safeguards.

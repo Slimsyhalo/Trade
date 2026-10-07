@@ -1,3 +1,5 @@
+> Publication update 2026-10-07: the former GitHub 403 is resolved. The code and 18 passing pilot partitions (36 Release assets) are published; full readback and an isolated restoration passed. See reports/remote_execution.json. The original pilot findings below remain historical evidence; full-window extraction and C15 are still incomplete.
+
 # Limitations and open gates
 
 1. Only one historical UTC day sampled per implemented dataset/symbol; not two years. The requested inclusive date range has 731 calendar dates. No earlier history downloaded. End day was unfinished at execution time.
