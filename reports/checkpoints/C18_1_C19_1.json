@@ -1,0 +1,76 @@
+{
+  "checkpoint_id": "C18.1-C19.1",
+  "timestamp_utc": "2026-10-08T14:36:02.598387+00:00",
+  "commit_sha": "26ff0137f64b25e1ac7dfad6bb4ae25974af8787",
+  "commit_scope": "Published predecessor expansion source; new source SHA bound by triggered workflow CHECKPOINT_SOURCE_SHA",
+  "tests_passed": 143,
+  "completed": [
+    "109 official original HTML documents with source/UTC/revision provenance",
+    "23 CPI, 23 PPI, 23 employment, 23 JOLTS, 17 Fed documents",
+    "Metadata/header/DST validation; historical vintage/availability unknown kept explicit",
+    "Reproducible flow: 9,424,949 source executions to 4,320 minute rows",
+    "Two independent local reconstructions have identical hashes and match official candles",
+    "Separate hosted original-publication and restored-source recomputation workflow"
+  ],
+  "context_acquisition": {
+    "status": "BOUNDED_SOURCE_SCAN_FINISHED",
+    "acquired_documents": 109,
+    "candidate_count": 109,
+    "errors": [],
+    "elapsed_seconds": 43.017,
+    "historical_value_vintage_certified": false
+  },
+  "flow_reproducibility": {
+    "status": "PASS",
+    "samples": [
+      {
+        "symbol": "BTCUSDT",
+        "state": "VALIDATED",
+        "byte_identical_recomputation": true,
+        "sha256": "e240fb33db46673aa2168450458b60a4b125ad7eb8593778839a97b738424330",
+        "bytes": 2162686,
+        "derived_rows": 1440,
+        "official_bar_consistency": "PASS"
+      },
+      {
+        "symbol": "ETHUSDT",
+        "state": "VALIDATED",
+        "byte_identical_recomputation": true,
+        "sha256": "6f4eb81a69b1fa939a5fa5a1924d79ad294f60fb847ef4de1eaf2889d91954fb",
+        "bytes": 1870123,
+        "derived_rows": 1440,
+        "official_bar_consistency": "PASS"
+      },
+      {
+        "symbol": "SOLUSDT",
+        "state": "VALIDATED",
+        "byte_identical_recomputation": true,
+        "sha256": "be8a577055ad71cf253bcc19f02ed46cf311d3ce85ba4d3e51d4ee382e6d5358",
+        "bytes": 1257205,
+        "derived_rows": 1440,
+        "official_bar_consistency": "PASS"
+      }
+    ],
+    "source_rows": 9424949,
+    "derived_rows": 4320,
+    "notice": "Actual local reconstruction from three evidence-admitted tapes; remote clean restoration workflow still pending; no full book or OFI inference"
+  },
+  "datasets_remote_verified_by_this_checkpoint": [],
+  "historical_value_vintage_certified": false,
+  "strict_causal_replay_certified": false,
+  "phase_1_accepted": false,
+  "next": [
+    "Remote document publication/readback/restore",
+    "Clean hosted recomputation from immutable admitted source ledger",
+    "Original-value/revision/calendar-gap reconciliation",
+    "Finish selected historical acquisition and audit restoration"
+  ],
+  "time_tracking": {
+    "effective_codex_work_seconds": null,
+    "acquisition_wait_not_active_work": true,
+    "actual_external_context_attempt1_elapsed_seconds": 130.038,
+    "actual_external_context_resume_elapsed_seconds": 43.017,
+    "flow_external_seconds": 38.512,
+    "limitation": "No fabricated active-time total; foreground model intervals versus tool waits remain incompletely instrumented."
+  }
+}
