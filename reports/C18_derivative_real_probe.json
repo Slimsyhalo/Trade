@@ -1,0 +1,67 @@
+{
+  "status": "RESTORED_AND_RECOMPUTED_BYTE_IDENTICAL",
+  "source_main_sha": "0edc1bc1bc5b9830487c060c78778c1d323e8954",
+  "symbol": "BTCUSDT",
+  "date": "2024-10-07",
+  "source_restoration_ref": "reports/independent_derivative_source_restoration.json",
+  "outputs": {
+    "basis_close_1m": {
+      "path": "data/derived/derivative-certified-probe/one/basis_close_1m-c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872.parquet",
+      "sha256": "fc8fed05e814d9c139b07c5458953df6fcca1827566a53b949eecb8535b3e590",
+      "bytes": 117644,
+      "rows": 1440,
+      "source_identity": "c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872",
+      "inputs": {
+        "indexPriceKlines": {
+          "key": "BTCUSDT/indexPriceKlines/2024-10-07",
+          "raw_sha256": "12313ee42f19c42c1550430ed8ddf3c2561101750e0d20b6fe269027c82cc630",
+          "normalized_sha256": "a203f54b3d9c63f140b1bcbb79b1e7fd3413e697290c769b056089e438d8fb21"
+        },
+        "markPriceKlines": {
+          "key": "BTCUSDT/markPriceKlines/2024-10-07",
+          "raw_sha256": "dc645696f5d2a5c8924d9da0174c64564771e4385f5d3e6d1ac82719f549f9e6",
+          "normalized_sha256": "62788266f7cf3e2320db8c4e0b83d0b442890c7b3fc02ac30bbaa5ed42decea7"
+        },
+        "metrics": {
+          "key": "BTCUSDT/metrics/2024-10-07",
+          "raw_sha256": "5ab2472c534913489ec09dafffa88f76f2a964e0e7258980fd894661c7924f95",
+          "normalized_sha256": "fc7d525d001ba5601e47842576bcbb028f2cc5460b2c507d8fa7bd7faaa5f176"
+        }
+      },
+      "unknown_availability_rows": 0,
+      "classification": "DERIVED",
+      "strict_causal_replay_certified": false,
+      "transform_version": "derivatives-1"
+    },
+    "oi_change_5m": {
+      "path": "data/derived/derivative-certified-probe/one/oi_change_5m-c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872.parquet",
+      "sha256": "574a79d70b53b4f1a9969b4d6793babff0b75f07ea6a747d6338aa3285b2b9fb",
+      "bytes": 22121,
+      "rows": 288,
+      "source_identity": "c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872",
+      "inputs": {
+        "indexPriceKlines": {
+          "key": "BTCUSDT/indexPriceKlines/2024-10-07",
+          "raw_sha256": "12313ee42f19c42c1550430ed8ddf3c2561101750e0d20b6fe269027c82cc630",
+          "normalized_sha256": "a203f54b3d9c63f140b1bcbb79b1e7fd3413e697290c769b056089e438d8fb21"
+        },
+        "markPriceKlines": {
+          "key": "BTCUSDT/markPriceKlines/2024-10-07",
+          "raw_sha256": "dc645696f5d2a5c8924d9da0174c64564771e4385f5d3e6d1ac82719f549f9e6",
+          "normalized_sha256": "62788266f7cf3e2320db8c4e0b83d0b442890c7b3fc02ac30bbaa5ed42decea7"
+        },
+        "metrics": {
+          "key": "BTCUSDT/metrics/2024-10-07",
+          "raw_sha256": "5ab2472c534913489ec09dafffa88f76f2a964e0e7258980fd894661c7924f95",
+          "normalized_sha256": "fc7d525d001ba5601e47842576bcbb028f2cc5460b2c507d8fa7bd7faaa5f176"
+        }
+      },
+      "unknown_availability_rows": 288,
+      "classification": "DERIVED",
+      "strict_causal_replay_certified": false,
+      "transform_version": "derivatives-1"
+    }
+  },
+  "global_C18_accepted": false,
+  "strict_causal_replay_certified": false
+}

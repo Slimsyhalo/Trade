@@ -1,0 +1,46 @@
+name: Scientific derivative recomputation from restored originals
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/c18-derivatives, main]
+    paths: ['.github/workflows/derivative-foundation.yml']
+  schedule:
+    - cron: '53 */4 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: quantlab-derivative-products
+  cancel-in-progress: false
+jobs:
+  recompute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/c18-derivatives
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -r requirements.lock
+          set -o pipefail
+          python -m pytest -q | tee reports/derivative_hosted_tests.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Restore source snapshot and publish exact recomputable daily products
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CHECKPOINT_SOURCE_SHA: ${{ github.sha }}
+          DERIVATIVE_LEDGER_BRANCH: codex/c18-derivatives
+        run: python remote_derivatives.py
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: derivative-${{ github.run_id }}-diagnostics
+          path: |
+            reports/derivative_execution.json
+            catalog/derivative_manifest.json
+            data/derived/derivatives/
+          retention-days: 1
