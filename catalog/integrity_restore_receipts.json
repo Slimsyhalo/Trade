@@ -9812,5 +9812,103 @@
       "crc_check": "PASS"
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "main/ETHUSDT/metrics/2024-10-07/normalized/01efd82447904a7b7cacb42dc3dc260acb419f650905c2e698a7e7a8ed9831b3": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:42:41.444631+00:00",
+    "source": {
+      "ledger": "main",
+      "dataset": "metrics",
+      "symbol": "ETHUSDT",
+      "partition_key": "ETHUSDT/metrics/2024-10-07",
+      "object_kind": "normalized",
+      "sha256": "01efd82447904a7b7cacb42dc3dc260acb419f650905c2e698a7e7a8ed9831b3",
+      "bytes": 16532,
+      "remote": {
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/619844217",
+        "asset_id": 619844217,
+        "bytes": 16532,
+        "sha256": "01efd82447904a7b7cacb42dc3dc260acb419f650905c2e698a7e7a8ed9831b3",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/data-ETHUSDT-metrics-2024-10/01efd82447904a7b7cacb42dc3dc260acb419f650905c2e698a7e7a8ed9831b3-07-6b825559693ef2b6.parquet",
+        "verified_at": 1791408008.2333472
+      },
+      "expected_rows": 288,
+      "source_identity": null,
+      "source_ledger_sha": "a4ab5406a199a02590c5c35c943af538e3750fd8"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 288,
+      "first_event": 1728259200000,
+      "last_event": 1728345300000,
+      "event_unit": "ms",
+      "unknown_availability_rows": 288,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "create_time",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sum_open_interest",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sum_open_interest_value",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "count_toptrader_long_short_ratio",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sum_toptrader_long_short_ratio",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "count_long_short_ratio",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sum_taker_long_short_vol_ratio",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "event_time_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "available_at_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "availability_basis",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
