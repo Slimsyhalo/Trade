@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 import yaml
 from quantlab_core.io import atomic_json
-from quantlab_core.pipeline import Pipeline
+from quantlab_core.pipeline import Pipeline, remote_verified
 from quantlab_core.remote import GitHubRemote
 from quantlab_core.sources import days
 from build_audit import build_audit
@@ -26,9 +26,7 @@ def validate_storage_review(root):
 
 
 def is_verified(record):
-    return record.get('qa', {}).get('status') == 'PASS' and all(
-        (record.get(kind, {}).get('remote') or {}).get('verified_at')
-        for kind in ('raw', 'normalized'))
+    return remote_verified(record)
 
 
 def main():
@@ -54,6 +52,7 @@ def main():
         report['elapsed_seconds'] = round(time.monotonic()-start,2)
         report['process_cpu_seconds'] = round(time.process_time()-cpu_start,2)
         report['github_rate_events'] = remote.rate_events
+        report['github_read_retries'] = remote.read_retry_events
         atomic_json(root/'reports/historical_execution.json', report)
         build_audit(root)
         subprocess.run(['git', 'add', 'manifest.jsonl', 'data_catalog.json', 'reports/historical_execution.json','AUDIT_SUMMARY.json','AUDIT_SUMMARY.md','DATA_COVERAGE.md','QA_REPORT.md','reports/validation.json'], check=True)
@@ -106,4 +105,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    from quantlab_core.lock import writer_lock
+    with writer_lock(Path('.pipeline.lock')):
+        main()

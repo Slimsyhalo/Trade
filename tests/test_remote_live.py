@@ -2,6 +2,8 @@ import gzip
 import json
 from pathlib import Path
 import pytest
+import asyncio
+import remote_live
 from remote_live import observed_streams, inspect_events, summarize, commit_checkpoint
 
 
@@ -37,3 +39,11 @@ def test_summary_copies_ledger_and_counts_only_verified_receipts(tmp_path):
     output=tmp_path/'catalog';r=summarize(root,output)
     assert r['raw_rows']==2 and r['remote_verified_segments']==1
     assert json.loads((output/'public-manifest.json').read_text())==rows
+
+
+def test_capture_namespace_rejects_paths_before_any_network_io(monkeypatch):
+    monkeypatch.setenv('LIVE_LEDGER_BRANCH','codex/test')
+    monkeypatch.setenv('GITHUB_RUN_ID','123')
+    for name in ('../old','123/1','old-run',''):
+        monkeypatch.setenv('LIVE_CAPTURE_ID',name)
+        with pytest.raises(ValueError,match='namespace'):asyncio.run(remote_live.main(1))

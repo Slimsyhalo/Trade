@@ -37,8 +37,9 @@ class ExpansionRemote(GitHubRemote):
 
 
 def remote_verified(record):
-    for kind in ('raw','normalized'):
-        item=record.get(kind,{});r=item.get('remote',{})
+    kinds=('raw','normalized','verification_bars') if record.get('verification_bars') else ('raw','normalized')
+    for kind in kinds:
+        item=record.get(kind,{});r=item.get('remote') or {}
         if not r.get('verified_at') or r.get('sha256')!=item.get('sha256') or r.get('bytes')!=item.get('bytes'):return False
     return True
 
@@ -79,7 +80,7 @@ def preserve_diagnostics(remote,branch):
 def main(pilot=False):
     branch=os.environ['EXPANSION_LEDGER_BRANCH'];source_sha=os.environ['CHECKPOINT_SOURCE_SHA']
     started=time.monotonic();cpu=time.process_time();limit=45*60 if pilot else 230*60
-    remote=ExpansionRemote('Slimsyhalo/Trade',interval=15,attempts=2,
+    remote=ExpansionRemote('Slimsyhalo/Trade',interval=8,attempts=5,
                        release_body='Binance public archives, attribution Binance; research only under dataset terms in DATA_LICENSE.md. Quarantined assets are not validated coverage. Full hash receipts in catalog/extended_manifest.json.')
     report=dict(status='RUNNING',source_commit_sha=source_sha,started_at=datetime.now(timezone.utc).isoformat(),
                 branch=branch,workflow_url='https://github.com/Slimsyhalo/Trade/actions/runs/'+os.environ['GITHUB_RUN_ID'],

@@ -35,9 +35,19 @@ def acquire(kind,symbol,day,root=Path('data/extended'),manifest=Path('catalog/ex
                 if receipt and remote:remote.restore(receipt,out,budget)
                 elif kind=='um_individual_trades':normalize(raw,out,'trades',symbol,day,budget)
                 else:normalize_extended(raw,out,kind,symbol,day,budget)
-        for asset in ('raw','normalized'):
+            evidence=existing.get('verification_bars')
+            if evidence:
+                path=Path(evidence['path'])
+                if not path.exists():
+                    receipt=evidence.get('remote')
+                    if receipt and remote:remote.restore(receipt,path,budget)
+                    else:HTTP(interval=1).download(evidence['source'],path,budget,expected=evidence['sha256'])
+        assets=('raw','normalized','verification_bars') if existing.get('verification_bars') else ('raw','normalized')
+        for asset in assets:
             p=Path(existing[asset]['path'])
-            if not p.is_file() or sha256(p)!=existing[asset]['sha256']:raise ValueError('Existing local acquisition missing/changed; restore first')
+            if (not p.is_file() or sha256(p)!=existing[asset]['sha256']
+                    or p.stat().st_size!=existing[asset]['bytes']):
+                raise ValueError('Existing local acquisition missing/changed; restore first')
         return existing
     http=HTTP(interval=1);budget=Budget(root,2)
     response=http.get(url+'.CHECKSUM')

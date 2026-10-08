@@ -96,12 +96,15 @@ def observed_streams(restorations, symbols):
 
 async def main(seconds=600):
     branch=os.environ['LIVE_LEDGER_BRANCH']; run_id=os.environ['GITHUB_RUN_ID']
+    capture_id=os.environ.get('LIVE_CAPTURE_ID',run_id)
+    if Path(capture_id).name!=capture_id or not capture_id or any(c not in '0123456789-' for c in capture_id):
+        raise ValueError('Safe unique numeric capture namespace required')
     source_sha=os.environ['CHECKPOINT_SOURCE_SHA']; cfg=yaml.safe_load(Path('config.yaml').read_text())
-    cfg.update(live_segment_seconds=300, live_segment_bytes=32_000_000)
-    root=Path('data/live')/run_id; destination=Path('catalog/live')/run_id
-    report_path=Path('reports/live_execution')/(run_id+'.json')
+    cfg.update(live_segment_seconds=600, live_segment_bytes=32_000_000)
+    root=Path('data/live')/capture_id; destination=Path('catalog/live')/capture_id
+    report_path=Path('reports/live_execution')/(capture_id+'.json')
     started=time.monotonic(); cpu=time.process_time()
-    report=dict(schema_version=1, status='RUNNING', run_id=run_id, source_commit_sha=source_sha,
+    report=dict(schema_version=1, status='RUNNING', run_id=run_id, capture_id=capture_id, source_commit_sha=source_sha,
                 workflow_url='https://github.com/'+cfg['repository']+'/actions/runs/'+run_id,
                 started_at=datetime.now(timezone.utc).isoformat(), requested_capture_seconds=seconds,
                 raw_format='gzip JSONL, original messages plus receive timestamps/diagnostics',
@@ -114,7 +117,7 @@ async def main(seconds=600):
                     'forceOrder feed may be sampled; not all historical liquidations',
                     'Clock calibration absent; receive timestamp is application receipt, not kernel/network latency',
                     'No local raw pruning; pending files require immutable-name reconciliation after failure'])
-    remote=GitHubRemote(cfg['repository'], interval=15, attempts=2, release_body=
+    remote=GitHubRemote(cfg['repository'], interval=4, attempts=5, release_body=
                        'Binance public market-data live observations; research only. '
                        'Attribution: Binance. Dataset terms and source provenance: '
                        'https://github.com/Slimsyhalo/Trade/blob/codex/c16-source-inventory/DATA_LICENSE.md . '
@@ -130,7 +133,7 @@ async def main(seconds=600):
         commit_checkpoint([destination,report_path],branch,'C20 live evidence: '+report['status']+' '+run_id)
 
     checkpoint()
-    task=asyncio.create_task(run(cfg,seconds,remote,root=root,drain_seconds=600))
+    task=asyncio.create_task(run(cfg,seconds,remote,root=root,drain_seconds=3600))
     try:
         while not task.done():
             done,_=await asyncio.wait([task],timeout=60)
@@ -143,7 +146,7 @@ async def main(seconds=600):
             records=json.loads(ledger.read_text())
             row=next((r for r in records if r.get('status')=='remote_verified'),None)
             if not row: continue
-            target=Path('data/restored')/run_id/(route+'-'+row['sha256']+'.jsonl.gz')
+            target=Path('data/restored')/capture_id/(route+'-'+row['sha256']+'.jsonl.gz')
             await asyncio.to_thread(remote.restore,row['remote'],target,Budget(Path('data'),2))
             inspection=inspect_segment(target)
             if inspection['rows']!=row['rows']: raise ValueError('Restored live row count differs')
@@ -163,4 +166,4 @@ async def main(seconds=600):
         await asyncio.to_thread(checkpoint)
 
 
-if __name__=='__main__': asyncio.run(main())
+if __name__=='__main__': asyncio.run(main(seconds=int(os.environ.get('LIVE_SECONDS','600'))))

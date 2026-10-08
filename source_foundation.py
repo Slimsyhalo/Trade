@@ -113,7 +113,7 @@ def manifest_snapshot(root, sha):
     latest = {x['key']: x for x in map(json.loads, text.splitlines())}
     groups = defaultdict(list); quarantines = []
     for row in latest.values():
-        receipts = [row.get(kind, {}).get('remote', {}) for kind in ('raw', 'normalized')]
+        receipts = [row.get(kind, {}).get('remote') or {} for kind in ('raw', 'normalized')]
         verified = row.get('status') == 'PASS' and all(r.get('verified_at') and r.get('sha256') == row[k]['sha256']
                     and r.get('bytes') == row[k]['bytes'] for k, r in zip(('raw', 'normalized'), receipts))
         if verified:
@@ -122,7 +122,8 @@ def manifest_snapshot(root, sha):
             quarantines.append({'key':row['key'], 'qa':row.get('qa'), 'raw_sha256':row.get('raw',{}).get('sha256')})
     coverage = []
     for (symbol, dataset), rows in sorted(groups.items()):
-        days = sorted(r['day'] for r in rows)
+        days = sorted({day for r in rows for day in
+                       (r.get('qa',{}).get('observed_days',[]) if dataset=='fundingRate' else [r['day']])})
         coverage.append(dict(symbol=symbol, dataset=dataset, verified_partitions=len(rows), coverage_days=len(set(days)),
                              first=days[0], last=days[-1], requested_days=731, missing_days=731-len(set(days)),
                              rows=sum(r['qa']['rows'] for r in rows), raw_bytes=sum(r['raw']['bytes'] for r in rows),
@@ -131,7 +132,7 @@ def manifest_snapshot(root, sha):
                 status='IMMUTABLE_POINT_IN_TIME_SNAPSHOT', coverage=coverage, quarantines=quarantines,
                 remote_verified_partitions=sum(x['verified_partitions'] for x in coverage),
                 aggTrades_rows=sum(x['rows'] for x in coverage if x['dataset']=='aggTrades'),
-                notice='Main acquisition remains active; this inventory branch does not replace its manifest'), list(latest.values())
+                notice='Immutable manifest snapshot; inspect current workflows separately for operational state'), list(latest.values())
 
 
 def capacity(root, manifest):
@@ -145,10 +146,25 @@ def capacity(root, manifest):
         if row['http_status'] == 200:
             dataset = 'klines1m' if row['dataset'] == 'klines' else row['dataset']
             sample_groups[row['market'], row['symbol'], dataset].append(row['bytes'])
+    extended_path=root/'catalog/extended_manifest.json'
+    extended=json.loads(extended_path.read_text()).values() if extended_path.exists() else []
+    mapping={'spot_trades':('spot','trades'),'spot_klines_1m':('spot','klines1m'),
+             'um_bookDepth_summary':('um','bookDepth'),'um_individual_trades':('um','trades')}
+    extra=[dict(r,market=mapping[r['kind']][0],dataset=mapping[r['kind']][1])
+           for r in extended if r.get('kind') in mapping and r.get('raw',{}).get('bytes')
+           and r.get('normalized',{}).get('bytes')]
+    # Include measured small futures sources; stratified tape HEAD samples remain
+    # the raw projection basis where already available.
+    for symbol in ('BTCUSDT','ETHUSDT','SOLUSDT'):
+        for dataset in ('klines','markPriceKlines','indexPriceKlines','premiumIndexKlines','metrics'):
+            measured=[r['raw']['bytes'] for r in manifest if r['symbol']==symbol
+                      and r['dataset']==dataset and r.get('raw',{}).get('bytes')]
+            if measured:sample_groups['um',symbol,dataset].extend(measured)
     parts = []
     for (market, symbol, dataset), sizes in sorted(sample_groups.items()):
         originals = [r for r in manifest if market == 'um' and r['symbol']==symbol and r['dataset']==dataset
                      and r.get('raw',{}).get('bytes') and r.get('normalized',{}).get('bytes')]
+        originals.extend(r for r in extra if r['market']==market and r['symbol']==symbol and r['dataset']==dataset)
         ratio = sum(r['normalized']['bytes'] for r in originals)/sum(r['raw']['bytes'] for r in originals) if originals else None
         raw = round(statistics.mean(sizes)*731)
         parts.append(dict(market=market, symbol=symbol, dataset=dataset, sample_days=len(sizes),
@@ -160,17 +176,21 @@ def capacity(root, manifest):
     selected = [p for p in parts if p['included_in_selected_plan']]
     raw=sum(p['raw_mean_projection_bytes'] for p in selected)
     pq=sum(p['parquet_mean_projection_bytes'] or 0 for p in selected)
-    expected_partitions=3*731*(8+3) + 69 # conservative scoped count, not discovery completeness
+    funding=[r for r in manifest if r['dataset']=='fundingRate' and r.get('raw',{}).get('bytes')
+             and r.get('normalized',{}).get('bytes')]
+    funding_bytes=sum(r[k]['bytes'] for r in funding for k in ('raw','normalized'))
+    expected_partitions=3*731*(6+4) + 69 # six core daily + four expansion daily + whole-month funding
     line_sizes=[len(json.dumps(r).encode())+1 for r in manifest]
     metadata=expected_partitions*round(statistics.mean(line_sizes))*3 if line_sizes else None
-    lower = raw+pq+(metadata or 0)
+    lower = raw+pq+funding_bytes+(metadata or 0)
     return dict(schema_version=1, requested_days=731, max_working_bytes=2_000_000_000, sample_projections=parts,
                 selected_raw_mean_projection_bytes=raw, measured_parquet_projection_bytes=pq,
                 manifest_revision_allowance_bytes=metadata, manifest_assumption='3 immutable revisions per estimated partition; Git history growth tracked separately',
+                whole_month_funding_observed_bytes=funding_bytes,expected_selected_partitions=expected_partitions,
                 known_components_projection_bytes=lower, known_components_with_30pct_margin_bytes=round(lower*1.3),
                 full_selected_total_bytes=None, certification_status='INCOMPLETE_VOLUME_MODEL',
-                unmeasured_components=['spot Parquet ratios', 'bookDepth Parquet ratios', 'remaining small futures datasets',
-                                      'external news/event scope and original documents', 'live acquisition duration and rate',
+                unmeasured_components=['funding boundary recovery if a permitted source becomes accessible',
+                                      'external news/event scope and original documents', 'future live duration and market-dependent rate',
                                       'derived Parquet products and redundant disaster-recovery copy'],
                 raw_stress_max_sample_bytes=sum(p['raw_max_sample_projection_bytes'] for p in selected),
                 local_policy='Serial partitions; reserve raw + normalized + restore + temporary headroom. Fail closed on budget; delete only after full remote readback and durable manifest commit.',
