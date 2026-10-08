@@ -108,7 +108,12 @@ async def run(cfg, seconds, remote=None, *, root=Path('data/live'), drain_second
         raise ValueError('Select distinct supported public-market symbols')
     root = Path(root).resolve()
     budget = Budget(root.parent, cfg['max_local_storage_gb'])
-    sinks = [Sink(root, budget, route) for route in ('public', 'market', 'snapshots')]
+    rotation = cfg.get('live_segment_seconds', 60)
+    segment_bytes = cfg.get('live_segment_bytes', 8_000_000)
+    if type(rotation) is not int or type(segment_bytes) is not int or rotation <= 0 or segment_bytes <= 0:
+        raise ValueError('Positive integer live segment limits required')
+    sinks = [Sink(root, budget, route, max_seconds=rotation, max_bytes=segment_bytes)
+             for route in ('public', 'market', 'snapshots')]
     started = time.monotonic()
     deadline = started + seconds
     stopped = asyncio.Event()

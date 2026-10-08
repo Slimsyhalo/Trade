@@ -7,7 +7,7 @@ import requests
 from .io import sha256
 
 class GitHubRemote:
-    def __init__(self, repository, session=None, interval=4.0, attempts=5):
+    def __init__(self, repository, session=None, interval=4.0, attempts=5, release_body=None):
         token = os.environ.get('GITHUB_TOKEN')
         if not token and session is None: raise RuntimeError('GitHub write authentication unavailable; keep local data')
         self.session=session or requests.Session(); self.repository=repository
@@ -16,6 +16,7 @@ class GitHubRemote:
         self.base='https://api.github.com/repos/'+repository
         self.interval=interval; self.attempts=attempts; self.last_request=0
         self.releases={}; self.assets={}; self.rate_events=[]
+        self.release_body=release_body or 'Immutable public market-data partitions. Verify against manifest.'
     @staticmethod
     def rate_delay(response, attempt, now=None):
         now=time.time() if now is None else now
@@ -56,7 +57,7 @@ class GitHubRemote:
         if tag in self.releases: return self.releases[tag]
         r=self.request('GET',self.base+'/releases/tags/'+tag)
         if r.status_code==404:
-            r=self.request('POST',self.base+'/releases',json={'tag_name':tag,'name':tag,'body':'Immutable public market-data partitions. Verify against manifest.','prerelease':True})
+            r=self.request('POST',self.base+'/releases',json={'tag_name':tag,'name':tag,'body':self.release_body,'prerelease':True})
         r.raise_for_status(); self.releases[tag]=r.json(); return self.releases[tag]
     def verify(self, url, expected, size):
         h=hashlib.sha256(); count=0
