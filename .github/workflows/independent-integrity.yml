@@ -1,0 +1,47 @@
+name: Independent coverage and restoration certification evidence
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/c21-integrity-audit, main]
+    paths: ['.github/workflows/independent-integrity.yml']
+  schedule:
+    - cron: '11 */6 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: quantlab-independent-integrity-evidence
+  cancel-in-progress: false
+jobs:
+  inspect-and-restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/c21-integrity-audit
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -r requirements.lock
+          mkdir -p reports/integrity
+          set -o pipefail
+          python -m pytest -q | tee reports/integrity/hosted_tests.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Immutable coverage accounting and bounded independent restoration
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CHECKPOINT_SOURCE_SHA: ${{ github.sha }}
+          INTEGRITY_LEDGER_BRANCH: codex/c21-integrity-audit
+        run: python audit_integrity_campaign.py --minutes 45
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: integrity-${{ github.run_id }}-diagnostics
+          path: |
+            reports/integrity/
+            catalog/integrity_restore_receipts.json
+            data/integrity-restores/
+          retention-days: 1
