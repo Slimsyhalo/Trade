@@ -93,6 +93,7 @@ def main(pilot=False):
         approved=[r for r in verified if r.get('state')=='VALIDATED']
         report.update(updated_at=datetime.now(timezone.utc).isoformat(),elapsed_seconds=round(time.monotonic()-started,3),
                       process_cpu_seconds=round(time.process_time()-cpu,3),github_rate_events=list(remote.rate_events),
+                      github_read_retries=list(remote.read_retry_events),
                       remote_verified_partitions=len(verified),validated_remote_partitions=len(approved),
                       quarantined_remote_partitions=len(verified)-len(approved),
                       validated_rows=sum(r['qa']['rows'] for r in approved),preserved_rows=sum(r['qa']['rows'] for r in verified),

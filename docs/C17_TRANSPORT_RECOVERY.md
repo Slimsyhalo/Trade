@@ -1,0 +1,9 @@
+# C17 transport recovery
+
+Run 37790837846 failed at 15:46:01 UTC in GitHubRemote.verify while issuing a read-only GET for an already published asset. The remote closed the connection before a response. This was not a source-validation failure or ambiguous upload. Job 113379295481 retained 43 verified ledger partitions (39 admitted, four quarantined), 50,682,401 admitted records and 963,820,527 source/normalized bytes. The diagnostic artifact preserves five files, 19,925,433 bytes, SHA-256 1cc63430fabe16b3571845d441a9b52b8bdf59374eb620249e266a8b866797ac, artifact ID 11561813031 with 14-day retention.
+
+The writer was stopped before editing this source. New bounded retries apply only to GET/HEAD transport failures and explicit server errors, plus interrupted full-readback and isolated restoration streams. Each restarted verification resets both its hash and byte count; restoration resets only its disposable partial destination. A checksum/size disagreement still stops immediately. POST transport errors are not repeated: subsequent resume reconciles immutable hash-named objects. Permission failures remain fatal.
+
+Safe Git publication retries from the independently validated C18 checkpoint are included: repeat the identical commit only while remote readback retains its expected parent; never force or overwrite another writer. Read retries are recorded separately from rate-limit events in the machine execution report.
+
+The workflow continues checking out the latest independent ledger. Previously verified partitions are skipped; no complete download restart, changes to main, QA relaxation, paid backend or parallel writer. Pilot and serial historical continuation are retriggered by this source update. Regression and real resumed acquisition evidence must be inspected on the hosted runner; local execution is unavailable because the environment service disconnected.

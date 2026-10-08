@@ -15,7 +15,7 @@ class GitHubRemote:
         if token: self.session.headers['Authorization']='Bearer '+token
         self.base='https://api.github.com/repos/'+repository
         self.interval=interval; self.attempts=attempts; self.last_request=0
-        self.releases={}; self.assets={}; self.rate_events=[]
+        self.releases={}; self.assets={}; self.rate_events=[]; self.read_retry_events=[]
         self.release_body=release_body or 'Immutable public market-data partitions. Verify against manifest.'
     @staticmethod
     def rate_delay(response, attempt, now=None):
@@ -34,13 +34,27 @@ class GitHubRemote:
         while seconds>0:
             step=min(60,seconds); time.sleep(step); seconds-=step
     def request(self, method, url, **kwargs):
-        # Only explicitly rejected rate-limit responses are retried. Transport
-        # errors/ambiguous mutations propagate for immutable-name reconciliation.
+        # Read-only transport failures may retry. Ambiguous mutations propagate
+        # unchanged for immutable-name reconciliation; never blindly repeat POST.
         for attempt in range(self.attempts):
             self.wait(max(0,self.interval-(time.monotonic()-self.last_request)))
             self.last_request=time.monotonic()
             body=kwargs.get('data'); position=body.tell() if hasattr(body,'tell') else None
-            r=self.session.request(method,url,timeout=(15,120),**kwargs)
+            try:
+                r=self.session.request(method,url,timeout=(15,120),**kwargs)
+            except (requests.ConnectionError, requests.Timeout) as error:
+                if method.upper() not in ('GET','HEAD') or attempt+1==self.attempts: raise
+                delay=min(5*(2**attempt),60)
+                self.read_retry_events.append(dict(scope='request',method=method.upper(),error_type=type(error).__name__,attempt=attempt+1,delay_seconds=delay))
+                self.wait(delay); continue
+            if method.upper() in ('GET','HEAD') and r.status_code>=500:
+                status=r.status_code
+                if attempt+1==self.attempts:
+                    try: r.raise_for_status()
+                    finally: r.close()
+                r.close(); delay=min(5*(2**attempt),60)
+                self.read_retry_events.append(dict(scope='request',method=method.upper(),http_status=status,attempt=attempt+1,delay_seconds=delay))
+                self.wait(delay); continue
             if r.status_code in (403,429):
                 delay=self.rate_delay(r,attempt)
                 if delay is None:
@@ -60,10 +74,18 @@ class GitHubRemote:
             r=self.request('POST',self.base+'/releases',json={'tag_name':tag,'name':tag,'body':self.release_body,'prerelease':True})
         r.raise_for_status(); self.releases[tag]=r.json(); return self.releases[tag]
     def verify(self, url, expected, size):
-        h=hashlib.sha256(); count=0
-        with self.request('GET',url,headers={'Accept':'application/octet-stream'},stream=True) as r:
-            for chunk in r.iter_content(1024*1024): h.update(chunk); count+=len(chunk)
-        if h.hexdigest()!=expected or count!=size: raise ValueError('Remote checksum/size mismatch')
+        for attempt in range(self.attempts):
+            h=hashlib.sha256(); count=0
+            try:
+                with self.request('GET',url,headers={'Accept':'application/octet-stream'},stream=True) as r:
+                    for chunk in r.iter_content(1024*1024): h.update(chunk); count+=len(chunk)
+            except (requests.ConnectionError,requests.Timeout,requests.exceptions.ChunkedEncodingError) as error:
+                if attempt+1==self.attempts: raise
+                delay=min(5*(2**attempt),60)
+                self.read_retry_events.append(dict(scope='full_readback',error_type=type(error).__name__,attempt=attempt+1,delay_seconds=delay))
+                self.wait(delay); continue
+            if h.hexdigest()!=expected or count!=size: raise ValueError('Remote checksum/size mismatch')
+            return
     def put(self, path, tag):
         path=Path(path); digest=sha256(path); size=path.stat().st_size
         if size>=2*1024**3: raise ValueError('Asset exceeds GitHub limit; split partition first')
@@ -90,9 +112,17 @@ class GitHubRemote:
         if path.exists(): raise ValueError('Restore destination must be isolated/absent')
         temp=path.with_suffix(path.suffix+'.part'); budget.check(record['bytes'])
         try:
-            with self.request('GET',record['api_url'],headers={'Accept':'application/octet-stream'},stream=True) as r, temp.open('wb') as f:
-                for chunk in r.iter_content(1024*1024): budget.check(len(chunk)); f.write(chunk); f.flush()
-            if sha256(temp)!=record['sha256'] or temp.stat().st_size!=record['bytes']: raise ValueError('Restoration checksum failed')
-            os.replace(temp,path)
+            for attempt in range(self.attempts):
+                try:
+                    with self.request('GET',record['api_url'],headers={'Accept':'application/octet-stream'},stream=True) as r, temp.open('wb') as f:
+                        for chunk in r.iter_content(1024*1024): budget.check(len(chunk)); f.write(chunk); f.flush()
+                except (requests.ConnectionError,requests.Timeout,requests.exceptions.ChunkedEncodingError) as error:
+                    temp.unlink(missing_ok=True)
+                    if attempt+1==self.attempts: raise
+                    delay=min(5*(2**attempt),60)
+                    self.read_retry_events.append(dict(scope='restoration',error_type=type(error).__name__,attempt=attempt+1,delay_seconds=delay))
+                    self.wait(delay); continue
+                if sha256(temp)!=record['sha256'] or temp.stat().st_size!=record['bytes']: raise ValueError('Restoration checksum failed')
+                os.replace(temp,path); return
         finally:
             if temp.exists(): temp.unlink()

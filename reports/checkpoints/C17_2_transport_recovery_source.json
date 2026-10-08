@@ -1,0 +1,29 @@
+{
+  "checkpoint_id": "C17.2-read-transport-recovery",
+  "timestamp_utc": "2026-10-08T15:56:20.102Z",
+  "commit_sha": "02df4f68e528b286443a67de25f4e9fabaef7b0e",
+  "commit_scope": "Affected immutable predecessor; actual corrected source SHA bound by workflow",
+  "completed": [
+    "Located ConnectionError in read-only remote verification GET using actual job logs",
+    "Preserved 43 verified partitions and failed job diagnostic artifact",
+    "Added bounded GET/HEAD and interrupted-read recovery with strict full-hash checks",
+    "Included safe identical-commit checkpoint retry",
+    "Resumable historical workflow source updated"
+  ],
+  "remote_verified_partitions": 43,
+  "validated_partitions": 39,
+  "quarantined_partitions": 4,
+  "validated_rows": 50682401,
+  "stored_bytes": 963820527,
+  "source_failure_job": 113379295481,
+  "source_failure_run": 37790837846,
+  "tests_state": "New regression suite must pass on hosted runner before acquisition",
+  "local_execution_state": "environment_offline",
+  "phase_1_accepted": false,
+  "effective_codex_work_seconds": null,
+  "next": [
+    "Inspect hosted regression result",
+    "Confirm real resumed publication increases verified partition counts",
+    "Continue full authorized window and investigate remaining quarantines"
+  ]
+}
