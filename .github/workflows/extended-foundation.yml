@@ -1,0 +1,99 @@
+name: Historical foundation expansion
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/c17-archive-expansion]
+    paths: ['.github/workflows/extended-foundation.yml']
+permissions:
+  contents: write
+concurrency:
+  group: quantlab-extended-writer
+  cancel-in-progress: false
+jobs:
+  pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/c17-archive-expansion
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.lock
+      - run: |
+          python -m pytest -q
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Verify, preserve quarantine and independently restore source pilots
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPANSION_LEDGER_BRANCH: codex/c17-archive-expansion
+          CHECKPOINT_SOURCE_SHA: ${{ github.sha }}
+          EXPANSION_PILOT: 'true'
+        run: python remote_extended.py
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extended-pilot-diagnostics
+          path: |
+            reports/extended_execution.json
+            catalog/extended_manifest.json
+            data/extended/
+          retention-days: 14
+  resume:
+    needs: pilot
+    runs-on: ubuntu-latest
+    timeout-minutes: 270
+    strategy:
+      max-parallel: 1
+      fail-fast: true
+      matrix:
+        batch: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/c17-archive-expansion
+          fetch-depth: 0
+      - name: Check complete selected scope
+        id: gate
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          from datetime import date
+          manifest=json.loads(Path('catalog/extended_manifest.json').read_text())
+          # 731 dates x three symbols x four selected archive datasets.
+          verified=sum(all(r.get(k,{}).get('remote',{}).get('verified_at') for k in ('raw','normalized')) for r in manifest.values())
+          run=verified<731*3*4
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('run='+str(run).lower()+'\n')
+          print('Verified preserved partitions',verified,'scan remains',run)
+          PY
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: '3.12'
+      - if: steps.gate.outputs.run == 'true'
+        run: |
+          python -m pip install -r requirements.lock
+          python -m pytest -q
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Resume exact verified ledger; publish and checkpoint before prune
+        if: steps.gate.outputs.run == 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPANSION_LEDGER_BRANCH: codex/c17-archive-expansion
+          CHECKPOINT_SOURCE_SHA: ${{ github.sha }}
+          EXPANSION_PILOT: 'false'
+        run: python remote_extended.py
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extended-batch-${{ matrix.batch }}-diagnostics
+          path: |
+            reports/extended_execution.json
+            catalog/extended_manifest.json
+            data/extended/
+          retention-days: 14

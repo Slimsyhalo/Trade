@@ -1,0 +1,522 @@
+{
+  "source_manifest_unchanged": true,
+  "certificates": [
+    {
+      "state": "VALIDATED",
+      "admitted_scope": "Official source market order-book executions; excludes undocumented/uncaptured global-ID event types",
+      "global_identifier_continuity_certified": false,
+      "raw_sha256": "257e2d85f1cfa8cb48b4e89e05f6efa0b993681f4703492980099797151e0d34",
+      "verification_bars_sha256": "2ef9907ef5d1588b7a22f62e710320e58addc7c56a499e44fe95fb9bab46c17f",
+      "symbol": "BTCUSDT",
+      "day": "2024-10-07",
+      "original_strict_qa": {
+        "deduplication_reason": "No silent removal; duplicates fail QA",
+        "duplicates_found": 0,
+        "duplicates_removed": 0,
+        "id_gaps": 622,
+        "interval_gaps": 0,
+        "malformed_rows": 0,
+        "max_timestamp": 1728345599998,
+        "min_timestamp": 1728259203726,
+        "out_of_order": 0,
+        "rows": 3730708,
+        "schema_violations": 0,
+        "status": "FAILED"
+      },
+      "independent_bar_evidence": {
+        "symbol": "BTCUSDT",
+        "day": "2024-10-07",
+        "rows": 3730708,
+        "missing_identifier_count": 622,
+        "gap_transitions": 621,
+        "duplicate_ids": 0,
+        "out_of_order": 0,
+        "gap_examples": [
+          {
+            "before": 5447019960,
+            "after": 5447019962,
+            "time_ms": 1728259257116,
+            "skipped": 1
+          },
+          {
+            "before": 5447021973,
+            "after": 5447021975,
+            "time_ms": 1728259312379,
+            "skipped": 1
+          },
+          {
+            "before": 5447022692,
+            "after": 5447022694,
+            "time_ms": 1728259341354,
+            "skipped": 1
+          },
+          {
+            "before": 5447024415,
+            "after": 5447024417,
+            "time_ms": 1728259407003,
+            "skipped": 1
+          },
+          {
+            "before": 5447025452,
+            "after": 5447025454,
+            "time_ms": 1728259453905,
+            "skipped": 1
+          },
+          {
+            "before": 5447029440,
+            "after": 5447029442,
+            "time_ms": 1728259624320,
+            "skipped": 1
+          },
+          {
+            "before": 5447029447,
+            "after": 5447029449,
+            "time_ms": 1728259625162,
+            "skipped": 1
+          },
+          {
+            "before": 5447030136,
+            "after": 5447030139,
+            "time_ms": 1728259649118,
+            "skipped": 2
+          },
+          {
+            "before": 5447030217,
+            "after": 5447030219,
+            "time_ms": 1728259655091,
+            "skipped": 1
+          },
+          {
+            "before": 5447030240,
+            "after": 5447030242,
+            "time_ms": 1728259655152,
+            "skipped": 1
+          },
+          {
+            "before": 5447030244,
+            "after": 5447030246,
+            "time_ms": 1728259655274,
+            "skipped": 1
+          },
+          {
+            "before": 5447030351,
+            "after": 5447030353,
+            "time_ms": 1728259655944,
+            "skipped": 1
+          },
+          {
+            "before": 5447030647,
+            "after": 5447030649,
+            "time_ms": 1728259677561,
+            "skipped": 1
+          },
+          {
+            "before": 5447031981,
+            "after": 5447031983,
+            "time_ms": 1728259713548,
+            "skipped": 1
+          },
+          {
+            "before": 5447032159,
+            "after": 5447032161,
+            "time_ms": 1728259718745,
+            "skipped": 1
+          },
+          {
+            "before": 5447056884,
+            "after": 5447056886,
+            "time_ms": 1728260410565,
+            "skipped": 1
+          },
+          {
+            "before": 5447090962,
+            "after": 5447090964,
+            "time_ms": 1728261152231,
+            "skipped": 1
+          },
+          {
+            "before": 5447096243,
+            "after": 5447096245,
+            "time_ms": 1728261271652,
+            "skipped": 1
+          },
+          {
+            "before": 5447108429,
+            "after": 5447108431,
+            "time_ms": 1728261470663,
+            "skipped": 1
+          },
+          {
+            "before": 5447108472,
+            "after": 5447108474,
+            "time_ms": 1728261471145,
+            "skipped": 1
+          }
+        ],
+        "first_id": 5447018198,
+        "last_id": 5450749527,
+        "bar_comparison_status": "PASS",
+        "differences": [],
+        "difference_count": 0,
+        "interpretation": "SOURCE_TAPE_MATCHES_OFFICIAL_MARKET_BARS",
+        "global_identifier_gap_cause": "NOT_DETERMINED",
+        "QA_decision": "REVIEW_WITH_SOURCE_SEMANTICS; original quarantine unchanged",
+        "limitations": [
+          "OHLCV consistency does not reveal executions excluded by the source or participant identity",
+          "Source checksums and independent tape/bar agreement do not prove global identifier continuity",
+          "This diagnostic tests historical aggregation, not causal publication/latency availability"
+        ]
+      },
+      "decision_rule": "Unique ordered structurally valid official tape AND exact reconstruction of all 1440 official minute bars including trade count and both taker volumes",
+      "decided_at": "2026-10-08T14:07:14.549866+00:00",
+      "cause_of_specific_global_id_gaps": "NOT_DETERMINED",
+      "source_semantics_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "source_semantics": "Current recent-trades documentation excludes insurance-fund and ADL transactions and makes no contiguous-ID guarantee. Archive README identifies fapi/v1/trades as source. Do not attribute specific gaps to those types without evidence."
+    },
+    {
+      "state": "VALIDATED",
+      "admitted_scope": "Official source market order-book executions; excludes undocumented/uncaptured global-ID event types",
+      "global_identifier_continuity_certified": false,
+      "raw_sha256": "86c0fd49185b7f70c3feeab1603c20f16bb5d34b778f64600b4a123f054d3ebe",
+      "verification_bars_sha256": "13b9197815116e916f0689b6830536333d27aef88c87f5ecabc0ee9d30288ef4",
+      "symbol": "ETHUSDT",
+      "day": "2024-10-07",
+      "original_strict_qa": {
+        "deduplication_reason": "No silent removal; duplicates fail QA",
+        "duplicates_found": 0,
+        "duplicates_removed": 0,
+        "id_gaps": 329,
+        "interval_gaps": 0,
+        "malformed_rows": 0,
+        "max_timestamp": 1728345599899,
+        "min_timestamp": 1728259203742,
+        "out_of_order": 0,
+        "rows": 3859018,
+        "schema_violations": 0,
+        "status": "FAILED"
+      },
+      "independent_bar_evidence": {
+        "symbol": "ETHUSDT",
+        "day": "2024-10-07",
+        "rows": 3859018,
+        "missing_identifier_count": 329,
+        "gap_transitions": 329,
+        "duplicate_ids": 0,
+        "out_of_order": 0,
+        "gap_examples": [
+          {
+            "before": 4491623725,
+            "after": 4491623727,
+            "time_ms": 1728259519064,
+            "skipped": 1
+          },
+          {
+            "before": 4491625212,
+            "after": 4491625214,
+            "time_ms": 1728259535419,
+            "skipped": 1
+          },
+          {
+            "before": 4491631581,
+            "after": 4491631583,
+            "time_ms": 1728259655270,
+            "skipped": 1
+          },
+          {
+            "before": 4491631596,
+            "after": 4491631598,
+            "time_ms": 1728259656238,
+            "skipped": 1
+          },
+          {
+            "before": 4491631604,
+            "after": 4491631606,
+            "time_ms": 1728259656302,
+            "skipped": 1
+          },
+          {
+            "before": 4491631606,
+            "after": 4491631608,
+            "time_ms": 1728259656418,
+            "skipped": 1
+          },
+          {
+            "before": 4491674823,
+            "after": 4491674825,
+            "time_ms": 1728260566448,
+            "skipped": 1
+          },
+          {
+            "before": 4491712755,
+            "after": 4491712757,
+            "time_ms": 1728261198801,
+            "skipped": 1
+          },
+          {
+            "before": 4491734835,
+            "after": 4491734837,
+            "time_ms": 1728261415414,
+            "skipped": 1
+          },
+          {
+            "before": 4491744010,
+            "after": 4491744012,
+            "time_ms": 1728261493892,
+            "skipped": 1
+          },
+          {
+            "before": 4491777887,
+            "after": 4491777889,
+            "time_ms": 1728261615655,
+            "skipped": 1
+          },
+          {
+            "before": 4491782399,
+            "after": 4491782401,
+            "time_ms": 1728261645538,
+            "skipped": 1
+          },
+          {
+            "before": 4491783339,
+            "after": 4491783341,
+            "time_ms": 1728261653257,
+            "skipped": 1
+          },
+          {
+            "before": 4491784959,
+            "after": 4491784961,
+            "time_ms": 1728261658212,
+            "skipped": 1
+          },
+          {
+            "before": 4491785900,
+            "after": 4491785902,
+            "time_ms": 1728261661121,
+            "skipped": 1
+          },
+          {
+            "before": 4491798764,
+            "after": 4491798766,
+            "time_ms": 1728261760238,
+            "skipped": 1
+          },
+          {
+            "before": 4491800672,
+            "after": 4491800674,
+            "time_ms": 1728261782252,
+            "skipped": 1
+          },
+          {
+            "before": 4491803255,
+            "after": 4491803257,
+            "time_ms": 1728261807596,
+            "skipped": 1
+          },
+          {
+            "before": 4491837529,
+            "after": 4491837531,
+            "time_ms": 1728262095595,
+            "skipped": 1
+          },
+          {
+            "before": 4491848768,
+            "after": 4491848770,
+            "time_ms": 1728262176999,
+            "skipped": 1
+          }
+        ],
+        "first_id": 4491612146,
+        "last_id": 4495471492,
+        "bar_comparison_status": "PASS",
+        "differences": [],
+        "difference_count": 0,
+        "interpretation": "SOURCE_TAPE_MATCHES_OFFICIAL_MARKET_BARS",
+        "global_identifier_gap_cause": "NOT_DETERMINED",
+        "QA_decision": "REVIEW_WITH_SOURCE_SEMANTICS; original quarantine unchanged",
+        "limitations": [
+          "OHLCV consistency does not reveal executions excluded by the source or participant identity",
+          "Source checksums and independent tape/bar agreement do not prove global identifier continuity",
+          "This diagnostic tests historical aggregation, not causal publication/latency availability"
+        ]
+      },
+      "decision_rule": "Unique ordered structurally valid official tape AND exact reconstruction of all 1440 official minute bars including trade count and both taker volumes",
+      "decided_at": "2026-10-08T14:07:28.451800+00:00",
+      "cause_of_specific_global_id_gaps": "NOT_DETERMINED",
+      "source_semantics_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "source_semantics": "Current recent-trades documentation excludes insurance-fund and ADL transactions and makes no contiguous-ID guarantee. Archive README identifies fapi/v1/trades as source. Do not attribute specific gaps to those types without evidence."
+    },
+    {
+      "state": "VALIDATED",
+      "admitted_scope": "Official source market order-book executions; excludes undocumented/uncaptured global-ID event types",
+      "global_identifier_continuity_certified": false,
+      "raw_sha256": "dd7d3f1023834ba587e65bcb1e60af3ce8afbb76f50e8e3e6f5ac7f819327d74",
+      "verification_bars_sha256": "6eb38bef4089c37bab546e9dfdb47ce5be238d48f8e36af6fa6013606f49235e",
+      "symbol": "SOLUSDT",
+      "day": "2024-10-07",
+      "original_strict_qa": {
+        "deduplication_reason": "No silent removal; duplicates fail QA",
+        "duplicates_found": 0,
+        "duplicates_removed": 0,
+        "id_gaps": 117,
+        "interval_gaps": 0,
+        "malformed_rows": 0,
+        "max_timestamp": 1728345599484,
+        "min_timestamp": 1728259203741,
+        "out_of_order": 0,
+        "rows": 1835223,
+        "schema_violations": 0,
+        "status": "FAILED"
+      },
+      "independent_bar_evidence": {
+        "symbol": "SOLUSDT",
+        "day": "2024-10-07",
+        "rows": 1835223,
+        "missing_identifier_count": 117,
+        "gap_transitions": 117,
+        "duplicate_ids": 0,
+        "out_of_order": 0,
+        "gap_examples": [
+          {
+            "before": 1817447289,
+            "after": 1817447291,
+            "time_ms": 1728259535098,
+            "skipped": 1
+          },
+          {
+            "before": 1817448719,
+            "after": 1817448721,
+            "time_ms": 1728259656536,
+            "skipped": 1
+          },
+          {
+            "before": 1817510068,
+            "after": 1817510070,
+            "time_ms": 1728261507219,
+            "skipped": 1
+          },
+          {
+            "before": 1817520781,
+            "after": 1817520783,
+            "time_ms": 1728261673525,
+            "skipped": 1
+          },
+          {
+            "before": 1817545138,
+            "after": 1817545140,
+            "time_ms": 1728262168166,
+            "skipped": 1
+          },
+          {
+            "before": 1817561223,
+            "after": 1817561225,
+            "time_ms": 1728262461702,
+            "skipped": 1
+          },
+          {
+            "before": 1817565678,
+            "after": 1817565680,
+            "time_ms": 1728262605309,
+            "skipped": 1
+          },
+          {
+            "before": 1817622242,
+            "after": 1817622244,
+            "time_ms": 1728264539184,
+            "skipped": 1
+          },
+          {
+            "before": 1817628724,
+            "after": 1817628726,
+            "time_ms": 1728264708309,
+            "skipped": 1
+          },
+          {
+            "before": 1817630635,
+            "after": 1817630637,
+            "time_ms": 1728264782804,
+            "skipped": 1
+          },
+          {
+            "before": 1817676791,
+            "after": 1817676793,
+            "time_ms": 1728266484376,
+            "skipped": 1
+          },
+          {
+            "before": 1817685102,
+            "after": 1817685104,
+            "time_ms": 1728266627455,
+            "skipped": 1
+          },
+          {
+            "before": 1817696409,
+            "after": 1817696411,
+            "time_ms": 1728267086386,
+            "skipped": 1
+          },
+          {
+            "before": 1817698678,
+            "after": 1817698680,
+            "time_ms": 1728267259673,
+            "skipped": 1
+          },
+          {
+            "before": 1817714114,
+            "after": 1817714116,
+            "time_ms": 1728268273278,
+            "skipped": 1
+          },
+          {
+            "before": 1817715940,
+            "after": 1817715942,
+            "time_ms": 1728268327954,
+            "skipped": 1
+          },
+          {
+            "before": 1817739155,
+            "after": 1817739157,
+            "time_ms": 1728269419902,
+            "skipped": 1
+          },
+          {
+            "before": 1817783861,
+            "after": 1817783863,
+            "time_ms": 1728272205184,
+            "skipped": 1
+          },
+          {
+            "before": 1817793293,
+            "after": 1817793295,
+            "time_ms": 1728272682053,
+            "skipped": 1
+          },
+          {
+            "before": 1817807519,
+            "after": 1817807521,
+            "time_ms": 1728273731246,
+            "skipped": 1
+          }
+        ],
+        "first_id": 1817441554,
+        "last_id": 1819276893,
+        "bar_comparison_status": "PASS",
+        "differences": [],
+        "difference_count": 0,
+        "interpretation": "SOURCE_TAPE_MATCHES_OFFICIAL_MARKET_BARS",
+        "global_identifier_gap_cause": "NOT_DETERMINED",
+        "QA_decision": "REVIEW_WITH_SOURCE_SEMANTICS; original quarantine unchanged",
+        "limitations": [
+          "OHLCV consistency does not reveal executions excluded by the source or participant identity",
+          "Source checksums and independent tape/bar agreement do not prove global identifier continuity",
+          "This diagnostic tests historical aggregation, not causal publication/latency availability"
+        ]
+      },
+      "decision_rule": "Unique ordered structurally valid official tape AND exact reconstruction of all 1440 official minute bars including trade count and both taker volumes",
+      "decided_at": "2026-10-08T14:07:34.748409+00:00",
+      "cause_of_specific_global_id_gaps": "NOT_DETERMINED",
+      "source_semantics_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "source_semantics": "Current recent-trades documentation excludes insurance-fund and ADL transactions and makes no contiguous-ID guarantee. Archive README identifies fapi/v1/trades as source. Do not attribute specific gaps to those types without evidence."
+    }
+  ],
+  "scope": "Original 2024-10-07 individual market tapes; global ID completeness not claimed"
+}
