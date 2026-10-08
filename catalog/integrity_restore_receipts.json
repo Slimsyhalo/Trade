@@ -3829,5 +3829,94 @@
       "crc_check": "PASS"
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "expansion/ETHUSDT/um_bookDepth_summary/2024-10-14/normalized/a00cf7148140bafb793714a6cd65ee771c2ea6e3a67d11d86c3e80ae5a93c617": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:36:49.453435+00:00",
+    "source": {
+      "ledger": "expansion",
+      "dataset": "um_bookDepth_summary",
+      "symbol": "ETHUSDT",
+      "partition_key": "ETHUSDT/um_bookDepth_summary/2024-10-14",
+      "object_kind": "normalized",
+      "sha256": "a00cf7148140bafb793714a6cd65ee771c2ea6e3a67d11d86c3e80ae5a93c617",
+      "bytes": 517932,
+      "remote": {
+        "asset_id": 622790981,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622790981",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-ETHUSDT-um_bookDepth_summary-2024-10/a00cf7148140bafb793714a6cd65ee771c2ea6e3a67d11d86c3e80ae5a93c617-2024-10-14-8bc61350cf2ada98.parquet",
+        "sha256": "a00cf7148140bafb793714a6cd65ee771c2ea6e3a67d11d86c3e80ae5a93c617",
+        "bytes": 517932,
+        "verified_at": 1791487786.8925285
+      },
+      "expected_rows": 28800,
+      "source_identity": null,
+      "source_ledger_sha": "f71bca8c84951e6658136308fe937e7bed0903b6"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 28800,
+      "first_event": 1728864007000000,
+      "last_event": 1728950372000000,
+      "event_unit": "us",
+      "unknown_availability_rows": 28800,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "percentage",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "depth",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "notional",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "source_time_unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "event_time_us",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "available_at_us",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "availability_basis",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "extended-1",
+        "timezone": "UTC",
+        "decimals": "exact source strings",
+        "book_semantics": "percentage summaries are not L2"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
