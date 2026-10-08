@@ -1,0 +1,173 @@
+{
+  "status": "ALL_THREE_PROBE_SEGMENTS_INDEPENDENTLY_RESTORED_AND_SCANNED",
+  "source_ledger_sha": "d8d179a6741f7394bed08fbede2133dce4609c68",
+  "source_code_sha": "c77d8f234a87528ed7ea24317af3ccab971284cf",
+  "capture_id": "37834740467-1",
+  "routes": {
+    "public": {
+      "segments": 1,
+      "rows": 255713,
+      "kinds": {
+        "connection_start": 1,
+        "event": 255711,
+        "capture_stop": 1
+      },
+      "streams": {
+        "btcusdt@depth@100ms": 2936,
+        "btcusdt@bookTicker": 97788,
+        "solusdt@bookTicker": 50034,
+        "ethusdt@bookTicker": 99225,
+        "ethusdt@depth@100ms": 2927,
+        "solusdt@depth@100ms": 2801
+      },
+      "symbols": {
+        "BTCUSDT": 100724,
+        "SOLUSDT": 52835,
+        "ETHUSDT": 102152
+      },
+      "first_receive_ns": 1791488944610540209,
+      "last_receive_ns": 1791489245197810449,
+      "maximum_receive_ns": 1791489245197810449,
+      "observed_span_seconds": 300.58727024,
+      "sequence_diagnostics": {},
+      "diagnostic_examples": [],
+      "final_sequence_state": {
+        "btcusdt@depth@100ms": 11769555023953,
+        "ethusdt@depth@100ms": 11769555025908,
+        "solusdt@depth@100ms": 11769555024404
+      },
+      "recorded_sequence_markers": {
+        "sequence_gap": 0,
+        "trade_gap": 0,
+        "duplicate_or_old": 0,
+        "malformed_event": 0
+      },
+      "uncalibrated_receive_minus_exchange_E_ns": {
+        "min": 53415339,
+        "max": 477226698,
+        "network_latency_certified": false
+      },
+      "segment_inspections": [
+        {
+          "path": "public-1791488944610540209-9bbd4958ad9f4ab88e8e70ee991ce2b9.jsonl.gz",
+          "sha256": "185426238ccc1b490739bf4f2465880f06bdfab29abc32e2c501acdff6a39698",
+          "rows": 255713,
+          "first_receive_ns": 1791488944610540209,
+          "last_receive_ns": 1791489245197810449,
+          "state": "READ_AND_TESTED"
+        }
+      ],
+      "continuous_operation_certified": false,
+      "full_L2_book_certified": false,
+      "notice": "Span is first-to-last recorded receive time, not continuous coverage. Sequence gaps and duplicates are observations, not automatic proof of source loss or reconstructible L2. Cross-reconnect boundaries remain unverified even when identifiers appear continuous. Exchange/local clock difference is not calibrated network latency. Snapshot marker counts do not prove usable depth snapshots."
+    },
+    "market": {
+      "segments": 1,
+      "rows": 8018,
+      "kinds": {
+        "connection_start": 1,
+        "event": 8016,
+        "capture_stop": 1
+      },
+      "streams": {
+        "ethusdt@aggTrade": 3235,
+        "btcusdt@aggTrade": 2848,
+        "ethusdt@markPrice@1s": 300,
+        "btcusdt@markPrice@1s": 300,
+        "solusdt@markPrice@1s": 300,
+        "solusdt@aggTrade": 1028,
+        "ethusdt@forceOrder": 4,
+        "btcusdt@forceOrder": 1
+      },
+      "symbols": {
+        "ETHUSDT": 3535,
+        "BTCUSDT": 3148,
+        "SOLUSDT": 1328,
+        "None": 5
+      },
+      "first_receive_ns": 1791488944611376444,
+      "last_receive_ns": 1791489245195199724,
+      "maximum_receive_ns": 1791489245195199724,
+      "observed_span_seconds": 300.58382328,
+      "sequence_diagnostics": {},
+      "diagnostic_examples": [],
+      "final_sequence_state": {
+        "ethusdt@aggTrade": 3112893665,
+        "btcusdt@aggTrade": 3479902439,
+        "solusdt@aggTrade": 1104275236
+      },
+      "recorded_sequence_markers": {
+        "sequence_gap": 0,
+        "trade_gap": 0,
+        "duplicate_or_old": 0,
+        "malformed_event": 0
+      },
+      "uncalibrated_receive_minus_exchange_E_ns": {
+        "min": 53044518,
+        "max": 118430615,
+        "network_latency_certified": false
+      },
+      "segment_inspections": [
+        {
+          "path": "market-1791488944611376444-ada454ec37fd47b69fd8eee85fc18a48.jsonl.gz",
+          "sha256": "54d8c9084a9d38db48b559e66e644395466a7164f2d91dae2f3af9169e62a96d",
+          "rows": 8018,
+          "first_receive_ns": 1791488944611376444,
+          "last_receive_ns": 1791489245195199724,
+          "state": "READ_AND_TESTED"
+        }
+      ],
+      "continuous_operation_certified": false,
+      "full_L2_book_certified": false,
+      "notice": "Span is first-to-last recorded receive time, not continuous coverage. Sequence gaps and duplicates are observations, not automatic proof of source loss or reconstructible L2. Cross-reconnect boundaries remain unverified even when identifiers appear continuous. Exchange/local clock difference is not calibrated network latency. Snapshot marker counts do not prove usable depth snapshots."
+    },
+    "snapshots": {
+      "segments": 1,
+      "rows": 1,
+      "kinds": {
+        "snapshot_unavailable": 1
+      },
+      "streams": {},
+      "symbols": {},
+      "first_receive_ns": 1791488944401969834,
+      "last_receive_ns": 1791488944401969834,
+      "maximum_receive_ns": 1791488944401969834,
+      "observed_span_seconds": 0.0,
+      "sequence_diagnostics": {},
+      "diagnostic_examples": [],
+      "final_sequence_state": {},
+      "recorded_sequence_markers": {
+        "sequence_gap": 0,
+        "trade_gap": 0,
+        "duplicate_or_old": 0,
+        "malformed_event": 0
+      },
+      "uncalibrated_receive_minus_exchange_E_ns": {
+        "min": null,
+        "max": null,
+        "network_latency_certified": false
+      },
+      "segment_inspections": [
+        {
+          "path": "snapshots-1791488944401969834-636b23b663ee4a52af63f3c0b8286cda.jsonl.gz",
+          "sha256": "4617a6ed594b7c4c0eccea97afa6b03f012995d7eb47678ce8b34927f2349fc8",
+          "rows": 1,
+          "first_receive_ns": 1791488944401969834,
+          "last_receive_ns": 1791488944401969834,
+          "state": "READ_AND_TESTED"
+        }
+      ],
+      "continuous_operation_certified": false,
+      "full_L2_book_certified": false,
+      "notice": "Span is first-to-last recorded receive time, not continuous coverage. Sequence gaps and duplicates are observations, not automatic proof of source loss or reconstructible L2. Cross-reconnect boundaries remain unverified even when identifiers appear continuous. Exchange/local clock difference is not calibrated network latency. Snapshot marker counts do not prove usable depth snapshots."
+    }
+  },
+  "elapsed_seconds": 45.35700250500031,
+  "process_cpu_seconds": 2.606156689,
+  "C20_accepted": false,
+  "phase_1_accepted": false,
+  "continuous_operation_certified": false,
+  "full_L2_book_certified": false,
+  "network_improvement_certified": false,
+  "notice": "Five minute actual finite session; independent second restoration and full event scan. Compared sessions have different times and durations, not a controlled causal proof of improvement. No calibrated latency or permanent service."
+}
