@@ -1,6 +1,6 @@
 # Current data coverage
 
-Generated: 2026-10-08T18:56:47.772186+00:00
+Generated: 2026-10-08T18:58:28.533929+00:00
 
 QA days count observed passing dates. Remote days require matching RAW and Parquet readback receipts. Monthly funding coverage counts observed dates, not one day per archive.
 
@@ -16,14 +16,14 @@ QA days count observed passing dates. Remote days require matching RAW and Parqu
 | BTCUSDT | fundingRate | 2024-11-01 | 2026-09-30 | 699 / 731 | 699 | 2,097 | 23 | 23 |
 | ETHUSDT | trades | None | None | 0 / 731 | 0 | 0 | 0 | 0 |
 | ETHUSDT | aggTrades | 2024-10-07 | 2024-12-19 | 74 / 731 | 74 | 131,921,317 | 74 | 74 |
-| ETHUSDT | klines | 2024-10-07 | 2024-12-18 | 73 / 731 | 73 | 105,120 | 73 | 73 |
-| ETHUSDT | markPriceKlines | 2024-10-07 | 2024-12-18 | 73 / 731 | 73 | 105,120 | 73 | 73 |
-| ETHUSDT | indexPriceKlines | 2024-10-07 | 2024-12-18 | 73 / 731 | 73 | 105,120 | 73 | 73 |
-| ETHUSDT | premiumIndexKlines | 2024-10-07 | 2024-12-18 | 73 / 731 | 73 | 105,120 | 73 | 73 |
-| ETHUSDT | metrics | 2024-10-07 | 2024-12-18 | 73 / 731 | 73 | 21,022 | 73 | 73 |
+| ETHUSDT | klines | 2024-10-07 | 2024-12-19 | 74 / 731 | 74 | 106,560 | 74 | 74 |
+| ETHUSDT | markPriceKlines | 2024-10-07 | 2024-12-19 | 74 / 731 | 74 | 106,560 | 74 | 74 |
+| ETHUSDT | indexPriceKlines | 2024-10-07 | 2024-12-19 | 74 / 731 | 74 | 106,560 | 74 | 74 |
+| ETHUSDT | premiumIndexKlines | 2024-10-07 | 2024-12-19 | 74 / 731 | 74 | 106,560 | 74 | 74 |
+| ETHUSDT | metrics | 2024-10-07 | 2024-12-19 | 74 / 731 | 74 | 21,310 | 74 | 74 |
 | ETHUSDT | fundingRate | 2024-11-01 | 2026-09-30 | 699 / 731 | 699 | 2,097 | 23 | 23 |
 | SOLUSDT | trades | None | None | 0 / 731 | 0 | 0 | 0 | 0 |
-| SOLUSDT | aggTrades | 2024-10-07 | 2024-12-18 | 73 / 731 | 73 | 30,965,922 | 73 | 73 |
+| SOLUSDT | aggTrades | 2024-10-07 | 2024-12-19 | 74 / 731 | 74 | 31,684,792 | 74 | 74 |
 | SOLUSDT | klines | 2024-10-07 | 2024-12-18 | 73 / 731 | 73 | 105,120 | 73 | 73 |
 | SOLUSDT | markPriceKlines | 2024-10-07 | 2024-12-18 | 73 / 731 | 73 | 105,120 | 73 | 73 |
 | SOLUSDT | indexPriceKlines | 2024-10-07 | 2024-12-18 | 73 / 731 | 73 | 105,120 | 73 | 73 |
