@@ -1,1 +1,132 @@
-{}
+{
+  "derived/BTCUSDT/basis_close_1m/2024-10-07/c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872/product/fc8fed05e814d9c139b07c5458953df6fcca1827566a53b949eecb8535b3e590": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:33:57.533210+00:00",
+    "source": {
+      "ledger": "derived",
+      "dataset": "basis_close_1m",
+      "symbol": "BTCUSDT",
+      "partition_key": "BTCUSDT/basis_close_1m/2024-10-07/c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872",
+      "object_kind": "product",
+      "sha256": "fc8fed05e814d9c139b07c5458953df6fcca1827566a53b949eecb8535b3e590",
+      "bytes": 117644,
+      "remote": {
+        "asset_id": 622712540,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622712540",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/derived-BTCUSDT-basis_close_1m-2024-10/fc8fed05e814d9c139b07c5458953df6fcca1827566a53b949eecb8535b3e590-basis_close_1m-c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872.parquet",
+        "sha256": "fc8fed05e814d9c139b07c5458953df6fcca1827566a53b949eecb8535b3e590",
+        "bytes": 117644,
+        "verified_at": 1791485749.9048874
+      },
+      "expected_rows": 1440,
+      "source_identity": "c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872",
+      "source_ledger_sha": "7c9d5561d3019df4b1c53bfaccce63ed40319bfb"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 1440,
+      "first_event": 1728259259999,
+      "last_event": 1728345599999,
+      "event_unit": "ms",
+      "unknown_availability_rows": 0,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "window_start_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "window_end_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "event_time_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "mark_close_original",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "index_close_original",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sampled_basis_quote_units",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sampled_relative_basis",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "relative_basis_numerator",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "relative_basis_denominator",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "available_at_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "input_availability_bases",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "classification",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "strict_causal_replay_certified",
+          "type": "bool",
+          "nullable": true
+        },
+        {
+          "name": "transform_version",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "decimal_precision",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "decimal_rounding",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "transform_version": "derivatives-1",
+        "source_identity": "c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872",
+        "inputs": "{\"indexPriceKlines\":{\"key\":\"BTCUSDT/indexPriceKlines/2024-10-07\",\"normalized_sha256\":\"a203f54b3d9c63f140b1bcbb79b1e7fd3413e697290c769b056089e438d8fb21\",\"raw_sha256\":\"12313ee42f19c42c1550430ed8ddf3c2561101750e0d20b6fe269027c82cc630\"},\"markPriceKlines\":{\"key\":\"BTCUSDT/markPriceKlines/2024-10-07\",\"normalized_sha256\":\"62788266f7cf3e2320db8c4e0b83d0b442890c7b3fc02ac30bbaa5ed42decea7\",\"raw_sha256\":\"dc645696f5d2a5c8924d9da0174c64564771e4385f5d3e6d1ac82719f549f9e6\"},\"metrics\":{\"key\":\"BTCUSDT/metrics/2024-10-07\",\"normalized_sha256\":\"fc7d525d001ba5601e47842576bcbb028f2cc5460b2c507d8fa7bd7faaa5f176\",\"raw_sha256\":\"5ab2472c534913489ec09dafffa88f76f2a964e0e7258980fd894661c7924f95\"}}",
+        "timezone": "UTC",
+        "strict_causal_replay_certified": "false"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  }
+}
