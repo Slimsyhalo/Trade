@@ -29098,5 +29098,849 @@
     },
     "storage_state": "REMOTE_VERIFIED",
     "quality_state": "VALIDATED"
+  },
+  "BTCUSDT/um_individual_trades/2024-10-28": {
+    "key": "BTCUSDT/um_individual_trades/2024-10-28",
+    "kind": "um_individual_trades",
+    "symbol": "BTCUSDT",
+    "day": "2024-10-28",
+    "source": "https://data.binance.vision/data/futures/um/daily/trades/BTCUSDT/BTCUSDT-trades-2024-10-28.zip",
+    "source_checksum": "d0f82b3cf3d8d3930c41db7f5aced627e384e9dfbd262e138add65ada9d26309  BTCUSDT-trades-2024-10-28.zip\n",
+    "downloaded_at": "2026-10-08T21:57:29.712745+00:00",
+    "state": "QUARANTINED",
+    "qa": {
+      "rows": 3458400,
+      "duplicates_found": 0,
+      "duplicates_removed": 0,
+      "deduplication_reason": "No silent removal; duplicates fail QA",
+      "id_gaps": 490,
+      "interval_gaps": 0,
+      "out_of_order": 0,
+      "malformed_rows": 0,
+      "schema_violations": 0,
+      "status": "FAILED",
+      "min_timestamp": 1730073603866,
+      "max_timestamp": 1730159999740,
+      "state": "QUARANTINED",
+      "id_continuity_policy": "Not required for official market tape only when independent full-minute consistency certificate passes; original ID gaps retained"
+    },
+    "raw": {
+      "path": "data/extended/raw/BTCUSDT/um_individual_trades/2024-10-28-d0f82b3cf3d8d393.zip",
+      "sha256": "d0f82b3cf3d8d3930c41db7f5aced627e384e9dfbd262e138add65ada9d26309",
+      "bytes": 28837819,
+      "remote": {
+        "asset_id": 623118431,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/623118431",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-BTCUSDT-um_individual_trades-2024-10/d0f82b3cf3d8d3930c41db7f5aced627e384e9dfbd262e138add65ada9d26309-2024-10-28-d0f82b3cf3d8d393.zip",
+        "sha256": "d0f82b3cf3d8d3930c41db7f5aced627e384e9dfbd262e138add65ada9d26309",
+        "bytes": 28837819,
+        "verified_at": 1791496710.6877913
+      }
+    },
+    "source_terms_ref": "DATA_LICENSE.md",
+    "schema_version": "1",
+    "admission": {
+      "state": "QUARANTINED",
+      "admitted_scope": "Official source market order-book executions; excludes undocumented/uncaptured global-ID event types",
+      "global_identifier_continuity_certified": false,
+      "raw_sha256": "d0f82b3cf3d8d3930c41db7f5aced627e384e9dfbd262e138add65ada9d26309",
+      "verification_bars_sha256": "113e85b54b8041e72726771970239b96a4d23939b3cf2825533f0b781d8117cb",
+      "symbol": "BTCUSDT",
+      "day": "2024-10-28",
+      "original_strict_qa": {
+        "rows": 3458400,
+        "duplicates_found": 0,
+        "duplicates_removed": 0,
+        "deduplication_reason": "No silent removal; duplicates fail QA",
+        "id_gaps": 490,
+        "interval_gaps": 0,
+        "out_of_order": 0,
+        "malformed_rows": 0,
+        "schema_violations": 0,
+        "status": "FAILED",
+        "min_timestamp": 1730073603866,
+        "max_timestamp": 1730159999740
+      },
+      "independent_bar_evidence": {
+        "symbol": "BTCUSDT",
+        "day": "2024-10-28",
+        "rows": 3458400,
+        "missing_identifier_count": 490,
+        "gap_transitions": 490,
+        "duplicate_ids": 0,
+        "out_of_order": 0,
+        "gap_examples": [
+          {
+            "before": 5507856635,
+            "after": 5507856637,
+            "time_ms": 1730073612549,
+            "skipped": 1
+          },
+          {
+            "before": 5507875519,
+            "after": 5507875521,
+            "time_ms": 1730074315905,
+            "skipped": 1
+          },
+          {
+            "before": 5507877195,
+            "after": 5507877197,
+            "time_ms": 1730074392264,
+            "skipped": 1
+          },
+          {
+            "before": 5507878339,
+            "after": 5507878341,
+            "time_ms": 1730074435945,
+            "skipped": 1
+          },
+          {
+            "before": 5507887667,
+            "after": 5507887669,
+            "time_ms": 1730074892803,
+            "skipped": 1
+          },
+          {
+            "before": 5507888416,
+            "after": 5507888418,
+            "time_ms": 1730074926900,
+            "skipped": 1
+          },
+          {
+            "before": 5507895032,
+            "after": 5507895034,
+            "time_ms": 1730075345491,
+            "skipped": 1
+          },
+          {
+            "before": 5507902492,
+            "after": 5507902494,
+            "time_ms": 1730075575946,
+            "skipped": 1
+          },
+          {
+            "before": 5507908505,
+            "after": 5507908507,
+            "time_ms": 1730075905397,
+            "skipped": 1
+          },
+          {
+            "before": 5507911772,
+            "after": 5507911774,
+            "time_ms": 1730076068623,
+            "skipped": 1
+          },
+          {
+            "before": 5507939930,
+            "after": 5507939932,
+            "time_ms": 1730077117066,
+            "skipped": 1
+          },
+          {
+            "before": 5507947049,
+            "after": 5507947051,
+            "time_ms": 1730077411705,
+            "skipped": 1
+          },
+          {
+            "before": 5507951348,
+            "after": 5507951350,
+            "time_ms": 1730077654959,
+            "skipped": 1
+          },
+          {
+            "before": 5507951968,
+            "after": 5507951970,
+            "time_ms": 1730077688234,
+            "skipped": 1
+          },
+          {
+            "before": 5507957364,
+            "after": 5507957366,
+            "time_ms": 1730077891886,
+            "skipped": 1
+          },
+          {
+            "before": 5507975017,
+            "after": 5507975019,
+            "time_ms": 1730078636029,
+            "skipped": 1
+          },
+          {
+            "before": 5507976519,
+            "after": 5507976521,
+            "time_ms": 1730078692454,
+            "skipped": 1
+          },
+          {
+            "before": 5507977335,
+            "after": 5507977337,
+            "time_ms": 1730078734008,
+            "skipped": 1
+          },
+          {
+            "before": 5507977627,
+            "after": 5507977629,
+            "time_ms": 1730078739980,
+            "skipped": 1
+          },
+          {
+            "before": 5507980573,
+            "after": 5507980575,
+            "time_ms": 1730078921049,
+            "skipped": 1
+          }
+        ],
+        "first_id": 5507855727,
+        "last_id": 5511314616,
+        "bar_comparison_status": "FAILED",
+        "differences": [
+          {
+            "time": 1730145540000,
+            "field": "high",
+            "reconstructed": "69705.8",
+            "official": "69588.00"
+          },
+          {
+            "time": 1730145540000,
+            "field": "close",
+            "reconstructed": "69606.0",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145540000,
+            "field": "volume",
+            "reconstructed": "750.725",
+            "official": "140.176"
+          },
+          {
+            "time": 1730145540000,
+            "field": "quote_volume",
+            "reconstructed": "52252152.9627",
+            "official": "9749155.17240"
+          },
+          {
+            "time": 1730145540000,
+            "field": "number_of_trades",
+            "reconstructed": "8474",
+            "official": "1797"
+          },
+          {
+            "time": 1730145540000,
+            "field": "taker_buy_base_volume",
+            "reconstructed": "534.550",
+            "official": "110.617"
+          },
+          {
+            "time": 1730145540000,
+            "field": "taker_buy_quote_volume",
+            "reconstructed": "37203129.5887",
+            "official": "7692846.14970"
+          },
+          {
+            "time": 1730145600000,
+            "field": "open",
+            "reconstructed": "69605.8",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145600000,
+            "field": "high",
+            "reconstructed": "69622.1",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145600000,
+            "field": "low",
+            "reconstructed": "69525.3",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145600000,
+            "field": "close",
+            "reconstructed": "69583.3",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145600000,
+            "field": "volume",
+            "reconstructed": "424.692",
+            "official": "0"
+          },
+          {
+            "time": 1730145600000,
+            "field": "quote_volume",
+            "reconstructed": "29551895.8962",
+            "official": "0"
+          },
+          {
+            "time": 1730145600000,
+            "field": "number_of_trades",
+            "reconstructed": "5405",
+            "official": "0"
+          },
+          {
+            "time": 1730145600000,
+            "field": "taker_buy_base_volume",
+            "reconstructed": "176.807",
+            "official": "0"
+          },
+          {
+            "time": 1730145600000,
+            "field": "taker_buy_quote_volume",
+            "reconstructed": "12304206.9695",
+            "official": "0"
+          },
+          {
+            "time": 1730145660000,
+            "field": "open",
+            "reconstructed": "69583.2",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145660000,
+            "field": "high",
+            "reconstructed": "69662.7",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145660000,
+            "field": "low",
+            "reconstructed": "69573.6",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145660000,
+            "field": "close",
+            "reconstructed": "69647.8",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145660000,
+            "field": "volume",
+            "reconstructed": "211.842",
+            "official": "0"
+          },
+          {
+            "time": 1730145660000,
+            "field": "quote_volume",
+            "reconstructed": "14749606.1418",
+            "official": "0"
+          },
+          {
+            "time": 1730145660000,
+            "field": "number_of_trades",
+            "reconstructed": "2722",
+            "official": "0"
+          },
+          {
+            "time": 1730145660000,
+            "field": "taker_buy_base_volume",
+            "reconstructed": "156.136",
+            "official": "0"
+          },
+          {
+            "time": 1730145660000,
+            "field": "taker_buy_quote_volume",
+            "reconstructed": "10870413.7564",
+            "official": "0"
+          },
+          {
+            "time": 1730145720000,
+            "field": "open",
+            "reconstructed": "69647.8",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145720000,
+            "field": "high",
+            "reconstructed": "69691.1",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145720000,
+            "field": "low",
+            "reconstructed": "69616.2",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145720000,
+            "field": "close",
+            "reconstructed": "69616.2",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145720000,
+            "field": "volume",
+            "reconstructed": "207.187",
+            "official": "0"
+          },
+          {
+            "time": 1730145720000,
+            "field": "quote_volume",
+            "reconstructed": "14434310.1422",
+            "official": "0"
+          },
+          {
+            "time": 1730145720000,
+            "field": "number_of_trades",
+            "reconstructed": "2998",
+            "official": "0"
+          },
+          {
+            "time": 1730145720000,
+            "field": "taker_buy_base_volume",
+            "reconstructed": "93.479",
+            "official": "0"
+          },
+          {
+            "time": 1730145720000,
+            "field": "taker_buy_quote_volume",
+            "reconstructed": "6511942.0960",
+            "official": "0"
+          },
+          {
+            "time": 1730145780000,
+            "field": "open",
+            "reconstructed": "69616.2",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145780000,
+            "field": "high",
+            "reconstructed": "69626.7",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145780000,
+            "field": "low",
+            "reconstructed": "69566.0",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145780000,
+            "field": "close",
+            "reconstructed": "69579.2",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145780000,
+            "field": "volume",
+            "reconstructed": "147.426",
+            "official": "0"
+          },
+          {
+            "time": 1730145780000,
+            "field": "quote_volume",
+            "reconstructed": "10259520.2399",
+            "official": "0"
+          },
+          {
+            "time": 1730145780000,
+            "field": "number_of_trades",
+            "reconstructed": "2505",
+            "official": "0"
+          },
+          {
+            "time": 1730145780000,
+            "field": "taker_buy_base_volume",
+            "reconstructed": "53.414",
+            "official": "0"
+          },
+          {
+            "time": 1730145780000,
+            "field": "taker_buy_quote_volume",
+            "reconstructed": "3717042.5252",
+            "official": "0"
+          },
+          {
+            "time": 1730145840000,
+            "field": "open",
+            "reconstructed": "69579.2",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145840000,
+            "field": "high",
+            "reconstructed": "69587.0",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145840000,
+            "field": "low",
+            "reconstructed": "69529.2",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145840000,
+            "field": "close",
+            "reconstructed": "69552.0",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145840000,
+            "field": "volume",
+            "reconstructed": "106.807",
+            "official": "0"
+          },
+          {
+            "time": 1730145840000,
+            "field": "quote_volume",
+            "reconstructed": "7428649.7045",
+            "official": "0"
+          },
+          {
+            "time": 1730145840000,
+            "field": "number_of_trades",
+            "reconstructed": "1864",
+            "official": "0"
+          },
+          {
+            "time": 1730145840000,
+            "field": "taker_buy_base_volume",
+            "reconstructed": "47.586",
+            "official": "0"
+          },
+          {
+            "time": 1730145840000,
+            "field": "taker_buy_quote_volume",
+            "reconstructed": "3309676.1324",
+            "official": "0"
+          },
+          {
+            "time": 1730145900000,
+            "field": "open",
+            "reconstructed": "69551.9",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145900000,
+            "field": "high",
+            "reconstructed": "69583.6",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145900000,
+            "field": "low",
+            "reconstructed": "69527.0",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145900000,
+            "field": "close",
+            "reconstructed": "69540.4",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145900000,
+            "field": "volume",
+            "reconstructed": "261.361",
+            "official": "0"
+          },
+          {
+            "time": 1730145900000,
+            "field": "quote_volume",
+            "reconstructed": "18177450.6345",
+            "official": "0"
+          },
+          {
+            "time": 1730145900000,
+            "field": "number_of_trades",
+            "reconstructed": "3388",
+            "official": "0"
+          },
+          {
+            "time": 1730145900000,
+            "field": "taker_buy_base_volume",
+            "reconstructed": "173.988",
+            "official": "0"
+          },
+          {
+            "time": 1730145900000,
+            "field": "taker_buy_quote_volume",
+            "reconstructed": "12100833.3986",
+            "official": "0"
+          },
+          {
+            "time": 1730145960000,
+            "field": "open",
+            "reconstructed": "69540.5",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145960000,
+            "field": "high",
+            "reconstructed": "69540.5",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145960000,
+            "field": "low",
+            "reconstructed": "69505.0",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145960000,
+            "field": "close",
+            "reconstructed": "69511.8",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730145960000,
+            "field": "volume",
+            "reconstructed": "94.986",
+            "official": "0"
+          },
+          {
+            "time": 1730145960000,
+            "field": "quote_volume",
+            "reconstructed": "6603259.1962",
+            "official": "0"
+          },
+          {
+            "time": 1730145960000,
+            "field": "number_of_trades",
+            "reconstructed": "1613",
+            "official": "0"
+          },
+          {
+            "time": 1730145960000,
+            "field": "taker_buy_base_volume",
+            "reconstructed": "37.889",
+            "official": "0"
+          },
+          {
+            "time": 1730145960000,
+            "field": "taker_buy_quote_volume",
+            "reconstructed": "2633903.2324",
+            "official": "0"
+          },
+          {
+            "time": 1730146020000,
+            "field": "open",
+            "reconstructed": "69511.9",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146020000,
+            "field": "high",
+            "reconstructed": "69511.9",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146020000,
+            "field": "low",
+            "reconstructed": "69470.6",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146020000,
+            "field": "close",
+            "reconstructed": "69470.7",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146020000,
+            "field": "volume",
+            "reconstructed": "119.453",
+            "official": "0"
+          },
+          {
+            "time": 1730146020000,
+            "field": "quote_volume",
+            "reconstructed": "8300782.6705",
+            "official": "0"
+          },
+          {
+            "time": 1730146020000,
+            "field": "number_of_trades",
+            "reconstructed": "2014",
+            "official": "0"
+          },
+          {
+            "time": 1730146020000,
+            "field": "taker_buy_base_volume",
+            "reconstructed": "37.186",
+            "official": "0"
+          },
+          {
+            "time": 1730146020000,
+            "field": "taker_buy_quote_volume",
+            "reconstructed": "2583771.2590",
+            "official": "0"
+          },
+          {
+            "time": 1730146080000,
+            "field": "open",
+            "reconstructed": "69470.8",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146080000,
+            "field": "high",
+            "reconstructed": "69482.3",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146080000,
+            "field": "low",
+            "reconstructed": "69438.5",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146080000,
+            "field": "close",
+            "reconstructed": "69441.0",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146080000,
+            "field": "volume",
+            "reconstructed": "181.670",
+            "official": "0"
+          },
+          {
+            "time": 1730146080000,
+            "field": "quote_volume",
+            "reconstructed": "12618773.3872",
+            "official": "0"
+          },
+          {
+            "time": 1730146080000,
+            "field": "number_of_trades",
+            "reconstructed": "2070",
+            "official": "0"
+          },
+          {
+            "time": 1730146080000,
+            "field": "taker_buy_base_volume",
+            "reconstructed": "54.924",
+            "official": "0"
+          },
+          {
+            "time": 1730146080000,
+            "field": "taker_buy_quote_volume",
+            "reconstructed": "3815023.7640",
+            "official": "0"
+          },
+          {
+            "time": 1730146140000,
+            "field": "open",
+            "reconstructed": "69441.0",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146140000,
+            "field": "high",
+            "reconstructed": "69455.0",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146140000,
+            "field": "low",
+            "reconstructed": "69430.7",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146140000,
+            "field": "close",
+            "reconstructed": "69439.1",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146140000,
+            "field": "volume",
+            "reconstructed": "151.207",
+            "official": "0"
+          },
+          {
+            "time": 1730146140000,
+            "field": "quote_volume",
+            "reconstructed": "10500043.1657",
+            "official": "0"
+          },
+          {
+            "time": 1730146140000,
+            "field": "number_of_trades",
+            "reconstructed": "2085",
+            "official": "0"
+          },
+          {
+            "time": 1730146140000,
+            "field": "taker_buy_base_volume",
+            "reconstructed": "67.463",
+            "official": "0"
+          },
+          {
+            "time": 1730146140000,
+            "field": "taker_buy_quote_volume",
+            "reconstructed": "4684729.9353",
+            "official": "0"
+          },
+          {
+            "time": 1730146200000,
+            "field": "open",
+            "reconstructed": "69439.1",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146200000,
+            "field": "high",
+            "reconstructed": "69489.0",
+            "official": "69566.10"
+          },
+          {
+            "time": 1730146200000,
+            "field": "low",
+            "reconstructed": "69429.0",
+            "official": "69566.10"
+          }
+        ],
+        "difference_count": 695,
+        "interpretation": "UNRESOLVED_OR_INCONSISTENT",
+        "global_identifier_gap_cause": "NOT_DETERMINED",
+        "QA_decision": "REVIEW_WITH_SOURCE_SEMANTICS; original quarantine unchanged",
+        "limitations": [
+          "OHLCV consistency does not reveal executions excluded by the source or participant identity",
+          "Source checksums and independent tape/bar agreement do not prove global identifier continuity",
+          "This diagnostic tests historical aggregation, not causal publication/latency availability"
+        ]
+      },
+      "decision_rule": "Unique ordered structurally valid official tape AND exact reconstruction of all 1440 official minute bars including trade count and both taker volumes",
+      "decided_at": "2026-10-08T21:58:21.426940+00:00",
+      "cause_of_specific_global_id_gaps": "NOT_DETERMINED",
+      "source_semantics_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "source_semantics": "Current recent-trades documentation excludes insurance-fund and ADL transactions and makes no contiguous-ID guarantee. Archive README identifies fapi/v1/trades as source. Do not attribute specific gaps to those types without evidence."
+    },
+    "verification_bars": {
+      "path": "data/extended/verification/BTCUSDT/2024-10-28-113e85b54b8041e7.zip",
+      "sha256": "113e85b54b8041e72726771970239b96a4d23939b3cf2825533f0b781d8117cb",
+      "bytes": 59454,
+      "source": "https://data.binance.vision/data/futures/um/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2024-10-28.zip",
+      "source_checksum": "113e85b54b8041e72726771970239b96a4d23939b3cf2825533f0b781d8117cb  BTCUSDT-1m-2024-10-28.zip\n",
+      "remote": {
+        "asset_id": 623119554,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/623119554",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-BTCUSDT-verification-2024-10/113e85b54b8041e72726771970239b96a4d23939b3cf2825533f0b781d8117cb-2024-10-28-113e85b54b8041e7.zip",
+        "sha256": "113e85b54b8041e72726771970239b96a4d23939b3cf2825533f0b781d8117cb",
+        "bytes": 59454,
+        "verified_at": 1791496742.029691
+      }
+    },
+    "normalized": {
+      "path": "data/extended/normalized/BTCUSDT/um_individual_trades/2024-10-28-d0f82b3cf3d8d393.parquet",
+      "sha256": "81d8de66841912f816374bb79ebaefc56a1f68e54b191c0824eea589878de5f9",
+      "bytes": 42492174,
+      "remote": {
+        "asset_id": 623118956,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/623118956",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-BTCUSDT-um_individual_trades-2024-10/81d8de66841912f816374bb79ebaefc56a1f68e54b191c0824eea589878de5f9-2024-10-28-d0f82b3cf3d8d393.parquet",
+        "sha256": "81d8de66841912f816374bb79ebaefc56a1f68e54b191c0824eea589878de5f9",
+        "bytes": 42492174,
+        "verified_at": 1791496727.1480834
+      }
+    },
+    "storage_state": "REMOTE_VERIFIED",
+    "quality_state": "QUARANTINED"
   }
 }
