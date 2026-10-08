@@ -1,7 +1,7 @@
 {
   "phase": 1,
   "status": "INCOMPLETE",
-  "generated_at": "2026-10-08T18:40:13.318240+00:00",
+  "generated_at": "2026-10-08T18:40:28.325588+00:00",
   "notice": "DO NOT ASSUME DATA EXISTS UNLESS LISTED IN THE CATALOG.",
   "historical_window": {
     "start": "2024-10-07",
@@ -25434,6 +25434,14 @@
               "sha256": "a0de6690213b1d09dbfd7a4a9644bb5fdf6e59d6d87e69e8737be8d6679d3446",
               "url": "https://github.com/Slimsyhalo/Trade/releases/download/data-SOLUSDT-metrics-2024-12/a0de6690213b1d09dbfd7a4a9644bb5fdf6e59d6d87e69e8737be8d6679d3446-15-c7fcb3196b31149a.parquet",
               "verified_at": 1791475257.198464
+            },
+            {
+              "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622397338",
+              "asset_id": 622397338,
+              "bytes": 15740,
+              "sha256": "724b00b63452d170a1fbeee030d75ddf2fa4f2c5ee3fd72b328fb8b66b77dcf4",
+              "url": "https://github.com/Slimsyhalo/Trade/releases/download/data-SOLUSDT-metrics-2024-12/724b00b63452d170a1fbeee030d75ddf2fa4f2c5ee3fd72b328fb8b66b77dcf4-16-003066e6f46038db.parquet",
+              "verified_at": 1791484828.130146
             }
           ],
           "qa_status": "PARTIAL",
@@ -25441,9 +25449,9 @@
           "quarantined_rows": 0,
           "failed_partitions": [],
           "partition_granularity": "day",
-          "remote_verified_partitions": 70,
-          "remote_verified_days": 70,
-          "remote_coverage_percentage": 9.575923392612859
+          "remote_verified_partitions": 71,
+          "remote_verified_days": 71,
+          "remote_coverage_percentage": 9.712722298221614
         },
         {
           "symbol": "SOLUSDT",
@@ -25692,7 +25700,7 @@
         }
       ],
       "qa_passing_partitions": 449,
-      "remote_verified_partitions": 448,
+      "remote_verified_partitions": 449,
       "aggregate_trades": 29912230,
       "individual_trades": 0,
       "bars": 408960,
@@ -25714,8 +25722,8 @@
   "tests": "........................................................................ [ 40%]\n........................................................................ [ 81%]\n................................                                         [100%]\n176 passed in 1.67s",
   "remote": {
     "repository": "https://github.com/Slimsyhalo/Trade",
-    "verified_partitions": 1346,
-    "verified_assets": 2692,
+    "verified_partitions": 1347,
+    "verified_assets": 2694,
     "restore_test": {
       "status": "PASS",
       "key": "BTCUSDT/aggTrades/2024-10-07",
@@ -25725,10 +25733,10 @@
     "verification_basis": "Recorded full readback at verified_at; not a fresh redownload of every asset"
   },
   "local_validation": {
-    "present_file_checks": 0,
+    "present_file_checks": 2,
     "present_integrity_failures": [],
-    "remote_not_rechecked": 2693,
-    "missing_local_unbacked_files": 7
+    "remote_not_rechecked": 2692,
+    "missing_local_unbacked_files": 6
   },
   "quarantined_partitions": [
     "BTCUSDT/trades/2024-10-07",
@@ -25745,15 +25753,16 @@
       "premiumIndexKlines",
       "metrics"
     ],
-    "processed_this_run": 0,
+    "processed_this_run": 1,
     "started_at": "2026-10-08T18:40:13.179256+00:00",
     "notice": "AggTrades capacity reviewed across 12 dates/symbol. Individual trades remain quarantined for ID gaps. Phase 1 incomplete.",
-    "updated_at": "2026-10-08T18:40:13.208676+00:00",
-    "remote_verified_partitions": 1346,
-    "elapsed_seconds": 0.03,
-    "process_cpu_seconds": 0.03,
+    "updated_at": "2026-10-08T18:40:28.209753+00:00",
+    "remote_verified_partitions": 1347,
+    "elapsed_seconds": 15.03,
+    "process_cpu_seconds": 0.44,
     "github_rate_events": [],
-    "github_read_retries": []
+    "github_read_retries": [],
+    "last_partition": "SOLUSDT/metrics/2024-12-16"
   },
   "last_funding_run_report": {
     "status": "PERMITTED_MONTH_SCAN_FINISHED",
