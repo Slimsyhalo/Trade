@@ -3954,5 +3954,94 @@
       "crc_check": "PASS"
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "expansion/SOLUSDT/um_bookDepth_summary/2024-10-07/normalized/3999ad9ef09c2a02750b0ecfbbd0dc3373d2a62019b262662c1d1b8ded06f5d6": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:36:57.344248+00:00",
+    "source": {
+      "ledger": "expansion",
+      "dataset": "um_bookDepth_summary",
+      "symbol": "SOLUSDT",
+      "partition_key": "SOLUSDT/um_bookDepth_summary/2024-10-07",
+      "object_kind": "normalized",
+      "sha256": "3999ad9ef09c2a02750b0ecfbbd0dc3373d2a62019b262662c1d1b8ded06f5d6",
+      "bytes": 423364,
+      "remote": {
+        "asset_id": 622164179,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622164179",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-SOLUSDT-um_bookDepth_summary-2024-10/3999ad9ef09c2a02750b0ecfbbd0dc3373d2a62019b262662c1d1b8ded06f5d6-2024-10-07-520090001398ca16.parquet",
+        "sha256": "3999ad9ef09c2a02750b0ecfbbd0dc3373d2a62019b262662c1d1b8ded06f5d6",
+        "bytes": 423364,
+        "verified_at": 1791472117.7184663
+      },
+      "expected_rows": 28800,
+      "source_identity": null,
+      "source_ledger_sha": "f71bca8c84951e6658136308fe937e7bed0903b6"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 28800,
+      "first_event": 1728259207000000,
+      "last_event": 1728345571000000,
+      "event_unit": "us",
+      "unknown_availability_rows": 28800,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "percentage",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "depth",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "notional",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "source_time_unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "event_time_us",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "available_at_us",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "availability_basis",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "extended-1",
+        "timezone": "UTC",
+        "decimals": "exact source strings",
+        "book_semantics": "percentage summaries are not L2"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
