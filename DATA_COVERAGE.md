@@ -1,13 +1,13 @@
 # Current data coverage
 
-Generated: 2026-10-08T22:02:11.194528+00:00
+Generated: 2026-10-08T22:04:04.865182+00:00
 
 QA days count observed passing dates. Remote days require matching RAW and Parquet readback receipts. Monthly funding coverage counts observed dates, not one day per archive.
 
 | Symbol | Dataset | First | Last | QA days / expected | Remote days | Rows | QA partitions | Remote partitions |
 |---|---|---|---|---:|---:|---:|---:|---:|
 | BTCUSDT | trades | None | None | 0 / 731 | 0 | 0 | 0 | 0 |
-| BTCUSDT | aggTrades | 2024-10-07 | 2025-01-21 | 107 / 731 | 107 | 179,232,527 | 107 | 107 |
+| BTCUSDT | aggTrades | 2024-10-07 | 2025-01-22 | 108 / 731 | 108 | 180,854,468 | 108 | 108 |
 | BTCUSDT | klines | 2024-10-07 | 2025-01-21 | 107 / 731 | 107 | 154,080 | 107 | 107 |
 | BTCUSDT | markPriceKlines | 2024-10-07 | 2025-01-21 | 107 / 731 | 107 | 154,080 | 107 | 107 |
 | BTCUSDT | indexPriceKlines | 2024-10-07 | 2025-01-21 | 107 / 731 | 107 | 154,080 | 107 | 107 |
@@ -24,11 +24,11 @@ QA days count observed passing dates. Remote days require matching RAW and Parqu
 | ETHUSDT | fundingRate | 2024-11-01 | 2026-09-30 | 699 / 731 | 699 | 2,097 | 23 | 23 |
 | SOLUSDT | trades | None | None | 0 / 731 | 0 | 0 | 0 | 0 |
 | SOLUSDT | aggTrades | 2024-10-07 | 2025-01-21 | 107 / 731 | 107 | 49,376,319 | 107 | 107 |
-| SOLUSDT | klines | 2024-10-07 | 2025-01-20 | 106 / 731 | 106 | 152,640 | 106 | 106 |
-| SOLUSDT | markPriceKlines | 2024-10-07 | 2025-01-20 | 106 / 731 | 106 | 152,640 | 106 | 106 |
-| SOLUSDT | indexPriceKlines | 2024-10-07 | 2025-01-20 | 106 / 731 | 106 | 152,640 | 106 | 106 |
-| SOLUSDT | premiumIndexKlines | 2024-10-07 | 2025-01-20 | 106 / 731 | 106 | 152,640 | 106 | 106 |
-| SOLUSDT | metrics | 2024-10-07 | 2025-01-20 | 106 / 731 | 106 | 30,526 | 106 | 106 |
+| SOLUSDT | klines | 2024-10-07 | 2025-01-21 | 107 / 731 | 107 | 154,080 | 107 | 107 |
+| SOLUSDT | markPriceKlines | 2024-10-07 | 2025-01-21 | 107 / 731 | 107 | 154,080 | 107 | 107 |
+| SOLUSDT | indexPriceKlines | 2024-10-07 | 2025-01-21 | 107 / 731 | 107 | 154,080 | 107 | 107 |
+| SOLUSDT | premiumIndexKlines | 2024-10-07 | 2025-01-21 | 107 / 731 | 107 | 154,080 | 107 | 107 |
+| SOLUSDT | metrics | 2024-10-07 | 2025-01-21 | 107 / 731 | 107 | 30,814 | 107 | 107 |
 | SOLUSDT | fundingRate | 2024-11-01 | 2026-09-30 | 699 / 731 | 699 | 2,097 | 23 | 23 |
 
 Missing-date lists, failed partitions and remote URLs are in data_catalog.json. Unacquired dates do not imply Binance lacks those dates.
