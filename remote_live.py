@@ -96,12 +96,15 @@ def observed_streams(restorations, symbols):
 
 async def main(seconds=600):
     branch=os.environ['LIVE_LEDGER_BRANCH']; run_id=os.environ['GITHUB_RUN_ID']
+    capture_id=os.environ.get('LIVE_CAPTURE_ID',run_id)
+    if Path(capture_id).name!=capture_id or not capture_id or any(c not in '0123456789-' for c in capture_id):
+        raise ValueError('Safe unique numeric capture namespace required')
     source_sha=os.environ['CHECKPOINT_SOURCE_SHA']; cfg=yaml.safe_load(Path('config.yaml').read_text())
     cfg.update(live_segment_seconds=300, live_segment_bytes=32_000_000)
-    root=Path('data/live')/run_id; destination=Path('catalog/live')/run_id
-    report_path=Path('reports/live_execution')/(run_id+'.json')
+    root=Path('data/live')/capture_id; destination=Path('catalog/live')/capture_id
+    report_path=Path('reports/live_execution')/(capture_id+'.json')
     started=time.monotonic(); cpu=time.process_time()
-    report=dict(schema_version=1, status='RUNNING', run_id=run_id, source_commit_sha=source_sha,
+    report=dict(schema_version=1, status='RUNNING', run_id=run_id, capture_id=capture_id, source_commit_sha=source_sha,
                 workflow_url='https://github.com/'+cfg['repository']+'/actions/runs/'+run_id,
                 started_at=datetime.now(timezone.utc).isoformat(), requested_capture_seconds=seconds,
                 raw_format='gzip JSONL, original messages plus receive timestamps/diagnostics',
@@ -143,7 +146,7 @@ async def main(seconds=600):
             records=json.loads(ledger.read_text())
             row=next((r for r in records if r.get('status')=='remote_verified'),None)
             if not row: continue
-            target=Path('data/restored')/run_id/(route+'-'+row['sha256']+'.jsonl.gz')
+            target=Path('data/restored')/capture_id/(route+'-'+row['sha256']+'.jsonl.gz')
             await asyncio.to_thread(remote.restore,row['remote'],target,Budget(Path('data'),2))
             inspection=inspect_segment(target)
             if inspection['rows']!=row['rows']: raise ValueError('Restored live row count differs')
@@ -163,4 +166,4 @@ async def main(seconds=600):
         await asyncio.to_thread(checkpoint)
 
 
-if __name__=='__main__': asyncio.run(main())
+if __name__=='__main__': asyncio.run(main(seconds=int(os.environ.get('LIVE_SECONDS','600'))))
