@@ -1,5 +1,5 @@
 {
-  "status": "RUNNING",
+  "status": "REMOTE_RECOMPUTED_RESTORED",
   "source_commit_sha": "68f15644a01a459e94ef9ff26cb59369fab65520",
   "workflow_url": "https://github.com/Slimsyhalo/Trade/actions/runs/37802184674",
   "started_at": "2026-10-08T15:36:56.750274+00:00",
@@ -13,8 +13,121 @@
     "Full L2 and order-event metrics remain unavailable without synchronized snapshots",
     "Historical effective input availability remains unknown"
   ],
-  "updated_at": "2026-10-08T15:36:56.750404+00:00",
-  "elapsed_seconds": 0.0,
-  "process_cpu_seconds": 0.0,
-  "github_rate_events": []
+  "updated_at": "2026-10-08T15:42:44.143657+00:00",
+  "elapsed_seconds": 347.393,
+  "process_cpu_seconds": 54.926,
+  "github_rate_events": [],
+  "flow_source_commit_sha": "1843e95d99bd3dbe4b2338943df11fe60f78c972",
+  "flow_publications": [
+    {
+      "state": "VALIDATED",
+      "classification": "DERIVED",
+      "transform_version": "tape-flow-1",
+      "symbol": "BTCUSDT",
+      "day": "2024-10-07",
+      "source_parquet_sha256": "1a832b7b4a78173d7b52d5cd5eb1f249adaddd2d27981f8b7e6ae4eafbf1abcb",
+      "source_raw_sha256": "257e2d85f1cfa8cb48b4e89e05f6efa0b993681f4703492980099797151e0d34",
+      "normalized": {
+        "path": "data/derived/flow/BTCUSDT/2024-10-07-tape-flow-1.parquet",
+        "sha256": "e240fb33db46673aa2168450458b60a4b125ad7eb8593778839a97b738424330",
+        "bytes": 2162686,
+        "remote": {
+          "asset_id": 622240854,
+          "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622240854",
+          "url": "https://github.com/Slimsyhalo/Trade/releases/download/derived-flow-BTCUSDT-2024-10/e240fb33db46673aa2168450458b60a4b125ad7eb8593778839a97b738424330-2024-10-07-tape-flow-1.parquet",
+          "sha256": "e240fb33db46673aa2168450458b60a4b125ad7eb8593778839a97b738424330",
+          "bytes": 2162686,
+          "verified_at": 1791473930.2577443
+        }
+      },
+      "source_rows": 3730708,
+      "derived_rows": 1440,
+      "aggregation_seconds": 60,
+      "elapsed_seconds": 20.454,
+      "process_cpu_seconds": 21.411,
+      "strict_causal_replay_certified": false,
+      "limitations": [
+        "Tape-only metrics; no OFI or L2 liquidity inferred",
+        "CVD anchor resets explicitly per partition",
+        "Window closure/input availability assumptions preserved, no retroactive latency claim"
+      ],
+      "storage_state": "REMOTE_VERIFIED",
+      "restoration_state": "RESTORED_AND_TESTED"
+    },
+    {
+      "state": "VALIDATED",
+      "classification": "DERIVED",
+      "transform_version": "tape-flow-1",
+      "symbol": "ETHUSDT",
+      "day": "2024-10-07",
+      "source_parquet_sha256": "32748bb3196c7c5293239657895555b741bd58a87f4220500863f901306c10c1",
+      "source_raw_sha256": "86c0fd49185b7f70c3feeab1603c20f16bb5d34b778f64600b4a123f054d3ebe",
+      "normalized": {
+        "path": "data/derived/flow/ETHUSDT/2024-10-07-tape-flow-1.parquet",
+        "sha256": "6f4eb81a69b1fa939a5fa5a1924d79ad294f60fb847ef4de1eaf2889d91954fb",
+        "bytes": 1870123,
+        "remote": {
+          "asset_id": 622245419,
+          "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622245419",
+          "url": "https://github.com/Slimsyhalo/Trade/releases/download/derived-flow-ETHUSDT-2024-10/6f4eb81a69b1fa939a5fa5a1924d79ad294f60fb847ef4de1eaf2889d91954fb-2024-10-07-tape-flow-1.parquet",
+          "sha256": "6f4eb81a69b1fa939a5fa5a1924d79ad294f60fb847ef4de1eaf2889d91954fb",
+          "bytes": 1870123,
+          "verified_at": 1791474043.1621437
+        }
+      },
+      "source_rows": 3859018,
+      "derived_rows": 1440,
+      "aggregation_seconds": 60,
+      "elapsed_seconds": 21.221,
+      "process_cpu_seconds": 22.184,
+      "strict_causal_replay_certified": false,
+      "limitations": [
+        "Tape-only metrics; no OFI or L2 liquidity inferred",
+        "CVD anchor resets explicitly per partition",
+        "Window closure/input availability assumptions preserved, no retroactive latency claim"
+      ],
+      "storage_state": "REMOTE_VERIFIED",
+      "restoration_state": "RESTORED_AND_TESTED"
+    },
+    {
+      "state": "VALIDATED",
+      "classification": "DERIVED",
+      "transform_version": "tape-flow-1",
+      "symbol": "SOLUSDT",
+      "day": "2024-10-07",
+      "source_parquet_sha256": "8e1edd6919478564ab2a6c7a87f30926b911f3184572b7f9abc93dcb44cbf795",
+      "source_raw_sha256": "dd7d3f1023834ba587e65bcb1e60af3ce8afbb76f50e8e3e6f5ac7f819327d74",
+      "normalized": {
+        "path": "data/derived/flow/SOLUSDT/2024-10-07-tape-flow-1.parquet",
+        "sha256": "be8a577055ad71cf253bcc19f02ed46cf311d3ce85ba4d3e51d4ee382e6d5358",
+        "bytes": 1257205,
+        "remote": {
+          "asset_id": 622250270,
+          "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622250270",
+          "url": "https://github.com/Slimsyhalo/Trade/releases/download/derived-flow-SOLUSDT-2024-10/be8a577055ad71cf253bcc19f02ed46cf311d3ce85ba4d3e51d4ee382e6d5358-2024-10-07-tape-flow-1.parquet",
+          "sha256": "be8a577055ad71cf253bcc19f02ed46cf311d3ce85ba4d3e51d4ee382e6d5358",
+          "bytes": 1257205,
+          "verified_at": 1791474148.1079974
+        }
+      },
+      "source_rows": 1835223,
+      "derived_rows": 1440,
+      "aggregation_seconds": 60,
+      "elapsed_seconds": 10.19,
+      "process_cpu_seconds": 10.631,
+      "strict_causal_replay_certified": false,
+      "limitations": [
+        "Tape-only metrics; no OFI or L2 liquidity inferred",
+        "CVD anchor resets explicitly per partition",
+        "Window closure/input availability assumptions preserved, no retroactive latency claim"
+      ],
+      "storage_state": "REMOTE_VERIFIED",
+      "restoration_state": "RESTORED_AND_TESTED"
+    }
+  ],
+  "flow_missing_sources": [],
+  "flow_status": "REMOTE_RECOMPUTED_RESTORED",
+  "restored_source_rows": 9424949,
+  "derived_rows": 4320,
+  "stored_bytes": 5290014
 }
