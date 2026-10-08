@@ -1,14 +1,14 @@
 # Current audit — Phase 1 incomplete
 
-Generated: 2026-10-08T19:58:12.207062+00:00
+Generated: 2026-10-08T20:06:13.892740+00:00
 
-1596 QA-passing partitions; 1596 verified remote RAW/Parquet pairs; 3 quarantined partitions.
+1621 QA-passing partitions; 1621 verified remote RAW/Parquet pairs; 3 quarantined partitions.
 
 | Symbol | Aggregate trades | Individual trades | Bars | Funding settlements | Remote partitions |
 |---|---:|---:|---:|---:|---:|
-| BTCUSDT | 140,281,055 | 0 | 489,600 | 2,097 | 533 |
-| ETHUSDT | 153,309,996 | 0 | 489,600 | 2,097 | 533 |
-| SOLUSDT | 36,018,087 | 0 | 486,720 | 2,097 | 530 |
+| BTCUSDT | 142,524,454 | 0 | 499,680 | 2,097 | 543 |
+| ETHUSDT | 154,734,573 | 0 | 495,360 | 2,097 | 539 |
+| SOLUSDT | 36,310,480 | 0 | 495,360 | 2,097 | 539 |
 
 Initial restore: PASS. Remote counts reflect recorded readbacks; assets were not all downloaded again today.
 
