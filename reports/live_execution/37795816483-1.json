@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "RUNNING",
+  "status": "BLOCKED",
   "run_id": "37795816483",
   "capture_id": "37795816483-1",
   "source_commit_sha": "4843db8f02c2c1896219add0992615e309501cd5",
@@ -21,9 +21,9 @@
     "Clock calibration absent; receive timestamp is application receipt, not kernel/network latency",
     "No local raw pruning; pending files require immutable-name reconciliation after failure"
   ],
-  "updated_at": "2026-10-08T17:01:25.688140+00:00",
-  "elapsed_seconds": 7819.818,
-  "process_cpu_seconds": 5757.469,
+  "updated_at": "2026-10-08T17:01:26.908917+00:00",
+  "elapsed_seconds": 7821.038,
+  "process_cpu_seconds": 5757.479,
   "github_rate_events": [],
   "segments": 227,
   "segment_states": {
@@ -34,5 +34,7 @@
   "raw_rows": 6405204,
   "remote_verified_bytes": 283269398,
   "earliest_receive_ns": 1791471067415955844,
-  "latest_receive_ns": 1791478268088819661
+  "latest_receive_ns": 1791478268088819661,
+  "error_type": "RuntimeError",
+  "error": "Live integrity/publication incomplete; preserve spool and reconcile before resuming"
 }
