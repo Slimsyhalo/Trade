@@ -1,0 +1,52 @@
+name: Bounded buffered live collector operational probe
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/live-buffered-probe]
+    paths: ['.github/workflows/buffered-live-probe.yml']
+permissions:
+  contents: write
+concurrency:
+  group: quantlab-buffered-live-probe
+  cancel-in-progress: false
+jobs:
+  finite-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/live-buffered-probe
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -r requirements.lock
+          set -o pipefail
+          python -m pytest -q | tee reports/buffered_live_hosted_tests.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Five minute real observation, isolated ledger and isolated Release tags
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CHECKPOINT_SOURCE_SHA: ${{ github.sha }}
+          LIVE_LEDGER_BRANCH: codex/live-buffered-probe
+          LIVE_CAPTURE_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+          LIVE_RELEASE_PREFIX: live-probe-buffered
+        run: |
+          python - <<'PY'
+          import asyncio
+          from remote_live import main
+          asyncio.run(main(seconds=300))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: buffered-live-${{ github.run_id }}-diagnostics
+          path: |
+            reports/live_execution/
+            catalog/live/
+            data/live/
+            reports/buffered_live_hosted_tests.txt
+          retention-days: 1

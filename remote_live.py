@@ -100,7 +100,7 @@ async def main(seconds=600):
     if Path(capture_id).name!=capture_id or not capture_id or any(c not in '0123456789-' for c in capture_id):
         raise ValueError('Safe unique numeric capture namespace required')
     source_sha=os.environ['CHECKPOINT_SOURCE_SHA']; cfg=yaml.safe_load(Path('config.yaml').read_text())
-    cfg.update(live_segment_seconds=600, live_segment_bytes=32_000_000)
+    cfg.update(live_segment_seconds=600, live_segment_bytes=32_000_000,live_release_prefix=os.environ.get('LIVE_RELEASE_PREFIX','live'))
     root=Path('data/live')/capture_id; destination=Path('catalog/live')/capture_id
     report_path=Path('reports/live_execution')/(capture_id+'.json')
     started=time.monotonic(); cpu=time.process_time()
@@ -110,7 +110,7 @@ async def main(seconds=600):
                 raw_format='gzip JSONL, original messages plus receive timestamps/diagnostics',
                 capture_scope='Actual live dates only; outside historical request window stored separately',
                 continuous_operation_certified=False, full_L2_book_certified=False,
-                ledger_branch=branch, restorations=[], limitations=[
+                ledger_branch=branch,release_prefix=cfg['live_release_prefix'], restorations=[], limitations=[
                     'Hosted job finite; no 24/7 operation or automatic next-run coverage guarantee',
                     'New run starts a new connection; downtime cannot be recovered by this collector',
                     'Depth and OI snapshot REST restrictions recorded, never circumvented',
