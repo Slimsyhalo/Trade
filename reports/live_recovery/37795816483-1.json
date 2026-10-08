@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "RUNNING",
+  "status": "ALL_CAPTURE_SEGMENTS_REMOTE_VERIFIED_WITH_SAMPLE_RESTORATION",
   "source_capture_id": "37795816483-1",
   "source_run_id": 37795816483,
   "source_artifact_id": 11565318990,
@@ -8,7 +8,123 @@
   "source_commit_sha": "0edc1bc1bc5b9830487c060c78778c1d323e8954",
   "workflow_url": "https://github.com/Slimsyhalo/Trade/actions/runs/37826004404",
   "started_at": "2026-10-08T18:40:28.227569+00:00",
-  "restorations": [],
+  "restorations": [
+    {
+      "route": "public",
+      "state": "RESTORED_AND_TESTED",
+      "sha256": "494cdf0ff19d46d2fdaafb9d5863860f420aa7cb78254db0619403425856e029",
+      "bytes": 16211307,
+      "rows": 357183,
+      "first_receive_ns": 1791471067765626541,
+      "last_receive_ns": 1791471367782889347,
+      "kinds": {
+        "connection_start": 1,
+        "event": 357182
+      },
+      "event_types": {
+        "bookTicker": 348441,
+        "depthUpdate": 8741
+      },
+      "symbols": {
+        "BTCUSDT": 179931,
+        "ETHUSDT": 113366,
+        "SOLUSDT": 63885
+      },
+      "streams": {
+        "btcusdt@bookTicker": 176991,
+        "ethusdt@depth@100ms": 2934,
+        "ethusdt@bookTicker": 110432,
+        "solusdt@depth@100ms": 2867,
+        "solusdt@bookTicker": 61018,
+        "btcusdt@depth@100ms": 2940
+      },
+      "diagnostic_examples": [
+        {
+          "receive_timestamp_ns": 1791471067765626541,
+          "kind": "connection_start",
+          "payload": {
+            "route": "public",
+            "continuity": "new_connection_unverified",
+            "previous_sequence_checkpoint": {},
+            "book_valid": false
+          }
+        }
+      ]
+    },
+    {
+      "route": "market",
+      "state": "RESTORED_AND_TESTED",
+      "sha256": "4d6f6afcbd8e0f2d669180ec01ffed796c6995a834550dc2fceae7cc6d8897c8",
+      "bytes": 501895,
+      "rows": 12015,
+      "first_receive_ns": 1791471067727098370,
+      "last_receive_ns": 1791471367816871452,
+      "kinds": {
+        "connection_start": 1,
+        "event": 12014
+      },
+      "event_types": {
+        "aggTrade": 11113,
+        "markPriceUpdate": 900,
+        "forceOrder": 1
+      },
+      "symbols": {
+        "ETHUSDT": 4313,
+        "BTCUSDT": 6210,
+        "SOLUSDT": 1490,
+        "unknown": 1
+      },
+      "streams": {
+        "ethusdt@aggTrade": 4013,
+        "btcusdt@aggTrade": 5910,
+        "btcusdt@markPrice@1s": 300,
+        "ethusdt@markPrice@1s": 300,
+        "solusdt@markPrice@1s": 300,
+        "solusdt@aggTrade": 1190,
+        "solusdt@forceOrder": 1
+      },
+      "diagnostic_examples": [
+        {
+          "receive_timestamp_ns": 1791471067727098370,
+          "kind": "connection_start",
+          "payload": {
+            "route": "market",
+            "continuity": "new_connection_unverified",
+            "previous_sequence_checkpoint": {},
+            "book_valid": false
+          }
+        }
+      ]
+    },
+    {
+      "route": "snapshots",
+      "state": "RESTORED_AND_TESTED",
+      "sha256": "e9aadd2d8cff35d1cd79b3bc3a0c1139caa49a39b4ecd229623370856b6bb2e1",
+      "bytes": 211,
+      "rows": 1,
+      "first_receive_ns": 1791471067415955844,
+      "last_receive_ns": 1791471067415955844,
+      "kinds": {
+        "snapshot_unavailable": 1
+      },
+      "event_types": {},
+      "symbols": {},
+      "streams": {},
+      "diagnostic_examples": [
+        {
+          "receive_timestamp_ns": 1791471067415955844,
+          "kind": "snapshot_unavailable",
+          "payload": {
+            "symbol": "BTCUSDT",
+            "endpoint": "openInterest",
+            "http_status": 451,
+            "reason": "Official REST access blocked; polling stopped",
+            "book_valid": false
+          }
+        }
+      ]
+    }
+  ],
   "new_market_connections": 0,
   "continuous_operation_certified": false,
   "full_L2_book_certified": false,
@@ -16,9 +132,9 @@
   "provenance_checked_segments": 227,
   "inherited_verified_segments": 212,
   "pending_segments_before": 15,
-  "updated_at": "2026-10-08T18:43:22.906062+00:00",
-  "elapsed_seconds": 174.679,
-  "process_cpu_seconds": 41.079,
+  "updated_at": "2026-10-08T18:43:35.614803+00:00",
+  "elapsed_seconds": 187.387,
+  "process_cpu_seconds": 45.749,
   "github_read_retries": [],
   "github_rate_events": [],
   "segments": 227,
@@ -29,5 +145,10 @@
   "raw_rows": 6578897,
   "remote_verified_bytes": 291127111,
   "earliest_receive_ns": 1791471067415955844,
-  "latest_receive_ns": 1791478268088819661
+  "latest_receive_ns": 1791478268088819661,
+  "publication": {
+    "status": "COMPLETE",
+    "published_segments": 15,
+    "pending_segments": 0
+  }
 }
