@@ -63,6 +63,16 @@ Source: Binance daily klines CSV.
 
 Source: Binance daily metrics CSV.
 
+## fundingRate
+
+| Field | Parquet type | Unit | Meaning | Precision / timezone | Nullable | Transformation |
+|---|---|---|---|---|---|---|
+| calc_time | int64 | UTC epoch ms | Original funding settlement calculation time; millisecond jitter preserved | original lexical precision | no | integer parse |
+| funding_interval_hours | int64 | hours | Source-declared funding interval; do not assume eight hours | original lexical precision | no | integer parse |
+| last_funding_rate | string | signed dimensionless rate | Settled signed funding rate; not a predicted future rate | original lexical precision | no | none |
+
+Source: Binance daily fundingRate CSV.
+
 ## Mark / index / premium candles
 
 Use the kline envelope. Mark/index OHLC units are USDT; premium OHLC are signed dimensionless ratios. Volume/count placeholders are retained but have no trade-volume meaning.
@@ -79,3 +89,7 @@ Use the kline envelope. Mark/index OHLC units are USDT; premium OHLC are signed 
 ## Live envelopes
 
 receive_timestamp_ns: int64 local Unix UTC nanoseconds captured when message is written; not guaranteed kernel receipt time. kind: string event/control type. payload: untouched parsed JSON object; nested exchange E/T/U/u/pu/a/nq fields remain available. JSON.gz is raw capture; it is NOT normalized or admitted into the historical catalog. Connection_start/disconnect/sequence_gap/trade_gap are explicit continuity markers. Snapshot failures are errors, not snapshots.
+
+## Funding monthly archive policy
+
+Original calc_time is retained exactly. Funding schedule gap checks compare second-resolution timestamps and disclose funding_schedule_precision_ms=1000 and max_subsecond_offset_ms. last_funding_rate is a signed exact decimal lexeme. Historical publication time is unknown: available_at_ms=null, excluded from strict replay. RAW monthly archives are downloaded only when every date lies inside the authorized window.

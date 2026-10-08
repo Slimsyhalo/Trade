@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import date, datetime, timezone
 import yaml
 from quantlab_core.pipeline import Pipeline
-from quantlab_core.sources import days, archive_url, DATASETS
+from quantlab_core.sources import days, archive_url, DATASETS, partition_dates, period_bounds
 from quantlab_core.io import atomic_json
 
 def main():
@@ -45,7 +45,7 @@ def main():
     count=0; probes=[]
     for symbol in symbols:
         for dataset in datasets:
-            for day in days(args.start or cfg['start_date'],args.end or cfg['end_date']):
+            for day in partition_dates(dataset,args.start or cfg['start_date'],args.end or cfg['end_date']):
                 if args.command=='discover':
                     url=archive_url(symbol,dataset,day)
                     try:
@@ -54,7 +54,7 @@ def main():
                     except Exception as e: probe={'symbol':symbol,'dataset':dataset,'day':str(day),'error':str(e)}
                     probes.append(probe); print(json.dumps(probe),flush=True)
                 else:
-                    if day>=datetime.now(timezone.utc).date():
+                    if period_bounds(dataset,day)[1]>datetime.now(timezone.utc).date():
                         print(json.dumps({'day':str(day),'status':'not_closed_utc_day'}),flush=True); continue
                     r=pipeline.sync_one(symbol,dataset,day,remote,args.prune)
                     print(json.dumps({'key':r['key'],'status':r['status'],'rows':r.get('qa',{}).get('rows')}),flush=True)

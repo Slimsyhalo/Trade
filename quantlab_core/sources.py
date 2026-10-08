@@ -4,7 +4,35 @@ START = date(2024, 10, 7)
 END = date(2026, 10, 7)
 SYMBOLS = ('BTCUSDT', 'ETHUSDT', 'SOLUSDT')
 BARS = ('klines', 'markPriceKlines', 'indexPriceKlines', 'premiumIndexKlines')
-DATASETS = ('aggTrades', 'trades', *BARS, 'metrics', 'bookDepth', 'bookTicker', 'liquidationSnapshot')
+DATASETS = ('aggTrades', 'trades', *BARS, 'metrics', 'fundingRate', 'bookDepth', 'bookTicker', 'liquidationSnapshot')
+
+
+def next_month(day):
+    return date(day.year+(day.month==12), 1 if day.month==12 else day.month+1, 1)
+
+
+def period_bounds(dataset, day):
+    day=date.fromisoformat(str(day))
+    if dataset=='fundingRate':
+        finish=next_month(day)
+        if day.day!=1 or not START<=day or finish>END+timedelta(days=1):
+            raise ValueError('Monthly source would download outside authorized window')
+        return day,finish
+    next(days(day,day))
+    return day,day+timedelta(days=1)
+
+
+def partition_dates(dataset, start, end):
+    start=date.fromisoformat(str(start)); end=date.fromisoformat(str(end))
+    next(days(start,end))
+    if dataset!='fundingRate':
+        yield from days(start,end); return
+    month=start.replace(day=1)
+    if month<start: month=next_month(month)
+    while next_month(month)<=end+timedelta(days=1):
+        period_bounds(dataset,month)
+        yield month
+        month=next_month(month)
 
 
 def days(start, end):
@@ -16,6 +44,9 @@ def days(start, end):
 
 def archive_url(symbol, dataset, day):
     if symbol not in SYMBOLS or dataset not in DATASETS: raise ValueError('Unsupported symbol/dataset')
+    if dataset=='fundingRate':
+        day,_=period_bounds(dataset,day)
+        return f'https://data.binance.vision/data/futures/um/monthly/fundingRate/{symbol}/{symbol}-fundingRate-{day:%Y-%m}.zip'
     day = next(days(day, day)); interval = '/1m' if dataset in BARS else ''
     label = '1m' if dataset in BARS else dataset
     return f'https://data.binance.vision/data/futures/um/daily/{dataset}/{symbol}{interval}/{symbol}-{label}-{day}.zip'

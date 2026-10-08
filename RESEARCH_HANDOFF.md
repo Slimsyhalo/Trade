@@ -35,3 +35,7 @@ Cross-asset joins must be backward as-of on availability, with explicit stalenes
 New datasets: add an explicit source contract and dictionary, probe availability and sizes, normalize versioned schema, implement QA and causality policy, generate checksums, upload+restore, then admit to catalog. Unsupported sources must fail rather than silently coerce.
 
 Future research: chronological train/validation/final OOS, freeze and version split before analysis; keep final OOS unexamined during selection. No split has been chosen. Cost model must separately include commission tier effective dates, spread, slippage, funding and latency; account fees and historic executable spreads are currently absent. No future results can assume zero costs.
+
+## Funding and current audit extension — 2026-10-08
+
+Use the current DATA_COVERAGE.md, AUDIT_SUMMARY.json and manifest, not former static 403/zero-remote counts. build_audit.py now reads actual remote receipts and preserves storage estimates. Funding uses monthly RAW archives and Parquet partitions; observed_days in QA determines calendar coverage. calc_time is a settled-rate calculation timestamp, not evidence of publication or a forward forecast. available_at_ms is null, so strict replay excludes funding. No monthly source may cross the fixed window. Example: python quantlab.py sync --dataset fundingRate --start 2026-09-01 --end 2026-09-30 --limit 3. Funding October 2024/2026 boundaries remain unavailable from the permitted monthly method. Phase 1/C15 remains incomplete.

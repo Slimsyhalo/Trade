@@ -34,6 +34,9 @@ def bars(events, seconds=60):
     if seconds not in (1,5,15,30,60,180,300,900): raise ValueError('Unsupported timeframe')
     width=seconds*1000; bar=None; previous=None
     for event in events:
+        available=event.get('available_at_ms')
+        if available is None or available<event['event_time_ms']:
+            raise LeakageError('Unknown/inconsistent input availability: QA FAILED')
         ts=event['event_time_ms']; price=Decimal(event['price']); qty=Decimal(event['quantity'])
         if previous is not None and ts<previous: raise ValueError('Out of order')
         previous=ts; bucket=ts//width*width
@@ -41,6 +44,7 @@ def bars(events, seconds=60):
             if bar is not None: yield bar
             bar=dict(open_time=bucket,event_time_ms=bucket,available_at_ms=bucket+width,availability_basis='bar_close_boundary_assumption',open=price,high=price,low=price,close=price,volume=Decimal(0),quote_volume=Decimal(0),taker_buy_base_volume=Decimal(0),taker_buy_quote_volume=Decimal(0),number_of_trades=0)
         bar['high']=max(bar['high'],price); bar['low']=min(bar['low'],price); bar['close']=price
+        bar['available_at_ms']=max(bar['available_at_ms'],available)
         bar['volume']+=qty; bar['quote_volume']+=price*qty
         if not event['is_buyer_maker']:
             bar['taker_buy_base_volume']+=qty; bar['taker_buy_quote_volume']+=price*qty
