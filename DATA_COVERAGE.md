@@ -1,6 +1,6 @@
 # Current data coverage
 
-Generated: 2026-10-08T16:06:36.087906+00:00
+Generated: 2026-10-08T16:08:56.092039+00:00
 
 QA days count observed passing dates. Remote days require matching RAW and Parquet readback receipts. Monthly funding coverage counts observed dates, not one day per archive.
 
@@ -13,7 +13,7 @@ QA days count observed passing dates. Remote days require matching RAW and Parqu
 | BTCUSDT | indexPriceKlines | 2024-10-07 | 2024-12-16 | 71 / 731 | 71 | 102,240 | 71 | 71 |
 | BTCUSDT | premiumIndexKlines | 2024-10-07 | 2024-12-16 | 71 / 731 | 71 | 102,240 | 71 | 71 |
 | BTCUSDT | metrics | 2024-10-07 | 2024-12-16 | 71 / 731 | 71 | 20,446 | 71 | 71 |
-| BTCUSDT | fundingRate | 2024-11-01 | 2025-03-31 | 151 / 731 | 151 | 453 | 5 | 5 |
+| BTCUSDT | fundingRate | 2024-11-01 | 2025-08-31 | 304 / 731 | 304 | 912 | 10 | 10 |
 | ETHUSDT | trades | None | None | 0 / 731 | 0 | 0 | 0 | 0 |
 | ETHUSDT | aggTrades | 2024-10-07 | 2024-12-16 | 71 / 731 | 71 | 123,950,165 | 71 | 71 |
 | ETHUSDT | klines | 2024-10-07 | 2024-12-16 | 71 / 731 | 71 | 102,240 | 71 | 71 |
