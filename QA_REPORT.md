@@ -3,7 +3,7 @@
 ....................................................                     [100%]
 52 passed in 0.51s
 
-Manifest: 1338 QA-passing, 3 quarantined, 1338 verified remote partitions.
+Manifest: 1339 QA-passing, 3 quarantined, 1339 verified remote partitions.
 
 Absent local files after verified pruning are REMOTE_NOT_RECHECKED, never a fresh validation PASS. SHA-256/size/readback times remain in the manifest. Real restoration evidence is in reports/remote_execution.json and reports/funding_execution.json when available.
 
