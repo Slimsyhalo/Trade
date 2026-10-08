@@ -6568,5 +6568,83 @@
       "crc_check": "PASS"
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "main/SOLUSDT/fundingRate/2026-09-01/normalized/a3387b5532179fee5e88fb4124d80af53d554941bbafa8599a5c0a127696799c": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:39:53.437750+00:00",
+    "source": {
+      "ledger": "main",
+      "dataset": "fundingRate",
+      "symbol": "SOLUSDT",
+      "partition_key": "SOLUSDT/fundingRate/2026-09-01",
+      "object_kind": "normalized",
+      "sha256": "a3387b5532179fee5e88fb4124d80af53d554941bbafa8599a5c0a127696799c",
+      "bytes": 3999,
+      "remote": {
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622388058",
+        "asset_id": 622388058,
+        "bytes": 3999,
+        "sha256": "a3387b5532179fee5e88fb4124d80af53d554941bbafa8599a5c0a127696799c",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/data-SOLUSDT-fundingRate-2026-09/a3387b5532179fee5e88fb4124d80af53d554941bbafa8599a5c0a127696799c-01-8503ce0767496c63.parquet",
+        "verified_at": 1791477403.3892093
+      },
+      "expected_rows": 90,
+      "source_identity": null,
+      "source_ledger_sha": "a4ab5406a199a02590c5c35c943af538e3750fd8"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 90,
+      "first_event": 1788220800005,
+      "last_event": 1790784000002,
+      "event_unit": "ms",
+      "unknown_availability_rows": 90,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "calc_time",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "funding_interval_hours",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "last_funding_rate",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "event_time_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "available_at_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "availability_basis",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
