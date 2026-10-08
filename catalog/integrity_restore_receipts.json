@@ -9678,5 +9678,103 @@
       "crc_check": "PASS"
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "main/BTCUSDT/metrics/2024-12-24/normalized/bab6b23ef07b9b33b2131a458211e0049d7b51b25fdb40d34cff6290ffc6a1b2": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:42:33.396461+00:00",
+    "source": {
+      "ledger": "main",
+      "dataset": "metrics",
+      "symbol": "BTCUSDT",
+      "partition_key": "BTCUSDT/metrics/2024-12-24",
+      "object_kind": "normalized",
+      "sha256": "bab6b23ef07b9b33b2131a458211e0049d7b51b25fdb40d34cff6290ffc6a1b2",
+      "bytes": 16258,
+      "remote": {
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622778198",
+        "asset_id": 622778198,
+        "bytes": 16258,
+        "sha256": "bab6b23ef07b9b33b2131a458211e0049d7b51b25fdb40d34cff6290ffc6a1b2",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/data-BTCUSDT-metrics-2024-12/bab6b23ef07b9b33b2131a458211e0049d7b51b25fdb40d34cff6290ffc6a1b2-24-499bd68c5fd1f195.parquet",
+        "verified_at": 1791487450.1946745
+      },
+      "expected_rows": 288,
+      "source_identity": null,
+      "source_ledger_sha": "a4ab5406a199a02590c5c35c943af538e3750fd8"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 288,
+      "first_event": 1734998400000,
+      "last_event": 1735084500000,
+      "event_unit": "ms",
+      "unknown_availability_rows": 288,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "create_time",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sum_open_interest",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sum_open_interest_value",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "count_toptrader_long_short_ratio",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sum_toptrader_long_short_ratio",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "count_long_short_ratio",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sum_taker_long_short_vol_ratio",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "event_time_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "available_at_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "availability_basis",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
