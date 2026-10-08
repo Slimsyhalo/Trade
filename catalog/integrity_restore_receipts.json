@@ -6226,5 +6226,83 @@
       "crc_check": "PASS"
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "main/ETHUSDT/fundingRate/2024-11-01/normalized/35ea26d05f3004ab511dae70c4e80c578ad8fad96bb69e9073e43e86c2ebd1e3": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:39:29.404847+00:00",
+    "source": {
+      "ledger": "main",
+      "dataset": "fundingRate",
+      "symbol": "ETHUSDT",
+      "partition_key": "ETHUSDT/fundingRate/2024-11-01",
+      "object_kind": "normalized",
+      "sha256": "35ea26d05f3004ab511dae70c4e80c578ad8fad96bb69e9073e43e86c2ebd1e3",
+      "bytes": 3852,
+      "remote": {
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622337216",
+        "asset_id": 622337216,
+        "bytes": 3852,
+        "sha256": "35ea26d05f3004ab511dae70c4e80c578ad8fad96bb69e9073e43e86c2ebd1e3",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/data-ETHUSDT-fundingRate-2024-11/35ea26d05f3004ab511dae70c4e80c578ad8fad96bb69e9073e43e86c2ebd1e3-01-636a4c7c86445c27.parquet",
+        "verified_at": 1791476127.9337842
+      },
+      "expected_rows": 90,
+      "source_identity": null,
+      "source_ledger_sha": "a4ab5406a199a02590c5c35c943af538e3750fd8"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 90,
+      "first_event": 1730419200000,
+      "last_event": 1732982400000,
+      "event_unit": "ms",
+      "unknown_availability_rows": 90,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "calc_time",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "funding_interval_hours",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "last_funding_rate",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "event_time_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "available_at_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "availability_basis",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
