@@ -21,12 +21,32 @@ from .sequence import SequenceTracker
 from .spool import Sink, publish_pending
 
 
+class BatchPersistenceError(RuntimeError):
+    """Received batch has unconfirmed persistence; never retry as transport."""
+
+
 async def capture(route, symbols, sink, deadline):
     suffixes = ['bookTicker', 'depth@100ms'] if route == 'public' else ['aggTrade', 'markPrice@1s', 'forceOrder']
     streams = '/'.join(symbol.lower()+'@'+topic for symbol in symbols for topic in suffixes)
     url = 'wss://fstream.binance.com/'+route+'/stream?streams='+streams
     tracker = SequenceTracker(sink.sequence_state)
     attempt = 0
+    batch=[];batch_bytes=0;batch_started=time.monotonic()
+    def flush_batch():
+        nonlocal batch,batch_bytes,batch_started
+        pending=batch
+        batch=[];batch_bytes=0;batch_started=time.monotonic()
+        if pending:
+            try:sink.write_batch(pending)
+            except Exception as error:
+                sink.unconfirmed_buffer_rows=getattr(sink,'unconfirmed_buffer_rows',0)+len(pending)
+                raise BatchPersistenceError(f'Batch persistence unconfirmed for {len(pending)} received rows') from error
+    def queue(kind,payload,stamp):
+        nonlocal batch_bytes
+        # Bound by a conservative re-encoded size, not provider frame size.
+        size=len(json.dumps(payload,separators=(',',':')).encode())+256
+        if batch and (len(batch)>=128 or batch_bytes+size>4_000_000):flush_batch()
+        batch.append((kind,payload,stamp,tracker.last.copy()));batch_bytes+=size
     while time.monotonic() < deadline:
         try:
             async with websockets.connect(url, open_timeout=20, ping_interval=20, max_queue=1024) as socket:
@@ -36,31 +56,38 @@ async def capture(route, symbols, sink, deadline):
                 async for message in socket:
                     if time.monotonic() >= deadline:
                         break
+                    received_ns=time.time_ns()
                     try:
                         envelope = json.loads(message)
                         if not isinstance(envelope, dict):
                             raise ValueError('Combined message must be an object')
                     except (ValueError, TypeError) as error:
+                        flush_batch()
                         sink.write('malformed_message', dict(raw=message.decode('utf-8', errors='replace') if isinstance(message, bytes) else message,
                                                              error=str(error)))
                         continue
                     markers = tracker.observe(envelope)
-                    sink.sequence_state = tracker.last.copy()
-                    # Preserve RAW even if sequence analysis calls it a duplicate.
-                    sink.write('event', envelope)
-                    for kind, payload in markers:
-                        sink.write(kind, payload)
+                    # Preserve consume-time receipt and every raw duplicate.
+                    queue('event',envelope,received_ns)
+                    for kind,payload in markers:queue(kind,payload,time.time_ns())
+                    if len(batch)>=128 or time.monotonic()-batch_started>=0.1:
+                        flush_batch()
+                        await asyncio.sleep(0)
                 # A clean close before deadline also means interrupted coverage.
                 if time.monotonic() < deadline:
+                    flush_batch()
                     sink.write('disconnect', dict(error='Remote stream ended', unrecoverable_gap_possible=True, book_valid=False))
                     attempt += 1
         except asyncio.CancelledError:
+            flush_batch()
             sink.write('capture_stop', dict(reason='deadline_or_cancellation', continuity='stopped', book_valid=False))
             raise
         except (OSError, TimeoutError, websockets.exceptions.WebSocketException) as error:
+            flush_batch()
             sink.write('disconnect', dict(error=str(error), unrecoverable_gap_possible=True, book_valid=False))
             attempt += 1
         finally:
+            flush_batch()
             sink.close()
         if attempt and time.monotonic() < deadline:
             await asyncio.sleep(min(max(0, deadline-time.monotonic()), min(30, 2**min(attempt, 5))+random.random()))
@@ -112,7 +139,7 @@ async def run(cfg, seconds, remote=None, *, root=Path('data/live'), drain_second
     segment_bytes = cfg.get('live_segment_bytes', 8_000_000)
     if type(rotation) is not int or type(segment_bytes) is not int or rotation <= 0 or segment_bytes <= 0:
         raise ValueError('Positive integer live segment limits required')
-    sinks = [Sink(root, budget, route, max_seconds=rotation, max_bytes=segment_bytes)
+    sinks = [Sink(root, budget, route, max_seconds=rotation, max_bytes=segment_bytes,release_prefix=cfg.get('live_release_prefix','live'))
              for route in ('public', 'market', 'snapshots')]
     started = time.monotonic()
     deadline = started + seconds
@@ -146,6 +173,8 @@ async def run(cfg, seconds, remote=None, *, root=Path('data/live'), drain_second
                   elapsed_seconds=round(time.monotonic()-started, 3), requested_capture_seconds=seconds,
                   publication=publication, segment_states=dict(states),
                   retained_bytes=sum(r.get('bytes', 0) for s in sinks for r in s.records),
+                  unconfirmed_buffer_rows={s.route:getattr(s,'unconfirmed_buffer_rows',0) for s in sinks},
+                  batch_policy='Bounded 128 records/4MB; original application consume timestamps retained; volatile until batch persistence. No replay of an ambiguous failed batch.',
                   notice='Includes existing spool; no continuous coverage or valid L2 book claim; no pruning',
                   error=str(error) if error is not None else None)
     atomic_json(root/'session-report.json', report)

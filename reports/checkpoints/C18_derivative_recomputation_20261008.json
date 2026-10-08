@@ -1,0 +1,33 @@
+{
+  "checkpoint_id": "C18-derivative-recomputation-20261008",
+  "timestamp_utc": "2026-10-08T18:53:37.111718+00:00",
+  "source_main_sha": "0edc1bc1bc5b9830487c060c78778c1d323e8954",
+  "phase_1_accepted": false,
+  "C18_accepted": false,
+  "completed": [
+    "Exact sampled mark/index bar-close basis transform",
+    "Native-unit observed and cadence-matched OI changes with previous-partition lineage",
+    "Three actual source partitions independently restored",
+    "Byte-identical fixed-schema recomputation of 1728 actual derivative rows"
+  ],
+  "tests": "........................................................................ [ 37%]\n........................................................................ [ 75%]\n..............................................                           [100%]\n190 passed in 1.95s",
+  "source_restoration_ref": "reports/independent_derivative_source_restoration.json",
+  "real_recomputation_ref": "reports/C18_derivative_real_probe.json",
+  "current_main_acquisition_preserved": true,
+  "original_live_recovery": {
+    "status": "ALL_CAPTURE_SEGMENTS_REMOTE_VERIFIED_WITH_SAMPLE_RESTORATION",
+    "remote_verified_segments": 227,
+    "raw_rows": 6578897,
+    "bytes": 291127111,
+    "pending_segments": 0,
+    "evidence": "https://github.com/Slimsyhalo/Trade/blob/codex/live-artifact-recovery/reports/live_recovery/37795816483-1.json"
+  },
+  "operational_proof_status": "DERIVATIVE_HOSTED_PUBLICATION_PENDING",
+  "effective_codex_work_seconds": null,
+  "next": [
+    "Verify hosted publication and sample restoration",
+    "Continue derivation for all currently ready source sets",
+    "Integrate scheduled derivative workflow onto main only at a safe writer boundary",
+    "Complete all other C18 source families and causal/unit limitations"
+  ]
+}

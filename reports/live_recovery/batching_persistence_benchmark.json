@@ -1,0 +1,29 @@
+{
+  "classification": "PERSISTENCE_ONLY_REPLAY_NOT_LIVE_CONTINUITY",
+  "source_original_spool_sha": "0edc1bc1bc5b9830487c060c78778c1d323e8954",
+  "source_segment_sha256": "494cdf0ff19d46d2fdaafb9d5863860f420aa7cb78254db0619403425856e029",
+  "source_code_files_sha256": {
+    "benchmark_live_batching.py": "4afa74a48638aed55eefc1decab94609dead950351473e72492b3be18f4a0f4a",
+    "live_collector/spool.py": "63771af900ea2e3c2400f67ec951371c7219d62bdfbab902139bb10ffed9ef26"
+  },
+  "results": {
+    "original": {
+      "rows": 10000,
+      "elapsed_seconds": 0.6713532559997475,
+      "process_cpu_seconds": 0.671383073,
+      "compressed_bytes": 407469,
+      "payload_preservation": "PASS"
+    },
+    "batched": {
+      "rows": 10000,
+      "elapsed_seconds": 0.10168521699961275,
+      "process_cpu_seconds": 0.10159888300000008,
+      "compressed_bytes": 394137,
+      "payload_preservation": "PASS"
+    }
+  },
+  "elapsed_speed_ratio": 6.602269983868985,
+  "C20_accepted": false,
+  "network_improvement_certified": false,
+  "limitations": "One local workload of actual payloads. Original receipt timestamps regenerated; batched timestamps preserved. Different gzip policy and flush frequency change bytes. No inference of network throughput, permanent service, kernel latency or root cause of past disconnects. Temporary benchmark copies removed; originals unchanged."
+}
