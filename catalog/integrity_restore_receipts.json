@@ -388,5 +388,135 @@
       "strict_causal_replay_certified": false
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "derived/ETHUSDT/basis_close_1m/2024-10-17/c14edbe2ee31c0d944ebd806964c322ee1bcdd3476a953454f492a13c57c0fcd/product/f27c2f21b82be779ef810bf601ada238c7b74f503565cd4df1f8f61733d58fe8": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:34:09.348824+00:00",
+    "source": {
+      "ledger": "derived",
+      "dataset": "basis_close_1m",
+      "symbol": "ETHUSDT",
+      "partition_key": "ETHUSDT/basis_close_1m/2024-10-17/c14edbe2ee31c0d944ebd806964c322ee1bcdd3476a953454f492a13c57c0fcd",
+      "object_kind": "product",
+      "sha256": "f27c2f21b82be779ef810bf601ada238c7b74f503565cd4df1f8f61733d58fe8",
+      "bytes": 110621,
+      "remote": {
+        "asset_id": 622794055,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622794055",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/derived-ETHUSDT-basis_close_1m-2024-10/f27c2f21b82be779ef810bf601ada238c7b74f503565cd4df1f8f61733d58fe8-basis_close_1m-c14edbe2ee31c0d944ebd806964c322ee1bcdd3476a953454f492a13c57c0fcd.parquet",
+        "sha256": "f27c2f21b82be779ef810bf601ada238c7b74f503565cd4df1f8f61733d58fe8",
+        "bytes": 110621,
+        "verified_at": 1791487853.8808603
+      },
+      "expected_rows": 1440,
+      "source_identity": "c14edbe2ee31c0d944ebd806964c322ee1bcdd3476a953454f492a13c57c0fcd",
+      "source_ledger_sha": "7c9d5561d3019df4b1c53bfaccce63ed40319bfb"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 1440,
+      "first_event": 1729123259999,
+      "last_event": 1729209599999,
+      "event_unit": "ms",
+      "unknown_availability_rows": 0,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "window_start_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "window_end_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "event_time_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "mark_close_original",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "index_close_original",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sampled_basis_quote_units",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sampled_relative_basis",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "relative_basis_numerator",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "relative_basis_denominator",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "available_at_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "input_availability_bases",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "classification",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "strict_causal_replay_certified",
+          "type": "bool",
+          "nullable": true
+        },
+        {
+          "name": "transform_version",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "decimal_precision",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "decimal_rounding",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "transform_version": "derivatives-1",
+        "source_identity": "c14edbe2ee31c0d944ebd806964c322ee1bcdd3476a953454f492a13c57c0fcd",
+        "inputs": "{\"indexPriceKlines\":{\"key\":\"ETHUSDT/indexPriceKlines/2024-10-17\",\"normalized_sha256\":\"98057da5edaa84436df96a0f295a03ce530c29baf6b2a9228fdf31e4009b9142\",\"raw_sha256\":\"f6d600ef33d3b1dd9424262e44e57ecdec405005c19320ae07043e062aeeb987\"},\"markPriceKlines\":{\"key\":\"ETHUSDT/markPriceKlines/2024-10-17\",\"normalized_sha256\":\"5e575b86b681793b2c991ff86d181dec5b77c83a5770a22d4ff89ae70b3592eb\",\"raw_sha256\":\"665f877f07d5d71f28de3137b85cbcbdb2d9bc9cd8e1a81a69cea7fecb2ccf4c\"},\"metrics\":{\"key\":\"ETHUSDT/metrics/2024-10-17\",\"normalized_sha256\":\"ad88a257b2aef97addb33c8f7399d557dd2b91937e6fd033802a758a33a8394e\",\"raw_sha256\":\"a690bc284b35cf70ed5ebf48e3e9e9a2cc88c2530b2394a2f18bf4834e48c737\"},\"previous_metrics\":{\"key\":\"ETHUSDT/metrics/2024-10-16\",\"normalized_sha256\":\"05e0f9746de9087c2743891e0d9746466a1f40dc8eaf41fb32a4ad9fcb7973f4\",\"raw_sha256\":\"fddbbb19150aae21c06607a2737e21b6b3a052f7edef42d8b65c5dda9991c86b\"}}",
+        "timezone": "UTC",
+        "strict_causal_replay_certified": "false"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
