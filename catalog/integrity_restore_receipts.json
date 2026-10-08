@@ -9385,5 +9385,128 @@
       "crc_check": "PASS"
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "main/SOLUSDT/markPriceKlines/2024-12-24/normalized/84fcc4b09dc8e8d9ab2fb8c133417a84b114cb5fb2d6c51a9182159eb0fe0c0c": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:42:17.463280+00:00",
+    "source": {
+      "ledger": "main",
+      "dataset": "markPriceKlines",
+      "symbol": "SOLUSDT",
+      "partition_key": "SOLUSDT/markPriceKlines/2024-12-24",
+      "object_kind": "normalized",
+      "sha256": "84fcc4b09dc8e8d9ab2fb8c133417a84b114cb5fb2d6c51a9182159eb0fe0c0c",
+      "bytes": 57940,
+      "remote": {
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622784946",
+        "asset_id": 622784946,
+        "bytes": 57940,
+        "sha256": "84fcc4b09dc8e8d9ab2fb8c133417a84b114cb5fb2d6c51a9182159eb0fe0c0c",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/data-SOLUSDT-markPriceKlines-2024-12/84fcc4b09dc8e8d9ab2fb8c133417a84b114cb5fb2d6c51a9182159eb0fe0c0c-24-d2ba9616a0daa022.parquet",
+        "verified_at": 1791487611.3034055
+      },
+      "expected_rows": 1440,
+      "source_identity": null,
+      "source_ledger_sha": "a4ab5406a199a02590c5c35c943af538e3750fd8"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 1440,
+      "first_event": 1734998400000,
+      "last_event": 1735084740000,
+      "event_unit": "ms",
+      "unknown_availability_rows": 0,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "open_time",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "open",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "high",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "low",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "close",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "volume",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "close_time",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "quote_volume",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "number_of_trades",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "taker_buy_base_volume",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "taker_buy_quote_volume",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "ignore",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "event_time_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "available_at_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "availability_basis",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }

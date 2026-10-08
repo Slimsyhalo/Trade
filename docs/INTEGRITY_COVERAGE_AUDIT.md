@@ -46,7 +46,7 @@ Immutable source heads: main `a4ab5406a199a02590c5c35c943af538e3750fd8`, expansi
 | um_trades | ETHUSDT | 7/731 | 2 | 2024-10-11..2024-10-11; 2024-10-15..2026-10-07 |
 | um_trades | SOLUSDT | 6/731 | 2 | 2024-10-11..2024-10-11; 2024-10-14..2026-10-07 |
 
-Fresh restoration campaign state: **RUNNING**. Planned source-bound samples: 150; completed this immutable plan: 125; lifetime restored objects: 125.
+Fresh restoration campaign state: **RUNNING**. Planned source-bound samples: 150; completed this immutable plan: 126; lifetime restored objects: 126.
 
 First and last admitted partitions of each source/symbol/ledger are sampled. Every original ZIP member is read to EOF for CRC integrity; Parquet rows, schema lineage, event ordering and availability boundaries are scanned. Outputs are only pruned after an audit checkpoint is pushed. This is sampled restoration, not verification of every object or source completeness. Historical publication timing remains uncertified.
 
