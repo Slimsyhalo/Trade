@@ -1,0 +1,108 @@
+name: Funding archive checkpoint
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/data-foundation-next]
+    paths: ['.github/workflows/funding.yml']
+permissions:
+  contents: write
+concurrency:
+  group: quantlab-data-writer
+  cancel-in-progress: false
+jobs:
+  funding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Integrate tested source onto latest main after writer lock
+        env:
+          CHECKPOINT_SHA: ${{ github.sha }}
+        run: |
+          git fetch origin main
+          source_paths=(quantlab_core/sources.py quantlab_core/normalize.py quantlab_core/pipeline.py quantlab_core/research.py quantlab.py config.yaml build_audit.py build_dictionary.py remote_funding.py remote_history.py tests/test_funding_archives.py tests/test_current_audit.py tests/fixtures/funding DATA_SOURCES.md DATA_DICTIONARY.md RESEARCH_HANDOFF.md FOUNDATION_CHECKPOINT.md README.md)
+          if ! git diff --quiet 70f80d749f4a5976d2ebc3a79b616966eea5d16d origin/main -- "${source_paths[@]}"; then
+            git diff --exit-code "$CHECKPOINT_SHA" origin/main -- "${source_paths[@]}"
+          fi
+          git checkout -B funding-runtime origin/main
+          git checkout "$CHECKPOINT_SHA" -- "${source_paths[@]}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.lock
+      - name: Verify source checkpoint
+        run: |
+          set -o pipefail
+          python -m pytest -q | tee reports/tests.txt
+          python build_dictionary.py
+      - name: Configure checkpoint author
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Acquire, read back, restore and checkpoint monthly funding
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CHECKPOINT_SOURCE_SHA: ${{ github.sha }}
+        run: python remote_funding.py
+      - name: Preserve diagnostic payloads on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: funding-checkpoint-diagnostics
+          path: |
+            reports/
+            manifest.jsonl
+            data/
+          retention-days: 14
+  continue-history:
+    needs: funding
+    runs-on: ubuntu-latest
+    timeout-minutes: 270
+    strategy:
+      max-parallel: 1
+      fail-fast: true
+      matrix:
+        batch: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Check remaining authorized work
+        id: gate
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          report=json.loads(Path('reports/historical_execution.json').read_text())
+          run=report.get('status') not in ('SCOPED_SCAN_FINISHED','BLOCKED')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out: out.write('run='+str(run).lower()+'\n')
+          print('Historical scan status:',report.get('status'),'continue:',run)
+          PY
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: '3.12'
+      - if: steps.gate.outputs.run == 'true'
+        run: python -m pip install -r requirements.lock
+      - if: steps.gate.outputs.run == 'true'
+        run: |
+          set -o pipefail
+          python -m pytest -q | tee reports/tests.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Continue from verified manifest and publish checkpoints
+        if: steps.gate.outputs.run == 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python remote_history.py
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: history-batch-${{ matrix.batch }}-diagnostics
+          path: |
+            reports/
+            manifest.jsonl
+            data/
+          retention-days: 14

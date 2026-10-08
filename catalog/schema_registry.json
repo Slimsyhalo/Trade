@@ -1,0 +1,939 @@
+{
+  "schema_version": "research-schema-registry-1",
+  "classification": "SCHEMA_EVIDENCE_NOT_COVERAGE_CERTIFICATE",
+  "timezone": "UTC; original publisher timezone/DST retained",
+  "schemas": {
+    "aggTrades": {
+      "fields": [
+        {
+          "name": "agg_trade_id",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "exchange aggregate identifier",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "price",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "quantity",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "first_trade_id",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "exchange identifier",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "last_trade_id",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "exchange identifier",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "timestamp",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "is_buyer_maker",
+          "storage_type": "bool",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "symbol",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "event_time_ms",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch milliseconds",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "available_at_ms",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch milliseconds; nullable",
+          "qa_null_policy": "unknown availability retained; never zero-filled"
+        },
+        {
+          "name": "availability_basis",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      }
+    },
+    "trades": {
+      "fields": [
+        {
+          "name": "trade_id",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "exchange source identifier",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "price",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "quantity",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "quote_quantity",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "quote asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "timestamp",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "is_buyer_maker",
+          "storage_type": "bool",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "symbol",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "event_time_ms",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch milliseconds",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "available_at_ms",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch milliseconds; nullable",
+          "qa_null_policy": "unknown availability retained; never zero-filled"
+        },
+        {
+          "name": "availability_basis",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      }
+    },
+    "klines": {
+      "fields": [
+        {
+          "name": "open_time",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "open",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "high",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "low",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "close",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "volume",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "close_time",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "quote_volume",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "quote asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "number_of_trades",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "count",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "taker_buy_base_volume",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "taker_buy_quote_volume",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "quote asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "ignore",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "symbol",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "event_time_ms",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch milliseconds",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "available_at_ms",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch milliseconds; nullable",
+          "qa_null_policy": "unknown availability retained; never zero-filled"
+        },
+        {
+          "name": "availability_basis",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      }
+    },
+    "metrics": {
+      "fields": [
+        {
+          "name": "create_time",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "symbol",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "sum_open_interest",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "sum_open_interest_value",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "count_toptrader_long_short_ratio",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "sum_toptrader_long_short_ratio",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "count_long_short_ratio",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "sum_taker_long_short_vol_ratio",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "event_time_ms",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch milliseconds",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "available_at_ms",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch milliseconds; nullable",
+          "qa_null_policy": "unknown availability retained; never zero-filled"
+        },
+        {
+          "name": "availability_basis",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      }
+    },
+    "fundingRate": {
+      "fields": [
+        {
+          "name": "calc_time",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "funding_interval_hours",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "last_funding_rate",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "symbol",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "event_time_ms",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch milliseconds",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "available_at_ms",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch milliseconds; nullable",
+          "qa_null_policy": "unknown availability retained; never zero-filled"
+        },
+        {
+          "name": "availability_basis",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      }
+    },
+    "spot_trades": {
+      "fields": [
+        {
+          "name": "trade_id",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "exchange source identifier",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "price",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "quantity",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "quote_quantity",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "quote asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "timestamp",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "is_buyer_maker",
+          "storage_type": "bool",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "is_best_match",
+          "storage_type": "bool",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "symbol",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "source_time_unit",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "event_time_us",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch microseconds",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "available_at_us",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch microseconds; nullable",
+          "qa_null_policy": "unknown availability retained; never zero-filled"
+        },
+        {
+          "name": "availability_basis",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "extended-1",
+        "timezone": "UTC",
+        "decimals": "exact source strings",
+        "book_semantics": "percentage summaries are not L2"
+      }
+    },
+    "spot_klines_1m": {
+      "fields": [
+        {
+          "name": "open_time",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "open",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "high",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "low",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "close",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "volume",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "close_time",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "quote_volume",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "quote asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "number_of_trades",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "count",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "taker_buy_base_volume",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "taker_buy_quote_volume",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "quote asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "ignore",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "symbol",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "source_time_unit",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "event_time_us",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch microseconds",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "available_at_us",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch microseconds; nullable",
+          "qa_null_policy": "unknown availability retained; never zero-filled"
+        },
+        {
+          "name": "availability_basis",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "extended-1",
+        "timezone": "UTC",
+        "decimals": "exact source strings",
+        "book_semantics": "percentage summaries are not L2"
+      }
+    },
+    "um_bookDepth_summary": {
+      "fields": [
+        {
+          "name": "timestamp",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "percentage",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "signed percentage distance band; not a price level",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "depth",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "cumulative base asset quantity at percentage band",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "notional",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "cumulative quote notional at percentage band",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "symbol",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "source_time_unit",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "event_time_us",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch microseconds",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "available_at_us",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch microseconds; nullable",
+          "qa_null_policy": "unknown availability retained; never zero-filled"
+        },
+        {
+          "name": "availability_basis",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "extended-1",
+        "timezone": "UTC",
+        "decimals": "exact source strings",
+        "book_semantics": "percentage summaries are not L2"
+      }
+    },
+    "tape-flow-1": {
+      "fields": [
+        {
+          "name": "window_start_us",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch microseconds",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "window_end_us",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch microseconds",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "source_rows",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "count",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "buy_base_volume",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "sell_base_volume",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "total_base_volume",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "price_quantity_notional",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "quote asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "volume_delta",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "cvd",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset from explicit anchor",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "cvd_anchor",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "cvd_initial",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "vwap_numerator",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "quote asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "vwap_denominator",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "vwap",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "quote per base asset",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "vwap_decimal_precision",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "decimal significant digits",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "vwap_rounding",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "volume_at_price_json",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "ordered [exact price string, base quantity string] pairs",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "available_at_us",
+          "storage_type": "int64",
+          "storage_nullable": true,
+          "unit": "UTC epoch microseconds; nullable",
+          "qa_null_policy": "unknown availability retained; never zero-filled"
+        },
+        {
+          "name": "availability_basis",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "input_availability_bases",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "continuity",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "symbol",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "source_parquet_sha256",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "source_raw_sha256",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "transform_version",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        },
+        {
+          "name": "source_admission_scope",
+          "storage_type": "string",
+          "storage_nullable": true,
+          "unit": "See dataset-specific semantic policy",
+          "qa_null_policy": "See source/transform admission policy"
+        }
+      ],
+      "arrow_metadata": {
+        "transform_version": "tape-flow-1",
+        "classification": "DERIVED",
+        "strict_replay": "input and window-boundary assumptions require admission"
+      }
+    }
+  },
+  "semantic_policies": {
+    "core_futures": "Original timestamps milliseconds, exact numeric lexemes retained. Mark/index OHLC is quote/base price; premium OHLC is signed dimensionless ratio. Placeholder volumes/counts are not executions.",
+    "spot": "Original timestamps and source_time_unit retained: milliseconds before 2025-01-01, microseconds from that date. event_time_us is exact normalized UTC; bar-close availability is an assumption.",
+    "percentage_depth": "UTC text seconds mapped to integer microseconds; signed cumulative percentage bands are not L2 price levels or synchronized snapshots. Staleness and completeness require separate QA.",
+    "flow": "Exact decimal strings; 50 significant-digit HALF_EVEN VWAP with numerator/denominator. Explicit UTC partition CVD reset. Output availability cannot precede window closure or contributing input availability; historical receipt remains uncertified.",
+    "live": "JSONL gzip envelope: receive_timestamp_ns integer, kind string, payload original parsed object. E/T exchange milliseconds where present; U/u/pu quote/depth identifiers unchanged. Connection and continuity markers retained; local clock regressions never silently reordered. Raw messages do not certify synchronized L2.",
+    "context": "context-1 retains source URL/hash, publication claim, original timezone/DST label and observed acquisition time. Historical effective availability is null and original historical vintage is uncertified. Empty revision lineage does not prove no revisions.",
+    "nullability": "Arrow storage nullability is distinct from QA. Unknown availability is retained as null; no zero-filled missing observations or universal continuity rules."
+  },
+  "flow_schema_evidence": {
+    "source_commit_sha": "4247fbf96f931eee9106415bd50977c3f0b908f3",
+    "derived_parquet_sha256": "e240fb33db46673aa2168450458b60a4b125ad7eb8593778839a97b738424330",
+    "derived_rows": 1440,
+    "restore_state": "RESTORED_AND_TESTED"
+  }
+}

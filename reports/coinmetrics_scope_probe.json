@@ -1,0 +1,82 @@
+[
+  {
+    "asset": "btc",
+    "requested_params": {
+      "assets": "btc",
+      "metrics": "CapMrktCurUSD,PriceUSD",
+      "frequency": "1d",
+      "start_time": "2024-10-07",
+      "end_time": "2024-10-08",
+      "page_size": 10
+    },
+    "source_url": "https://community-api.coinmetrics.io/v4/timeseries/asset-metrics?assets=btc&metrics=CapMrktCurUSD%2CPriceUSD&frequency=1d&start_time=2024-10-07&end_time=2024-10-08&page_size=10",
+    "http_status": 200,
+    "body": {
+      "data": [
+        {
+          "asset": "btc",
+          "time": "2024-10-07T00:00:00.000000000Z",
+          "CapMrktCurUSD": "1233629090802.9285200007726288",
+          "PriceUSD": "62416.508829924"
+        },
+        {
+          "asset": "btc",
+          "time": "2024-10-08T00:00:00.000000000Z",
+          "CapMrktCurUSD": "1227926230938.88736872632648835",
+          "PriceUSD": "62126.3273769725"
+        }
+      ]
+    },
+    "observed_at": "2026-10-08T14:03:06.307695+00:00"
+  },
+  {
+    "asset": "eth",
+    "requested_params": {
+      "assets": "eth",
+      "metrics": "CapMrktCurUSD,PriceUSD",
+      "frequency": "1d",
+      "start_time": "2024-10-07",
+      "end_time": "2024-10-08",
+      "page_size": 10
+    },
+    "source_url": "https://community-api.coinmetrics.io/v4/timeseries/asset-metrics?assets=eth&metrics=CapMrktCurUSD%2CPriceUSD&frequency=1d&start_time=2024-10-07&end_time=2024-10-08&page_size=10",
+    "http_status": 200,
+    "body": {
+      "data": [
+        {
+          "asset": "eth",
+          "time": "2024-10-07T00:00:00.000000000Z",
+          "CapMrktCurUSD": "292108827728.6863698216328977392588328303",
+          "PriceUSD": "2426.58129005845"
+        },
+        {
+          "asset": "eth",
+          "time": "2024-10-08T00:00:00.000000000Z",
+          "CapMrktCurUSD": "293676090545.92382097256396257091572227175",
+          "PriceUSD": "2439.58985277615"
+        }
+      ]
+    },
+    "observed_at": "2026-10-08T14:03:07.357662+00:00"
+  },
+  {
+    "asset": "sol",
+    "requested_params": {
+      "assets": "sol",
+      "metrics": "CapMrktCurUSD,PriceUSD",
+      "frequency": "1d",
+      "start_time": "2024-10-07",
+      "end_time": "2024-10-08",
+      "page_size": 10
+    },
+    "source_url": "https://community-api.coinmetrics.io/v4/timeseries/asset-metrics?assets=sol&metrics=CapMrktCurUSD%2CPriceUSD&frequency=1d&start_time=2024-10-07&end_time=2024-10-08&page_size=10",
+    "http_status": 403,
+    "body": {
+      "error": {
+        "type": "forbidden",
+        "message": "Requested metric 'CapMrktCurUSD' with frequency '1d' for asset 'sol' is not available with supplied credentials."
+      }
+    },
+    "observed_at": "2026-10-08T14:03:08.494209+00:00"
+  }
+]

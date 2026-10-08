@@ -1,0 +1,62 @@
+name: Resumable bounded live observations
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/live-observation.yml']
+  schedule:
+    - cron: '37 */3 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: quantlab-live-writer
+  cancel-in-progress: false
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/live-observations
+          fetch-depth: 0
+      - name: Overlay tested capture source while retaining prior observations
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git fetch origin main
+          mapfile -t source_paths < <(git ls-tree -r --name-only "$SOURCE_SHA" | sed -n '/\.py$/p; /^requirements.lock$/p; /^config.yaml$/p')
+          git checkout "$SOURCE_SHA" -- "${source_paths[@]}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -r requirements.lock
+          python -m pytest -q
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Capture a finite session; checkpoint readbacks and restore route samples
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CHECKPOINT_SOURCE_SHA: ${{ github.sha }}
+          LIVE_LEDGER_BRANCH: codex/live-observations
+          LIVE_CAPTURE_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+          LIVE_SECONDS: '7200'
+        run: python remote_live.py
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: live-observation-${{ github.run_id }}-${{ github.run_attempt }}-diagnostics
+          path: |
+            reports/live_execution/
+            catalog/live/
+            data/live/
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: live-observation-${{ github.run_id }}-${{ github.run_attempt }}-receipts
+          path: |
+            reports/live_execution/
+            catalog/live/
+          retention-days: 7

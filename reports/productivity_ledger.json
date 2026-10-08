@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "sessions": [
+    {
+      "file": "reports/work_sessions/C12_live_recovery_2026-10-08.json",
+      "checkpoint": "C12 live recovery source checkpoint",
+      "measured_work_window_seconds": 851.6,
+      "effective_active_seconds": null
+    },
+    {
+      "checkpoint": "C16.1-C20.1 source",
+      "started_at": "2026-10-08T13:31:20.474Z",
+      "source_validation_ended_at": "2026-10-08T13:54:56.310883+00:00",
+      "effective_active_seconds": null,
+      "external_wait_seconds": null,
+      "output": {
+        "inventory_datasets": 70,
+        "new_regression_tests": 9,
+        "total_passing_tests": 120,
+        "official_HEAD_probes": 63,
+        "bounded_prefix_listings": 6,
+        "new_dataset_partitions_acquired": 0
+      }
+    },
+    {
+      "checkpoint": "C17.1 / C18.1 / C19.1",
+      "source_validation_ended_at": "2026-10-08T14:36:02.598387+00:00",
+      "effective_active_seconds": null,
+      "external_wait_seconds": null,
+      "measured_external_processes": {
+        "effective_codex_work_seconds": null,
+        "acquisition_wait_not_active_work": true,
+        "actual_external_context_attempt1_elapsed_seconds": 130.038,
+        "actual_external_context_resume_elapsed_seconds": 43.017,
+        "flow_external_seconds": 38.512,
+        "limitation": "No fabricated active-time total; foreground model intervals versus tool waits remain incompletely instrumented."
+      },
+      "output": {
+        "total_passing_tests": 143,
+        "new_official_documents": 109,
+        "trade_diagnostic_rows": 18779587,
+        "derived_source_rows": 9424949,
+        "derived_rows": 4320,
+        "live_remote_verified_rows": 1177194
+      }
+    },
+    {
+      "checkpoint": "C16-C22-resume-recovery-20261008",
+      "request_timestamp_utc": "2026-10-08T18:18:25+00:00",
+      "checkpoint_timestamp_utc": "2026-10-08T18:35:58.716534+00:00",
+      "effective_active_seconds": null,
+      "external_wait_seconds": null,
+      "measurement_limitation": "Model active time versus tool/network waits is not instrumented; no elapsed duration relabeled as effective Codex work",
+      "output": {
+        "total_passing_tests": 176,
+        "actual_live_artifact_provenance_checked_segments": 227,
+        "source_inventory_entries": 70,
+        "newly_acquired_partitions_this_foreground": 0
+      }
+    }
+  ],
+  "effective_active_seconds_total": null,
+  "external_wait_seconds_total": null,
+  "warning": "Earlier sessions did not separately measure active work versus waits; unknown values remain null. Do not infer productivity rates."
+}

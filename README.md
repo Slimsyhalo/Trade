@@ -1,21 +1,13 @@
-# Binance QuantLab — Data Foundation
+# Binance QuantLab — Complete Research Data Foundation
 
-Phase 1 remains incomplete. Current coverage and remote readback counts are generated from manifest.jsonl in DATA_COVERAGE.md, data_catalog.json and AUDIT_SUMMARY.json. Do not assume a dataset exists unless listed in that catalog.
+Phase 1 remains **incomplete**. Research infrastructure only; no strategy optimization, orders or profitability claim. BTCUSDT, ETHUSDT and SOLUSDT; Binance USD-M perpetual futures. Historical authorization: 2024-10-07 through 2026-10-07 inclusive UTC. Later live observations use their actual dates and separate ledgers.
 
-BTCUSDT, ETHUSDT and SOLUSDT, Binance USD-M perpetual futures. Fixed authorized window: 2024-10-07 through 2026-10-07 UTC. No strategy optimization or orders.
+Current primary coverage is generated from `manifest.jsonl` in `DATA_COVERAGE.md`, `data_catalog.json` and `AUDIT_SUMMARY.json`. Acquisition is resumable, SHA-256 verified and pruned only after durable checkpoint publication. Raw ZIPs, exact-decimal Parquet, provenance, QA decisions and remote receipts are retained. A downloaded file is not automatically validated.
 
-## Verified infrastructure
+The 70-source inventory is in [docs/DATA_SOURCE_INVENTORY.md](docs/DATA_SOURCE_INVENTORY.md) and `catalog/source_inventory.json`. Existing independent acquisition, trade admission, scientific flow transforms, causal replay, context provenance, document restoration and source-version audit modules are integrated. Each source family has separate acceptance conditions; C16–C22 are not yet globally accepted.
 
-Public ZIP/checksum downloads, exact decimal normalization, Parquet/ZSTD, bounded storage, versioned manifests, QA, causal replay primitives, GitHub Release readbacks and restoration evidence. Current test results are in QA_REPORT.md and reports/tests.txt.
+[Resumption evidence](docs/RESUMPTION_2026-10-08.md) describes the current fixes, source heads, working budget and workflow ownership. `foundation-resume.yml` continues original history and isolated expansion, and recovers the prior live publication backlog. `live-observation.yml` runs scheduled finite capture sessions. `foundation-observability.yml` publishes fresh counters and workflow states on the independent [operational evidence branch](https://github.com/Slimsyhalo/Trade/tree/codex/foundation-ops). Code/configurations are in Git; immutable hash-named data objects and receipts are in Releases.
 
-Official monthly funding archives are supported only for complete months inside the window: November 2024 through September 2026. October boundary archives are refused before download. Funding publication times are unknown and excluded from strict replay. Small official funding fixtures support reproducible tests and are outside the acquisition catalog.
+Live Actions sessions cannot guarantee 24/7 continuity. Snapshot/OI REST access restrictions, historical full L2, unsampled liquidations, effective historical publication timing, funding boundary days, final historical coverage and global independent restoration remain explicit gaps. Individual market tapes require independent full-minute consistency evidence; original strict ID-gap quarantine decisions remain available. Monthly funding covers only whole authorized months; unknown availability fails strict causal replay.
 
-## Execution and checkpoints
-
-The historical writer acquires aggTrades, klines, markPriceKlines, indexPriceKlines, premiumIndexKlines and metrics. The funding checkpoint workflow waits for the same writer lock, tests and integrates its source against latest main, acquires up to 69 permitted monthly funding partitions, then resumes historical work in up to twenty sequential four-hour batches. Completion or QA failure stops further acquisition. Each batch checks out the latest manifest; no parallel writers or restart from zero.
-
-Both original ZIP and Parquet must pass full readback; manifests are committed before local pruning. Actual elapsed time and process CPU time are recorded separately where available.
-
-[Dataset Releases](https://github.com/Slimsyhalo/Trade/releases) · [Actions](https://github.com/Slimsyhalo/Trade/actions)
-
-Individual-trade ID gaps, full L2 reconstruction, liquidation completeness, complete coverage and final C15 remain unresolved. See FOUNDATION_CHECKPOINT.md, REPRODUCIBILITY.md, DATA_SOURCES.md and RESEARCH_HANDOFF.md.
+[Dataset Releases](https://github.com/Slimsyhalo/Trade/releases) · [Actions](https://github.com/Slimsyhalo/Trade/actions) · [Storage plan](reports/storage_capacity_plan.json)

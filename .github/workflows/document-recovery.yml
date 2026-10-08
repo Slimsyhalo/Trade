@@ -1,0 +1,43 @@
+name: Exact official document preservation and restoration
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/c21-document-recovery]
+    paths: ['.github/workflows/document-recovery.yml']
+permissions:
+  contents: write
+concurrency:
+  group: quantlab-document-recovery-writer
+  cancel-in-progress: false
+jobs:
+  preserve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/c21-document-recovery
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -r requirements.lock
+          python -m pytest -q
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Hash every original, publish, independently restore all members
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RECOVERY_LEDGER_BRANCH: codex/c21-document-recovery
+          CHECKPOINT_SOURCE_SHA: ${{ github.sha }}
+        run: python recover_official_documents.py
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: exact-document-recovery-diagnostics
+          path: |
+            reports/document_recovery.json
+            data/document_recovery/
+            data/restored/document_recovery/
+          retention-days: 14

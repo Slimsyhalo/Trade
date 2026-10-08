@@ -1,0 +1,539 @@
+{
+  "checkpoint_id": "C17.1-C20.1-evidence",
+  "timestamp_utc": "2026-10-08T14:13:37.727900+00:00",
+  "commit_sha": "84e6b6de6ba9716c30c9f9789fc36add6557fa70",
+  "commit_scope": "Observed completed live evidence checkpoint; this expansion source commit bound by following workflow source_commit_sha",
+  "source_parent_sha": "81218fe00dd680a2b5bb3d188a2945f37ebbc6a9",
+  "completed": [
+    "132 passing tests",
+    "15 actual new archive samples, original CHECKSUM and deterministic Parquet",
+    "Nine additional individual-tape periods: 18,779,587 rows, all official bars consistent",
+    "Original three market tapes conditionally admitted with preserved strict QA",
+    "Independent live capture: 1,177,194 raw rows, 5 readback-verified segments, 3 restorations",
+    "Separate resumable acquisition, quarantine preservation and Git-before-prune failure regression"
+  ],
+  "datasets_acquired": {
+    "local_samples": 15,
+    "validated": 9,
+    "quarantined": 6,
+    "rows": 210924,
+    "official_trade_diagnostic_samples": 9,
+    "diagnostic_rows": 18779587
+  },
+  "remote_live_evidence": {
+    "schema_version": 1,
+    "status": "BOUNDED_CAPTURE_RESTORED",
+    "run_id": "37788229964",
+    "source_commit_sha": "81218fe00dd680a2b5bb3d188a2945f37ebbc6a9",
+    "workflow_url": "https://github.com/Slimsyhalo/Trade/actions/runs/37788229964",
+    "started_at": "2026-10-08T13:55:37.199026+00:00",
+    "requested_capture_seconds": 600,
+    "raw_format": "gzip JSONL, original messages plus receive timestamps/diagnostics",
+    "capture_scope": "Actual live dates only; outside historical request window stored separately",
+    "continuous_operation_certified": false,
+    "full_L2_book_certified": false,
+    "ledger_branch": "codex/c16-source-inventory",
+    "restorations": [
+      {
+        "route": "public",
+        "sha256": "c0ad2c1247c58b508702f58d7e74cbc03c8365224e0367677fb0f77a8451fe99",
+        "bytes": 23308207,
+        "state": "RESTORED_AND_TESTED",
+        "rows": 532790,
+        "first_receive_ns": 1791467739000174800,
+        "last_receive_ns": 1791468039016362959,
+        "kinds": {
+          "connection_start": 1,
+          "event": 532789
+        },
+        "event_types": {
+          "depthUpdate": 8752,
+          "bookTicker": 524037
+        },
+        "symbols": {
+          "BTCUSDT": 248830,
+          "ETHUSDT": 197100,
+          "SOLUSDT": 86859
+        },
+        "streams": {
+          "btcusdt@depth@100ms": 2941,
+          "ethusdt@bookTicker": 194165,
+          "ethusdt@depth@100ms": 2935,
+          "solusdt@depth@100ms": 2876,
+          "solusdt@bookTicker": 83983,
+          "btcusdt@bookTicker": 245889
+        },
+        "diagnostic_examples": [
+          {
+            "receive_timestamp_ns": 1791467739000174800,
+            "kind": "connection_start",
+            "payload": {
+              "route": "public",
+              "continuity": "new_connection_unverified",
+              "previous_sequence_checkpoint": {},
+              "book_valid": false
+            }
+          }
+        ]
+      },
+      {
+        "route": "market",
+        "sha256": "89a4ff366bba28a8155e7fa9c6acd6e18307479734594d34d69263b62fc06f42",
+        "bytes": 832557,
+        "state": "RESTORED_AND_TESTED",
+        "rows": 20056,
+        "first_receive_ns": 1791467739012615644,
+        "last_receive_ns": 1791468039057096687,
+        "kinds": {
+          "connection_start": 1,
+          "event": 20055
+        },
+        "event_types": {
+          "markPriceUpdate": 900,
+          "aggTrade": 19142,
+          "forceOrder": 13
+        },
+        "symbols": {
+          "BTCUSDT": 10136,
+          "ETHUSDT": 8131,
+          "SOLUSDT": 1775,
+          "unknown": 13
+        },
+        "streams": {
+          "btcusdt@markPrice@1s": 300,
+          "ethusdt@markPrice@1s": 300,
+          "solusdt@markPrice@1s": 300,
+          "solusdt@aggTrade": 1475,
+          "ethusdt@aggTrade": 7831,
+          "btcusdt@aggTrade": 9836,
+          "ethusdt@forceOrder": 6,
+          "btcusdt@forceOrder": 7
+        },
+        "diagnostic_examples": [
+          {
+            "receive_timestamp_ns": 1791467739012615644,
+            "kind": "connection_start",
+            "payload": {
+              "route": "market",
+              "continuity": "new_connection_unverified",
+              "previous_sequence_checkpoint": {},
+              "book_valid": false
+            }
+          }
+        ]
+      },
+      {
+        "route": "snapshots",
+        "sha256": "ce997a1dfb2289a00d1d054ee7a0077dcc3dd95bcde8c9df16ef8a1ba2f6d4eb",
+        "bytes": 211,
+        "state": "RESTORED_AND_TESTED",
+        "rows": 1,
+        "first_receive_ns": 1791467738656838713,
+        "last_receive_ns": 1791467738656838713,
+        "kinds": {
+          "snapshot_unavailable": 1
+        },
+        "event_types": {},
+        "symbols": {},
+        "streams": {},
+        "diagnostic_examples": [
+          {
+            "receive_timestamp_ns": 1791467738656838713,
+            "kind": "snapshot_unavailable",
+            "payload": {
+              "symbol": "BTCUSDT",
+              "endpoint": "openInterest",
+              "http_status": 451,
+              "reason": "Official REST access blocked; polling stopped",
+              "book_valid": false
+            }
+          }
+        ]
+      }
+    ],
+    "limitations": [
+      "Hosted job finite; no 24/7 operation or automatic next-run coverage guarantee",
+      "New run starts a new connection; downtime cannot be recovered by this collector",
+      "Depth and OI snapshot REST restrictions recorded, never circumvented",
+      "forceOrder feed may be sampled; not all historical liquidations",
+      "Clock calibration absent; receive timestamp is application receipt, not kernel/network latency",
+      "No local raw pruning; pending files require immutable-name reconciliation after failure"
+    ],
+    "updated_at": "2026-10-08T14:07:09.862378+00:00",
+    "elapsed_seconds": 692.663,
+    "process_cpu_seconds": 214.728,
+    "github_rate_events": [],
+    "segments": 5,
+    "segment_states": {
+      "remote_verified": 5
+    },
+    "remote_verified_segments": 5,
+    "raw_rows": 1177194,
+    "remote_verified_bytes": 50769507,
+    "earliest_receive_ns": 1791467738656838713,
+    "latest_receive_ns": 1791468339589534456,
+    "capture_report": {
+      "status": "CAPTURE_FINISHED",
+      "integrity_status": "PASS",
+      "elapsed_seconds": 646.396,
+      "requested_capture_seconds": 600,
+      "publication": {
+        "status": "COMPLETE",
+        "published_segments": 5,
+        "pending_segments": 0
+      },
+      "segment_states": {
+        "remote_verified": 5
+      },
+      "retained_bytes": 50769507,
+      "notice": "Includes existing spool; no continuous coverage or valid L2 book claim; no pruning",
+      "error": null
+    },
+    "observed_stream_coverage": {
+      "required_streams": [
+        "btcusdt@aggTrade",
+        "btcusdt@bookTicker",
+        "btcusdt@depth@100ms",
+        "btcusdt@markPrice@1s",
+        "ethusdt@aggTrade",
+        "ethusdt@bookTicker",
+        "ethusdt@depth@100ms",
+        "ethusdt@markPrice@1s",
+        "solusdt@aggTrade",
+        "solusdt@bookTicker",
+        "solusdt@depth@100ms",
+        "solusdt@markPrice@1s"
+      ],
+      "missing_streams": [],
+      "status": "PASS"
+    },
+    "last_success_at": "2026-10-08T14:07:09.862245+00:00"
+  },
+  "main_snapshot": {
+    "source_main_sha": "461e2b96fd2effaf681a8350497d52c9e636f729",
+    "manifest_sha256": "3c98aa4bd067079f4f04dca2a0d10b6df15c984d7c1eb93f82fddb35396c0612",
+    "status": "IMMUTABLE_POINT_IN_TIME_SNAPSHOT",
+    "coverage": [
+      {
+        "symbol": "BTCUSDT",
+        "dataset": "aggTrades",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 78361897,
+        "raw_bytes": 995673169,
+        "parquet_bytes": 1332890951
+      },
+      {
+        "symbol": "BTCUSDT",
+        "dataset": "indexPriceKlines",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 70560,
+        "raw_bytes": 1768778,
+        "parquet_bytes": 3259961
+      },
+      {
+        "symbol": "BTCUSDT",
+        "dataset": "klines",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 70560,
+        "raw_bytes": 3058568,
+        "parquet_bytes": 4654455
+      },
+      {
+        "symbol": "BTCUSDT",
+        "dataset": "markPriceKlines",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 70560,
+        "raw_bytes": 1729695,
+        "parquet_bytes": 3229204
+      },
+      {
+        "symbol": "BTCUSDT",
+        "dataset": "metrics",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 14110,
+        "raw_bytes": 546764,
+        "parquet_bytes": 784556
+      },
+      {
+        "symbol": "BTCUSDT",
+        "dataset": "premiumIndexKlines",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 70560,
+        "raw_bytes": 1408684,
+        "parquet_bytes": 2711825
+      },
+      {
+        "symbol": "ETHUSDT",
+        "dataset": "aggTrades",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 78724855,
+        "raw_bytes": 1040354606,
+        "parquet_bytes": 1346224241
+      },
+      {
+        "symbol": "ETHUSDT",
+        "dataset": "indexPriceKlines",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 70560,
+        "raw_bytes": 1547300,
+        "parquet_bytes": 3006107
+      },
+      {
+        "symbol": "ETHUSDT",
+        "dataset": "klines",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 70560,
+        "raw_bytes": 3115193,
+        "parquet_bytes": 4753226
+      },
+      {
+        "symbol": "ETHUSDT",
+        "dataset": "markPriceKlines",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 70560,
+        "raw_bytes": 1624742,
+        "parquet_bytes": 3070591
+      },
+      {
+        "symbol": "ETHUSDT",
+        "dataset": "metrics",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 14110,
+        "raw_bytes": 574594,
+        "parquet_bytes": 809708
+      },
+      {
+        "symbol": "ETHUSDT",
+        "dataset": "premiumIndexKlines",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 70560,
+        "raw_bytes": 1420136,
+        "parquet_bytes": 2716500
+      },
+      {
+        "symbol": "SOLUSDT",
+        "dataset": "aggTrades",
+        "verified_partitions": 49,
+        "coverage_days": 49,
+        "first": "2024-10-07",
+        "last": "2024-11-24",
+        "requested_days": 731,
+        "missing_days": 682,
+        "rows": 20610075,
+        "raw_bytes": 277676880,
+        "parquet_bytes": 402676192
+      },
+      {
+        "symbol": "SOLUSDT",
+        "dataset": "indexPriceKlines",
+        "verified_partitions": 48,
+        "coverage_days": 48,
+        "first": "2024-10-07",
+        "last": "2024-11-23",
+        "requested_days": 731,
+        "missing_days": 683,
+        "rows": 69120,
+        "raw_bytes": 1887768,
+        "parquet_bytes": 3277028
+      },
+      {
+        "symbol": "SOLUSDT",
+        "dataset": "klines",
+        "verified_partitions": 48,
+        "coverage_days": 48,
+        "first": "2024-10-07",
+        "last": "2024-11-23",
+        "requested_days": 731,
+        "missing_days": 683,
+        "rows": 69120,
+        "raw_bytes": 2508435,
+        "parquet_bytes": 3788825
+      },
+      {
+        "symbol": "SOLUSDT",
+        "dataset": "markPriceKlines",
+        "verified_partitions": 48,
+        "coverage_days": 48,
+        "first": "2024-10-07",
+        "last": "2024-11-23",
+        "requested_days": 731,
+        "missing_days": 683,
+        "rows": 69120,
+        "raw_bytes": 1521780,
+        "parquet_bytes": 2797814
+      },
+      {
+        "symbol": "SOLUSDT",
+        "dataset": "metrics",
+        "verified_partitions": 48,
+        "coverage_days": 48,
+        "first": "2024-10-07",
+        "last": "2024-11-23",
+        "requested_days": 731,
+        "missing_days": 683,
+        "rows": 13822,
+        "raw_bytes": 523001,
+        "parquet_bytes": 750894
+      },
+      {
+        "symbol": "SOLUSDT",
+        "dataset": "premiumIndexKlines",
+        "verified_partitions": 48,
+        "coverage_days": 48,
+        "first": "2024-10-07",
+        "last": "2024-11-23",
+        "requested_days": 731,
+        "missing_days": 683,
+        "rows": 69120,
+        "raw_bytes": 1384612,
+        "parquet_bytes": 2654073
+      }
+    ],
+    "quarantines": [
+      {
+        "key": "BTCUSDT/trades/2024-10-07",
+        "qa": {
+          "deduplication_reason": "No silent removal; duplicates fail QA",
+          "duplicates_found": 0,
+          "duplicates_removed": 0,
+          "id_gaps": 622,
+          "interval_gaps": 0,
+          "malformed_rows": 0,
+          "max_timestamp": 1728345599998,
+          "min_timestamp": 1728259203726,
+          "out_of_order": 0,
+          "rows": 3730708,
+          "schema_violations": 0,
+          "status": "FAILED"
+        },
+        "raw_sha256": "257e2d85f1cfa8cb48b4e89e05f6efa0b993681f4703492980099797151e0d34"
+      },
+      {
+        "key": "ETHUSDT/trades/2024-10-07",
+        "qa": {
+          "deduplication_reason": "No silent removal; duplicates fail QA",
+          "duplicates_found": 0,
+          "duplicates_removed": 0,
+          "id_gaps": 329,
+          "interval_gaps": 0,
+          "malformed_rows": 0,
+          "max_timestamp": 1728345599899,
+          "min_timestamp": 1728259203742,
+          "out_of_order": 0,
+          "rows": 3859018,
+          "schema_violations": 0,
+          "status": "FAILED"
+        },
+        "raw_sha256": "86c0fd49185b7f70c3feeab1603c20f16bb5d34b778f64600b4a123f054d3ebe"
+      },
+      {
+        "key": "SOLUSDT/trades/2024-10-07",
+        "qa": {
+          "deduplication_reason": "No silent removal; duplicates fail QA",
+          "duplicates_found": 0,
+          "duplicates_removed": 0,
+          "id_gaps": 117,
+          "interval_gaps": 0,
+          "malformed_rows": 0,
+          "max_timestamp": 1728345599484,
+          "min_timestamp": 1728259203741,
+          "out_of_order": 0,
+          "rows": 1835223,
+          "schema_violations": 0,
+          "status": "FAILED"
+        },
+        "raw_sha256": "dd7d3f1023834ba587e65bcb1e60af3ce8afbb76f50e8e3e6f5ac7f819327d74"
+      }
+    ],
+    "remote_verified_partitions": 877,
+    "aggTrades_rows": 177696827,
+    "notice": "Main acquisition remains active; this inventory branch does not replace its manifest"
+  },
+  "phase_1_accepted": false,
+  "milestones": {
+    "C16": "PARTIAL_INVENTORY_BOUNDS_PENDING",
+    "C17": "EXPANSION_IMPLEMENTED_OPERATION_PENDING",
+    "C18": "CONTRACTS_ONLY",
+    "C19": "SOURCES_RESEARCHED_ORIGINAL_EVENT_ACQUISITION_PENDING",
+    "C20": "BOUNDED_OPERATION_RESTORED_PERMANENT_HOST_PENDING",
+    "C21": "SAMPLED_RESTORE_PROVEN_GLOBAL_CLEAN_RESTORE_PENDING",
+    "C22": "NOT_ACCEPTED"
+  },
+  "work_time": {
+    "effective_codex_work_seconds": null,
+    "background_workflows_excluded": true,
+    "external_trade_diagnostic_wall_seconds": 111.911,
+    "external_trade_diagnostic_cpu_seconds": 67.876,
+    "limitation": "Foreground active intervals versus network/tool waits were not fully measured; no fabricated effective-work total"
+  },
+  "next": [
+    "Observe hosted expansion pilot and its immutable remote receipts",
+    "Resolve pending source bounds and time-of-availability for external releases",
+    "Audit per-source gaps and complete restore scope"
+  ],
+  "workflow_preservation": {
+    "historical_run": 37774209643,
+    "funding_pending_run": 37777532680,
+    "live_completed_run": 37788229964
+  }
+}

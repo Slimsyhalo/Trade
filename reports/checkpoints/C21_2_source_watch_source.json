@@ -1,0 +1,43 @@
+{
+  "checkpoint_id": "C21.2-source-watch-and-schema-source",
+  "timestamp_utc": "2026-10-08T15:51:14.844Z",
+  "commit_sha": "4247fbf96f931eee9106415bd50977c3f0b908f3",
+  "commit_scope": "Verified predecessor evidence; new source SHA bound in hosted execution",
+  "completed": [
+    "Clean hosted source restoration and deterministic flow recomputation verified for 9,424,949 input rows and 4,320 derived rows",
+    "109 official documents and all 223 container members independently restored",
+    "21 local official checksum probes unchanged at observation",
+    "Source checksum surveillance regressions passed; 158 tests total",
+    "Unpublished source preserved through GitHub connector after environment loss"
+  ],
+  "datasets_acquired_by_this_source_commit": 0,
+  "main_snapshot_ref": "reports/foundation_acceptance_audit.json",
+  "flow_evidence_commit": "4247fbf96f931eee9106415bd50977c3f0b908f3",
+  "flow_remote_bytes": 5290014,
+  "official_document_recovery_commit": "d23af103f996d62e6c394097ddfb5223fda72d70",
+  "local_tests_passed": 158,
+  "hosted_source_watch_execution": "PENDING_AT_SOURCE_PUBLICATION",
+  "effective_codex_work_seconds": null,
+  "external_tool_wait_seconds": null,
+  "phase_1_accepted": false,
+  "global_C21_accepted": false,
+  "blockers": [
+    {
+      "component": "local execution and unpublished scratch artifacts",
+      "cause": "exec-server environment_offline",
+      "evidence": "failed to query exec-server capabilities: 409 Conflict, Environment is not connected",
+      "impact": "Local work cannot resume or read back files while offline",
+      "alternatives": [
+        "Persist reproducible source through authorized GitHub connector",
+        "Execute and validate on independent hosted runners"
+      ],
+      "recommended_action": "Use published source and hosted reports; reconnect environment for remaining local work",
+      "resume_condition": "Local environment connected; re-fetch current remote HEAD before any changes"
+    }
+  ],
+  "next": [
+    "Inspect actual hosted source-watch tests, schema restoration and hashes",
+    "Continue historical/live campaigns and monitor source-specific quarantine",
+    "Reconcile branches safely after incumbent main writer finishes"
+  ]
+}

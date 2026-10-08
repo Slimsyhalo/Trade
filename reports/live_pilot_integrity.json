@@ -1,0 +1,69 @@
+{
+  "status": "PASS",
+  "scope": "Retained original live pilot input integrity and observed sequence diagnostics only",
+  "generated_at": "2026-10-08T13:17:08.779083+00:00",
+  "segments": [
+    {
+      "path": "public-1791406525678374524-82534104ee6a4e04bd97f58e876a3807.jsonl.gz",
+      "sha256": "b3f24990cf25aeba6a5939f2e29d6969158bc557afaf1eca32fb6f5506830d93",
+      "bytes": 216097,
+      "rows": 3833,
+      "first_receive_ns": 1791406525678576592,
+      "last_receive_ns": 1791406539990665895,
+      "kinds": {
+        "connection_start": 1,
+        "event": 3832
+      },
+      "sequence_diagnostics": {},
+      "final_observed_sequence": {
+        "solusdt@depth@100ms": 11759574091157,
+        "btcusdt@depth@100ms": 11759574091614,
+        "ethusdt@depth@100ms": 11759574090461
+      },
+      "integrity_status": "PASS"
+    },
+    {
+      "path": "market-1791406525610974587-ed40c968c2074799855ce9e3dcfcd2af.jsonl.gz",
+      "sha256": "aa463c45400d5bccd4aef38717bfcef4ff113e09c2ef9f2629ae5a6defbcf053",
+      "bytes": 7390,
+      "rows": 151,
+      "first_receive_ns": 1791406525611205698,
+      "last_receive_ns": 1791406540101346872,
+      "kinds": {
+        "connection_start": 1,
+        "event": 150
+      },
+      "sequence_diagnostics": {},
+      "final_observed_sequence": {
+        "ethusdt@aggTrade": 3111336526,
+        "btcusdt@aggTrade": 3478169160,
+        "solusdt@aggTrade": 1103922340
+      },
+      "integrity_status": "PASS"
+    },
+    {
+      "path": "snapshots-1791406525411888461-4d240d998f4c419580cf6c7477784f12.jsonl.gz",
+      "sha256": "92b6e51a7be5186c82f212d5b988f02be289302b7887145844396e617ce6039f",
+      "bytes": 433,
+      "rows": 6,
+      "first_receive_ns": 1791406525412167413,
+      "last_receive_ns": 1791406529425129210,
+      "kinds": {
+        "snapshot_error": 6
+      },
+      "sequence_diagnostics": {},
+      "final_observed_sequence": {},
+      "integrity_status": "PASS"
+    }
+  ],
+  "rows": 3990,
+  "bytes": 223920,
+  "wall_seconds": 0.053815,
+  "process_cpu_seconds": 0.053833,
+  "limitations": [
+    "No new live capture or new remote upload in this validation",
+    "Original collector may have discarded duplicate/old events; inspection cannot recover them",
+    "No valid full L2 book claim; original REST snapshots were blocked",
+    "Short pilot does not establish continuous/long-duration recovery"
+  ]
+}

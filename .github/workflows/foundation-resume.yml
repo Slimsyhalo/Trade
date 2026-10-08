@@ -1,0 +1,150 @@
+name: Research foundation acquisition and recovery
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/foundation-resume.yml'
+  schedule:
+    - cron: '17 */4 * * *'
+permissions:
+  contents: write
+  actions: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -r requirements.lock
+          set -o pipefail
+          python -m pytest -q | tee reports/resume_hosted_tests.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resume-validation-${{ github.run_id }}
+          path: reports/resume_hosted_tests.txt
+          retention-days: 30
+  history:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 270
+    concurrency:
+      group: quantlab-data-writer
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -r requirements.lock
+          python -m pytest -q
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Resume intact main ledger without reacquiring verified pairs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python remote_history.py
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: resumed-history-${{ github.run_id }}-diagnostics
+          path: |
+            reports/
+            manifest.jsonl
+            data/
+          retention-days: 30
+  expansion:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 270
+    concurrency:
+      group: quantlab-extended-writer
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/c17-archive-expansion
+          fetch-depth: 0
+      - name: Overlay tested source while retaining expansion ledger
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git fetch origin main
+          mapfile -t source_paths < <(git ls-tree -r --name-only "$SOURCE_SHA" | sed -n '/\.py$/p; /^requirements.lock$/p; /^config.yaml$/p')
+          git checkout "$SOURCE_SHA" -- "${source_paths[@]}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -r requirements.lock
+          python -m pytest -q
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Restore exact QA evidence and resume selected archives
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CHECKPOINT_SOURCE_SHA: ${{ github.sha }}
+          EXPANSION_LEDGER_BRANCH: codex/c17-archive-expansion
+          EXPANSION_PILOT: 'false'
+        run: python remote_extended.py
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: resumed-expansion-${{ github.run_id }}-diagnostics
+          path: |
+            reports/extended_execution.json
+            catalog/extended_manifest.json
+            data/extended/
+          retention-days: 30
+  recover-live:
+    needs: validate
+    # Recovery is one-time; scheduled captures never repeatedly download the old artifact.
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      group: quantlab-live-artifact-recovery
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/live-artifact-recovery
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -r requirements.lock
+          python -m pytest -q
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: 37795816483
+          name: live-foundation-37795816483-1-diagnostics
+          github-token: ${{ github.token }}
+          path: data/recovery-artifact
+      - name: Publish preserved pending segments and independently restore samples
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RECOVERY_LEDGER_BRANCH: codex/live-artifact-recovery
+          CHECKPOINT_SOURCE_SHA: ${{ github.sha }}
+        run: python recover_live_artifact.py
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: live-artifact-recovery-${{ github.run_id }}-diagnostics
+          path: |
+            reports/live_recovery/
+            catalog/live_recovery/
+            data/recovery-artifact/
+          retention-days: 30

@@ -1,92 +1,174 @@
-"""Bounded live capture with route isolation, disk budget and loss markers.
-Depth events are retained; book reconstruction requires snapshot bridge validation.
-Disconnected periods are never represented as uninterrupted data.
+"""Read-only public capture with durable spooling and serialized publication.
+
+No book validity is claimed without an official snapshot bridge. Every received
+message is retained, including duplicates. Disconnects/restarts remain explicit.
 """
-import argparse, asyncio, gzip, json, time, uuid, random
-from datetime import datetime, timezone
+import argparse
+import asyncio
+from collections import Counter
+import json
 from pathlib import Path
-import yaml
+import random
+import time
+
+import requests
 import websockets
-from quantlab_core.io import Budget, HTTP, atomic_json, sha256
+import yaml
+
+from quantlab_core.io import Budget, HTTP, atomic_json
 from quantlab_core.sources import SYMBOLS
+from .sequence import SequenceTracker
+from .spool import Sink, publish_pending
 
-class Sink:
-    def __init__(self,root,budget,route,remote=None):
-        self.root=Path(root); self.root.mkdir(parents=True,exist_ok=True); self.budget=budget; self.route=route; self.remote=remote
-        self.f=None; self.path=None; self.count=0; self.started=0; self.records=json.loads((self.root/(route+'-manifest.json')).read_text()) if (self.root/(route+'-manifest.json')).exists() else []
-    def write(self,kind,payload):
-        if self.f is None:
-            self.path=self.root/f'{self.route}-{time.time_ns()}-{uuid.uuid4().hex}.jsonl.gz'
-            self.f=gzip.open(self.path,'wb'); self.count=0; self.started=time.monotonic()
-        now=time.time_ns(); data=(json.dumps({'receive_timestamp_ns':now,'kind':kind,'payload':payload},separators=(',',':'))+'\n').encode()
-        self.budget.check(len(data)+65536); self.f.write(data); self.f.flush(); self.count+=1
-        if self.path.stat().st_size>=8_000_000 or time.monotonic()-self.started>=60: self.close()
-    def close(self):
-        if self.f is None: return
-        self.f.close(); self.f=None
-        record=dict(path=str(self.path),sha256=sha256(self.path),bytes=self.path.stat().st_size,rows=self.count,remote=None)
-        if self.remote: record['remote']=self.remote.put(self.path,'live-'+datetime.now(timezone.utc).strftime('%Y-%m-%d'))
-        self.records.append(record); atomic_json(self.root/(self.route+'-manifest.json'),self.records)
 
-async def capture(route,symbols,sink,deadline):
-    suffixes=['bookTicker','depth@100ms'] if route=='public' else ['aggTrade','markPrice@1s','forceOrder']
-    streams='/'.join(s.lower()+'@'+x for s in symbols for x in suffixes)
-    url='wss://fstream.binance.com/'+route+'/stream?streams='+streams
-    attempt=0
-    while time.monotonic()<deadline:
+async def capture(route, symbols, sink, deadline):
+    suffixes = ['bookTicker', 'depth@100ms'] if route == 'public' else ['aggTrade', 'markPrice@1s', 'forceOrder']
+    streams = '/'.join(symbol.lower()+'@'+topic for symbol in symbols for topic in suffixes)
+    url = 'wss://fstream.binance.com/'+route+'/stream?streams='+streams
+    tracker = SequenceTracker(sink.sequence_state)
+    attempt = 0
+    while time.monotonic() < deadline:
         try:
-            async with websockets.connect(url,open_timeout=20,ping_interval=20,max_queue=1024) as ws:
-                sink.write('connection_start',{'route':route,'continuity':'new_segment'})
-                last={}; attempt=0
-                async for msg in ws:
-                    obj=json.loads(msg); data=obj.get('data',{}); stream=obj.get('stream','unknown'); kind=data.get('e')
-                    if kind=='depthUpdate':
-                        previous=last.get(stream)
-                        if previous is not None and data['pu']!=previous: sink.write('sequence_gap',{'stream':stream,'previous_u':previous,'pu':data['pu'],'book_valid':False})
-                        if previous is not None and data['u']<=previous:
-                            sink.write('duplicate_or_old',{'stream':stream,'u':data['u']}); continue
-                        last[stream]=data['u']
-                    elif kind=='aggTrade':
-                        previous=last.get(stream)
-                        if previous is not None and data['a']<=previous:
-                            sink.write('duplicate_or_old',{'stream':stream,'id':data['a']}); continue
-                        if previous is not None and data['a']!=previous+1: sink.write('trade_gap',{'stream':stream,'previous':previous,'id':data['a']})
-                        last[stream]=data['a']
-                    sink.write('event',obj)
-                    if time.monotonic()>=deadline: break
-        except (OSError,TimeoutError,websockets.exceptions.WebSocketException) as e:
-            sink.write('disconnect',{'error':str(e),'unrecoverable_gap_possible':True}); attempt+=1
-            await asyncio.sleep(min(30,2**min(attempt,5))+random.random())
-        finally: sink.close()
+            async with websockets.connect(url, open_timeout=20, ping_interval=20, max_queue=1024) as socket:
+                sink.write('connection_start', dict(route=route, continuity='new_connection_unverified',
+                                                   previous_sequence_checkpoint=tracker.last.copy(), book_valid=False))
+                attempt = 0
+                async for message in socket:
+                    if time.monotonic() >= deadline:
+                        break
+                    try:
+                        envelope = json.loads(message)
+                        if not isinstance(envelope, dict):
+                            raise ValueError('Combined message must be an object')
+                    except (ValueError, TypeError) as error:
+                        sink.write('malformed_message', dict(raw=message.decode('utf-8', errors='replace') if isinstance(message, bytes) else message,
+                                                             error=str(error)))
+                        continue
+                    markers = tracker.observe(envelope)
+                    sink.sequence_state = tracker.last.copy()
+                    # Preserve RAW even if sequence analysis calls it a duplicate.
+                    sink.write('event', envelope)
+                    for kind, payload in markers:
+                        sink.write(kind, payload)
+                # A clean close before deadline also means interrupted coverage.
+                if time.monotonic() < deadline:
+                    sink.write('disconnect', dict(error='Remote stream ended', unrecoverable_gap_possible=True, book_valid=False))
+                    attempt += 1
+        except asyncio.CancelledError:
+            sink.write('capture_stop', dict(reason='deadline_or_cancellation', continuity='stopped', book_valid=False))
+            raise
+        except (OSError, TimeoutError, websockets.exceptions.WebSocketException) as error:
+            sink.write('disconnect', dict(error=str(error), unrecoverable_gap_possible=True, book_valid=False))
+            attempt += 1
+        finally:
+            sink.close()
+        if attempt and time.monotonic() < deadline:
+            await asyncio.sleep(min(max(0, deadline-time.monotonic()), min(30, 2**min(attempt, 5))+random.random()))
 
-async def snapshots(symbols,sink,deadline):
-    http=HTTP(interval=1)
-    while time.monotonic()<deadline:
-        for symbol in symbols:
-            for endpoint,params in [('openInterest',{'symbol':symbol}),('depth',{'symbol':symbol,'limit':1000})]:
-                try:
-                    r=await asyncio.to_thread(http.get,'https://fapi.binance.com/fapi/v1/'+endpoint,params=params)
-                    sink.write(endpoint+'_snapshot',r.json())
-                except Exception as e: sink.write('snapshot_error',{'symbol':symbol,'endpoint':endpoint,'error':str(e)})
-        await asyncio.sleep(min(30,max(0,deadline-time.monotonic())))
-    sink.close()
 
-async def run(cfg,seconds,remote=None):
-    root=Path('data/live'); budget=Budget('data',cfg['max_local_storage_gb']); deadline=time.monotonic()+seconds
-    sinks=[Sink(root,budget,r,remote) for r in ('public','market','snapshots')]
+def fetch_snapshot(http, endpoint, params):
+    response = http.get('https://fapi.binance.com/fapi/v1/'+endpoint, params=params)
+    try:
+        return response.json()
+    finally:
+        response.close()
+
+
+async def snapshots(symbols, sink, deadline):
+    http = HTTP(interval=1)
+    try:
+        while time.monotonic() < deadline:
+            for symbol in symbols:
+                for endpoint, params in [('openInterest', {'symbol': symbol}), ('depth', {'symbol': symbol, 'limit': 1000})]:
+                    if time.monotonic() >= deadline:
+                        return
+                    try:
+                        payload = await asyncio.to_thread(fetch_snapshot, http, endpoint, params)
+                        sink.write(endpoint+'_snapshot', dict(symbol=symbol, data=payload))
+                    except requests.HTTPError as error:
+                        status = error.response.status_code if error.response is not None else None
+                        if error.response is not None:
+                            error.response.close()
+                        if status in (403, 451):
+                            sink.write('snapshot_unavailable', dict(symbol=symbol, endpoint=endpoint,
+                                       http_status=status, reason='Official REST access blocked; polling stopped', book_valid=False))
+                            return
+                        sink.write('snapshot_error', dict(symbol=symbol, endpoint=endpoint, http_status=status, error=str(error)))
+                    except (requests.RequestException, ValueError) as error:
+                        sink.write('snapshot_error', dict(symbol=symbol, endpoint=endpoint, error=str(error)))
+            await asyncio.sleep(min(30, max(0, deadline-time.monotonic())))
+    finally:
+        sink.close()
+
+
+async def run(cfg, seconds, remote=None, *, root=Path('data/live'), drain_seconds=30):
+    if type(seconds) is not int or seconds <= 0:
+        raise ValueError('Positive integer capture duration required')
+    if not cfg.get('symbols') or len(set(cfg['symbols'])) != len(cfg['symbols']) or any(s not in SYMBOLS for s in cfg['symbols']):
+        raise ValueError('Select distinct supported public-market symbols')
+    root = Path(root).resolve()
+    budget = Budget(root.parent, cfg['max_local_storage_gb'])
+    rotation = cfg.get('live_segment_seconds', 60)
+    segment_bytes = cfg.get('live_segment_bytes', 8_000_000)
+    if type(rotation) is not int or type(segment_bytes) is not int or rotation <= 0 or segment_bytes <= 0:
+        raise ValueError('Positive integer live segment limits required')
+    sinks = [Sink(root, budget, route, max_seconds=rotation, max_bytes=segment_bytes)
+             for route in ('public', 'market', 'snapshots')]
+    started = time.monotonic()
+    deadline = started + seconds
+    stopped = asyncio.Event()
+    publisher = asyncio.create_task(publish_pending(sinks, remote, stopped, drain_seconds=drain_seconds)) if remote else None
+    error = None
     try:
         async with asyncio.timeout(seconds+1):
-            await asyncio.gather(capture('public',cfg['symbols'],sinks[0],deadline),capture('market',cfg['symbols'],sinks[1],deadline),snapshots(cfg['symbols'],sinks[2],deadline))
-    except TimeoutError: pass
+            async with asyncio.TaskGroup() as tasks:
+                tasks.create_task(capture('public', cfg['symbols'], sinks[0], deadline))
+                tasks.create_task(capture('market', cfg['symbols'], sinks[1], deadline))
+                tasks.create_task(snapshots(cfg['symbols'], sinks[2], deadline))
+    except TimeoutError:
+        pass
+    except Exception as caught:
+        error = caught
     finally:
-        for sink in sinks: sink.close()
+        for sink in sinks:
+            try:
+                sink.close()
+            except Exception as caught:
+                if error is None:
+                    error = caught
+        stopped.set()
+        publication = await publisher if publisher else dict(status='LOCAL_ONLY', published_segments=0,
+                                                             pending_segments=sum(len(s.pending()) for s in sinks))
+    states = Counter(record.get('status', 'unknown') for sink in sinks for record in sink.records)
+    integrity = 'FAILED' if states['quarantined'] or states['missing_local'] else 'PASS'
+    report = dict(status='FAILED' if error is not None or integrity == 'FAILED' or publication['status'] in ('FAILED', 'PAUSED_BACKLOG') else 'CAPTURE_FINISHED',
+                  integrity_status=integrity,
+                  elapsed_seconds=round(time.monotonic()-started, 3), requested_capture_seconds=seconds,
+                  publication=publication, segment_states=dict(states),
+                  retained_bytes=sum(r.get('bytes', 0) for s in sinks for r in s.records),
+                  notice='Includes existing spool; no continuous coverage or valid L2 book claim; no pruning',
+                  error=str(error) if error is not None else None)
+    atomic_json(root/'session-report.json', report)
+    if error is not None:
+        raise error
+    if report['status'] == 'FAILED':
+        raise RuntimeError('Live integrity/publication incomplete; preserve spool and reconcile before resuming')
+    return report
 
-if __name__=='__main__':
-    p=argparse.ArgumentParser(); p.add_argument('--seconds',type=int,default=60); p.add_argument('--remote',action='store_true'); a=p.parse_args()
-    cfg=yaml.safe_load(Path('config.yaml').read_text()); remote=None
-    if a.remote:
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--seconds', type=int, default=60)
+    parser.add_argument('--remote', action='store_true')
+    parser.add_argument('--drain-seconds', type=int, default=30)
+    args = parser.parse_args()
+    if args.drain_seconds < 0:
+        parser.error('--drain-seconds must be nonnegative')
+    cfg = yaml.safe_load(Path('config.yaml').read_text())
+    remote = None
+    if args.remote:
         from quantlab_core.remote import GitHubRemote
-        remote=GitHubRemote(cfg['repository'])
+        remote = GitHubRemote(cfg['repository'], interval=cfg.get('github_request_interval_seconds', 4))
     from quantlab_core.lock import writer_lock
     with writer_lock(Path('.pipeline.lock')):
-        asyncio.run(run(cfg,a.seconds,remote))
+        print(json.dumps(asyncio.run(run(cfg, args.seconds, remote, drain_seconds=args.drain_seconds))))
