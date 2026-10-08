@@ -1,0 +1,164 @@
+schema_version: 1
+requested_window: {start: '2024-10-07', end_inclusive: '2026-10-07', timezone: UTC}
+research_only: true
+phase_1_accepted: false
+sources:
+  binance_archive:
+    provider: Binance Vision
+    reference: https://github.com/binance/binance-public-data
+    terms: https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md
+    cost: {access: free, account_required: false, commercial_authorization: false, dataset_license: CC-BY-NC-SA-4.0}
+    quota: No fixed archive quota assumed; one request/second; respect rate/restriction responses
+    temporal_policy: Original source timestamps retained; publication latency unknown unless explicitly observed
+  binance_rest:
+    provider: Binance USD-M public REST
+    reference: https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data
+    terms: https://www.binance.com/en/terms
+    cost: {access: free, account_required: false}
+    quota: Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured
+    temporal_policy: Keep exchange timestamp and received timestamp; no historical availability inference
+  binance_ws:
+    provider: Binance USD-M public WebSocket
+    reference: https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/websocket-market-streams/Important-WebSocket-Change-Notice
+    terms: https://www.binance.com/en/terms
+    cost: {access: free, account_required: false}
+    quota: Routed public/market connections, heartbeats/reconnects; bounded payload queues
+    temporal_policy: Exchange ms and local receive ns; local clock calibration still required
+  bls:
+    provider: US Bureau of Labor Statistics
+    reference: https://www.bls.gov/bls/newsrels.htm
+    terms: https://www.bls.gov/bls/linksite.htm
+    cost: {access: free, account_required: false}
+    quota: Public release documents; cache and pace; API registration is separate from archived releases
+    temporal_policy: Release header time America/New_York with DST; original release and revisions kept separately
+  fed:
+    provider: Federal Reserve
+    reference: https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm
+    terms: https://www.federalreserve.gov/disclaimer.htm
+    cost: {access: free, account_required: false}
+    quota: Public calendar and dated release documents; paced acquisition
+    temporal_policy: Original publication header and IANA America/New_York; scheduled time is not effective received time
+  alfred:
+    provider: Federal Reserve Bank of St Louis ALFRED
+    reference: https://fred.stlouisfed.org/docs/api/fred/realtime_period.html
+    terms: https://fred.stlouisfed.org/legal/
+    cost: {access: free_with_key, account_required: true}
+    quota: API key and endpoint policies; do not assume unbounded calls
+    temporal_policy: Vintage dates preserve revisions; day-level real-time metadata is not an intraday publication timestamp
+  gdelt:
+    provider: GDELT
+    reference: https://www.gdeltproject.org/data.html
+    terms: https://www.gdeltproject.org/about.html
+    cost: {access: free_archive, account_required: false, bigquery_paid_queries_authorized: false}
+    quota: Fifteen-minute archives; full global graph is TB scale, use justified filters
+    temporal_policy: Discovery/first-seen time differs from original article publication; article edits and missing coverage explicit
+  coingecko:
+    provider: CoinGecko
+    reference: https://docs.coingecko.com/reference/coins-id-market-chart-range
+    terms: https://www.coingecko.com/en/api_terms
+    cost: {access: plan_dependent, account_required: true, paid_authorized: false}
+    quota: Historical depth and granularity depend on plan; no two-year free coverage assumed
+    temporal_policy: Aggregated provider timestamps and revisions; not executable exchange ticks
+  coinmetrics:
+    provider: Coin Metrics Community
+    reference: https://gitbook-docs.coinmetrics.io/packages/coin-metrics-community-data
+    terms: https://coinmetrics.io/terms-and-conditions/
+    cost: {access: community_subset_free, account_required: false, paid_authorized: false}
+    quota: Community subset only; bounded API dates and pagination; per-asset availability must be probed
+    temporal_policy: Daily metric time and retrieval time; provider methodology/revisions and publication delay required
+  tardis:
+    provider: Tardis.dev
+    reference: https://docs.tardis.dev/faq/general
+    terms: https://tardis.dev/terms
+    cost: {access: provider_subscription_or_sample, paid_authorized: false, public_redistribution_authorized: false}
+    quota: Exchange/channel/date-specific coverage; subscription and redistribution rights required
+    temporal_policy: Exchange plus provider receive time; vendor gaps remain possible
+  kaiko:
+    provider: Kaiko
+    reference: https://docs.kaiko.com/explore-our-data/data-dictionary
+    terms: https://www.kaiko.com/
+    cost: {access: commercial_contract, paid_authorized: false, public_redistribution_authorized: false}
+    quota: Product/venue-specific coverage and rate limits; commercial quote required
+    temporal_policy: Vendor snapshots/trades with data-version metadata; not guaranteed gap-free event-level L2
+  cboe:
+    provider: Cboe
+    reference: https://www.cboe.com/tradable-products/vix/vix-historical-data
+    terms: https://www.cboe.com/us/legal/
+    cost: {access: public_daily_or_licensed_intraday, public_redistribution_authorized: false, paid_authorized: false}
+    quota: Daily public history differs from paid intraday/index redistribution licenses
+    temporal_policy: End-of-day observations are unavailable at day's open; precise publication timing unproven
+  coinbase:
+    provider: Coinbase Exchange
+    reference: https://docs.cdp.coinbase.com/exchange/reference/exchangerestapi_getproductcandles
+    terms: https://www.coinbase.com/legal/user_agreement/united_states
+    cost: {access: public_market_data, paid_authorized: false}
+    quota: Bounded candle queries; per-product retention/completeness must be validated
+    temporal_policy: Exchange candle times plus received time; missing intervals must not be fabricated
+  sec:
+    provider: US SEC
+    reference: https://www.sec.gov/newsroom/press-releases
+    terms: https://www.sec.gov/about/privacy-information
+    cost: {access: public, account_required: false}
+    quota: SEC fair-access limits and declared client identification; public announcements, not universal regulatory coverage
+    temporal_policy: Original publication metadata plus received/revision timestamps; no retrospective edit substitution
+  ecb:
+    provider: ECB
+    reference: https://www.ecb.europa.eu/press/govcdec/mopo/html/index.en.html
+    terms: https://www.ecb.europa.eu/services/disclaimer/html/index.en.html
+    cost: {access: public, account_required: false}
+    quota: Paced public document acquisition and caching
+    temporal_policy: Original release time Europe/Berlin with DST; corrections separately versioned
+entries:
+  - [um_trades, operations, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, tick, 'id,price,qty,quote_qty,time,is_buyer_maker', 'base units; USDT; ms UTC', true, 1, 'Source checksums and structural QA; ID gaps unresolved, retain quarantine and cross-dataset evidence', core_quarantined]
+  - [um_aggTrades, operations, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, aggregate_tick, 'agg_trade_id,price,quantity,first_trade_id,last_trade_id,timestamp,is_buyer_maker', 'base units; USDT; ms UTC', true, 1, 'Not a lossless substitute for individual executions; RPI tags/normal quantity differ between archive and live', core_running]
+  - [um_klines_1m, operations, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, 1m, 'OHLCV,quote_volume,trade_count,taker_buy_volume', 'USDT; base; UTC ms', true, 1, 'Full-minute original observations; no fabricated empty bars', core_running]
+  - [um_mark_price, derivatives, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, 1m, 'mark OHLC', 'USDT; UTC ms', true, 1, 'Placeholder volume is not traded volume', core_running]
+  - [um_index_price, derivatives, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, 1m, 'index OHLC', 'USDT; UTC ms', true, 1, 'Composite reference index; constituents/changes require separate snapshots', core_running]
+  - [um_premium_index, derivatives, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, 1m, 'premium OHLC', 'signed dimensionless ratio; UTC ms', true, 1, 'Negative premium valid; not a dollar price', core_running]
+  - [um_metrics, derivatives, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, 5m, 'OI level/value; top account/position/global ratios; taker long-short ratio', 'base units; USDT; ratios; UTC text', true, 1, 'Historical publication delay unknown; timestamp labeling and cross-day QA require investigation', core_running]
+  - [um_funding_settled, derivatives, ORIGINAL, PARTIALLY_AVAILABLE, binance_archive, variable_interval, 'calc_time,funding_interval_hours,last_funding_rate', 'signed rate; interval hours; UTC ms', true, 1, '23 complete permitted months; 32 boundary days missing; settled value not a forward forecast', funding_queued]
+  - [um_funding_rules, execution, ORIGINAL, PARTIALLY_AVAILABLE, binance_rest, change_event, 'caps,floors,fundingIntervalHours', 'rates; hours', true, 1, 'Current fundingInfo plus dated announcements; no universal historical rule log', rest_blocked]
+  - [um_bookDepth_summary, order_book, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, coarse_snapshots, 'timestamp,percentage,depth,notional', 'relative percent bands; base depth; USDT notional', true, 1, 'Coarse liquidity bands are not individual price levels, full L2 or OFI; source anomalies must be audited', parser_pending]
+  - [um_bookTicker_archive, order_book, ORIGINAL, PARTIALLY_AVAILABLE, binance_archive, quote_tick, 'update_id,bid,ask,bid_qty,ask_qty,time', 'USDT; base; source UTC time', true, 1, 'Window-wide listing/probes required; isolated 404 is not proof of impossibility', discovery_running]
+  - [um_liquidation_archive, derivatives, ORIGINAL, PARTIALLY_AVAILABLE, binance_archive, liquidation_event, 'source liquidationSnapshot schema not yet established', 'source quantities and times', true, 1, 'Historical official archive presence/completeness requires listing; forceOrders is user-specific', discovery_running]
+  - [um_depth_updates_live, order_book, ORIGINAL, LIVE_ONLY, binance_ws, 100ms_updates, 'U,u,pu,bids,asks,E,T', 'price levels USDT; base quantity; UTC ms and receive ns', true, 0, 'Snapshot bridge required; gap/reconnect invalidates book; raw deltas preserved', source_fault_tested]
+  - [um_bookTicker_live, order_book, ORIGINAL, LIVE_ONLY, binance_ws, quote_event, 'u,b,B,a,A,E,T', 'USDT; base; exchange ms and receive ns', true, 0, 'Public top of book excludes hidden/RPI liquidity; historical free source not established', source_fault_tested]
+  - [um_liquidations_live, derivatives, ORIGINAL, LIVE_ONLY, binance_ws, snapshot_stream, 'forceOrder payload', 'side; price; quantity; exchange and receive time', true, 0, 'Stream may publish snapshots rather than every liquidation; validate semantics before intensity metrics', source_fault_tested]
+  - [um_aggTrades_live, operations, ORIGINAL, LIVE_ONLY, binance_ws, aggregate_event, 'a,p,q,f,l,T,m,nq when provided', 'USDT; base; ms/ns', true, 0, 'Extra live fields retained; not falsely described as individual tick executions', source_fault_tested]
+  - [um_mark_funding_live, derivatives, ORIGINAL, LIVE_ONLY, binance_ws, 1s, 'mark,index,settle_estimate,funding,next_funding_time', 'USDT; rate; UTC times', true, 0, 'Estimated future settlement/funding distinct from later settled rates', source_fault_tested]
+  - [um_depth_snapshot_live, order_book, ORIGINAL, LIVE_ONLY, binance_rest, poll_and_gap_recovery, 'lastUpdateId,bids,asks', 'USDT; base quantities', true, 0, 'REST 451 here; no evasion; valid book requires snapshot bridging', rest_blocked]
+  - [um_open_interest_live, derivatives, ORIGINAL, LIVE_ONLY, binance_rest, polling, 'symbol,openInterest,time', 'contract base units; UTC ms', true, 0, 'Record polling availability; sampling is not continuous position/order observability', rest_blocked]
+  - [um_basis_rest, derivatives, ORIGINAL, PARTIALLY_AVAILABLE, binance_rest, 5m_or_coarser, 'futuresPrice,indexPrice,basis,basisRate', 'USDT; ratio; UTC ms', true, 2, 'Latest 30 days; not a two-year endpoint; current REST region restriction', rest_blocked]
+  - [um_taker_buy_sell_rest, derivatives, ORIGINAL, PARTIALLY_AVAILABLE, binance_rest, 5m_or_coarser, 'buyVol,sellVol,buySellRatio', 'base quantities; ratio; UTC ms', true, 2, 'Latest 30 days; archive metrics ratio is not raw buy and sell volume separately', rest_blocked]
+  - [um_position_ratios_rest, derivatives, ORIGINAL, PARTIALLY_AVAILABLE, binance_rest, 5m_or_coarser, 'top/global account and position ratios', 'dimensionless ratios', true, 2, 'Latest 30 days; archive mappings must be verified before claiming equivalence', rest_blocked]
+  - [spot_trades, related_markets, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, tick, 'id,price,qty,quoteQty,time,isBuyerMaker,isBestMatch', 'USDT/base; ms before 2025, microseconds from 2025', true, 2, 'Preserve source precision; USD-M schema cannot silently parse spot timestamps/extra fields', parser_pending]
+  - [spot_aggTrades, related_markets, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, aggregate_tick, 'id,price,qty,first,last,time,maker,best_match', 'USDT/base; ms/us transition', false, 3, 'Evaluate incremental research value after individual spot trades; no indiscriminate duplicate campaign', discovery_running]
+  - [spot_klines_1m, related_markets, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, 1m, '12-field OHLCV', 'USDT/base; source ms/us precision', true, 2, 'Official cross-check of spot trades and futures-spot comparisons', parser_pending]
+  - [spot_klines_1s, related_markets, ORIGINAL, HISTORICAL_AVAILABLE, binance_archive, 1s, '12-field OHLCV', 'USDT/base; source ms/us precision', false, 3, 'Available spot interval; prioritize ticks plus 1m verification; never import 1s assumption into futures REST', evaluated]
+  - [coinbase_btc_eth_sol, related_markets, ORIGINAL, PARTIALLY_AVAILABLE, coinbase, candle_or_tick, 'product_id,time,OHLCV/trade fields', 'USD/base; source timestamps', false, 3, 'BTC-USD/ETH-USD/SOL-USD extra venue context; retention, product dates and incremental utility not certified', evaluated]
+  - [crypto_market_cap, related_markets, ORIGINAL, PARTIALLY_AVAILABLE, coinmetrics, 1d, 'asset,time,CapMrktCurUSD and price metrics where offered', 'USD; daily UTC', true, 3, 'Community coverage and supply methodology differ by asset; does not guarantee entire crypto universe', probe_pending]
+  - [crypto_global_dominance, related_markets, ORIGINAL, PROVIDER_RESTRICTED, coingecko, provider_dependent, 'global market cap,dominance,coin market cap', 'USD; percent; provider times', false, 3, 'Full two-year free historical access/redistribution not established; no subscription authorized', provider_gate]
+  - [macro_calendar, external_context, ORIGINAL, HISTORICAL_AVAILABLE, bls, release_event, 'scheduled date,time,event,reference period,calendar revision', 'America/New_York to UTC', true, 1, 'Calendars can change; retrieve original releases, not schedule alone as realized event evidence', parser_pending]
+  - [macro_cpi, external_context, ORIGINAL, HISTORICAL_AVAILABLE, bls, monthly_release, 'original headline/core CPI release and revision metadata', 'index levels; MoM/YoY percentages; release UTC', true, 1, 'Original archived release differs from current revised time series', parser_pending]
+  - [macro_ppi, external_context, ORIGINAL, HISTORICAL_AVAILABLE, bls, monthly_release, 'original PPI release and revisions', 'index/percent; publication UTC', true, 1, 'Revisions and rescheduled releases must be retained', parser_pending]
+  - [macro_nfp_employment, external_context, ORIGINAL, HISTORICAL_AVAILABLE, bls, monthly_release, 'payrolls,unemployment,wages,initial and revised values', 'persons; percent; earnings; UTC publication', true, 1, 'Payroll benchmark revisions and previous-month corrections cannot replace initial values', parser_pending]
+  - [macro_jolts, external_context, ORIGINAL, HISTORICAL_AVAILABLE, bls, monthly_release, 'vacancies,hires,separations,initial/revised values', 'persons/rates; release time', true, 2, 'Release embargo time and revision lineage required', parser_pending]
+  - [fomc_calendar_statements, external_context, ORIGINAL, HISTORICAL_AVAILABLE, fed, meeting_release, 'meeting dates,statement,target range,release time', 'percent policy rates; America/New_York', true, 1, 'Statement, minutes and press conference are separate availability events', parser_pending]
+  - [fomc_minutes_sep, external_context, ORIGINAL, HISTORICAL_AVAILABLE, fed, separate_release, 'minutes,SEP forecasts,dot-plot version', 'document/time; forecast percent', true, 2, 'Minutes are published after meeting; forecasts are not later realized values', parser_pending]
+  - [ecb_decisions, external_context, ORIGINAL, HISTORICAL_AVAILABLE, ecb, policy_release, 'decision,rate levels,statement,time', 'percent; Europe/Berlin to UTC', true, 2, 'Euro policy context; separate original release and correction times', parser_pending]
+  - [macro_vintages, external_context, ORIGINAL, PARTIALLY_AVAILABLE, alfred, vintage_date, 'series,value,realtime_start,realtime_end', 'series units; daily real-time metadata', true, 2, 'Free API key unavailable here; vintage date is not an intraday availability guarantee', credential_gate]
+  - [financial_crypto_news_metadata, external_context, ORIGINAL, PARTIALLY_AVAILABLE, gdelt, 15m_archive, 'URL,first-seen,source,language,themes,mentions', 'UTC crawl/mention times', true, 2, 'DOC search short retention is not full archive limit; archive can cover window; scoped filter/storage pilot needed', parser_pending]
+  - [news_original_text, external_context, ORIGINAL, PROVIDER_RESTRICTED, gdelt, article_release, 'original article publication and content revisions', 'source time/text', false, 3, 'GDELT URL discovery does not grant republication rights to every publisher article', provider_gate]
+  - [regulatory_events, external_context, ORIGINAL, PARTIALLY_AVAILABLE, sec, announcement_event, 'release URL,published time,topic,correction history', 'UTC; document hash', true, 2, 'SEC is one regulator; coverage scope explicit, no universal global-event completeness claim', parser_pending]
+  - [binance_announcements, external_context, ORIGINAL, PARTIALLY_AVAILABLE, binance_rest, announcement_event, 'original notice URL,time,contract/rule/incident changes', 'publication UTC; original text hash', true, 1, 'Support announcements/terms and API change logs investigated separately; machine export not established', discovery_pending]
+  - [market_incidents, external_context, ORIGINAL, PARTIALLY_AVAILABLE, binance_rest, incident_event, 'status,maintenance notices,event times,affected symbols', 'UTC intervals', true, 1, 'Use official notices plus observed connection/error logs; absence of notice is not proof of uptime', discovery_pending]
+  - [vix_daily, related_markets, ORIGINAL, PARTIALLY_AVAILABLE, cboe, 1d, 'date,open,high,low,close', 'volatility index points', false, 3, 'Daily public history useful context; redistribution rights and original publication timing require review', licensing_gate]
+  - [historical_l2_tardis, order_book, ORIGINAL, PROVIDER_RESTRICTED, tardis, tick_L2, 'incremental_L2,snapshots,quotes,trades,funding', 'exchange and provider receive timestamps', false, 1, 'Historical L2 is commercially recoverable, not impossible; full authorized dates/coverage/rights require quote', provider_gate]
+  - [historical_l2_kaiko, order_book, ORIGINAL, PROVIDER_RESTRICTED, kaiko, provider_snapshots, 'L1/L2 snapshots,trades,derivative metrics', 'price/qty/provider times', false, 2, 'Snapshot product is not necessarily every depth event; venue coverage and redistribution license required', provider_gate]
+  - [execution_contract_filters, execution, ORIGINAL, PARTIALLY_AVAILABLE, binance_rest, change_and_poll, 'tickSize,stepSize,minQty,minNotional,contractType,status', 'USDT; base units; contract identifiers', true, 0, 'Current exchangeInfo is not two-year historical filters; dated announcements and forward snapshots needed', rest_blocked]
+  - [execution_fees_public, execution, ORIGINAL, PARTIALLY_AVAILABLE, binance_rest, change_event, 'public maker/taker fee tiers,effective dates,promotions', 'decimal fee rates; qualification rules', true, 1, 'Current fee table is not historical account-specific effective rate', documentation_pending]
+  - [execution_fees_account, execution, ORIGINAL, NOT_APPLICABLE, binance_rest, private_account, 'user commissionRate,income/filled orders', 'fee rate; asset amounts', false, 3, 'Public-market foundation has no private account permission or Binance credentials; never invent account fees', scope_excluded]
+  - [execution_latency_observed, execution, ORIGINAL, LIVE_ONLY, binance_ws, receive_event, 'exchange T/E,receive_ns,clock offset,processing delay', 'ms/ns; uncertainty bounds', true, 0, 'Receive times exist; calibrated clock and kernel receipt monitoring remain unimplemented', partial_clock_unknown]
+  - [full_l3_participant_orders, order_book, ORIGINAL, NOT_APPLICABLE, binance_ws, order_event, 'market-wide individual order identities/queue events', 'order-level identifiers', false, 3, 'Public Binance feed is market-by-price; private user orders do not reveal all participants; no deanonymization', scope_excluded]
+  - [insurance_adl_context, derivatives, ORIGINAL, PARTIALLY_AVAILABLE, binance_rest, snapshot, 'insuranceBalance,ADL risk where public', 'asset amounts/risk metrics', false, 3, 'Not public individual ADL executions; no proof that archive ID gaps correspond to these exclusions', evaluated]
+  - [continuous_contract_klines, operations, ORIGINAL, HISTORICAL_AVAILABLE, binance_rest, 1m_or_coarser, 'pair,contractType,OHLCV', 'USDT/base; UTC ms', false, 3, 'Perpetual pair already selected; extra delivery contracts excluded pending cost/utility assessment', scope_evaluated]

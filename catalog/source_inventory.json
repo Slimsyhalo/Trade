@@ -1,0 +1,3140 @@
+{
+  "schema_version": 1,
+  "requested_window": {
+    "start": "2024-10-07",
+    "end_inclusive": "2026-10-07",
+    "timezone": "UTC"
+  },
+  "research_only": true,
+  "phase_1_accepted": false,
+  "sources": {
+    "binance_archive": {
+      "provider": "Binance Vision",
+      "reference": "https://github.com/binance/binance-public-data",
+      "terms": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed"
+    },
+    "binance_rest": {
+      "provider": "Binance USD-M public REST",
+      "reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "terms": "https://www.binance.com/en/terms",
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference"
+    },
+    "binance_ws": {
+      "provider": "Binance USD-M public WebSocket",
+      "reference": "https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/websocket-market-streams/Important-WebSocket-Change-Notice",
+      "terms": "https://www.binance.com/en/terms",
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Routed public/market connections, heartbeats/reconnects; bounded payload queues",
+      "temporal_policy": "Exchange ms and local receive ns; local clock calibration still required"
+    },
+    "bls": {
+      "provider": "US Bureau of Labor Statistics",
+      "reference": "https://www.bls.gov/bls/newsrels.htm",
+      "terms": "https://www.bls.gov/bls/linksite.htm",
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Public release documents; cache and pace; API registration is separate from archived releases",
+      "temporal_policy": "Release header time America/New_York with DST; original release and revisions kept separately"
+    },
+    "fed": {
+      "provider": "Federal Reserve",
+      "reference": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "terms": "https://www.federalreserve.gov/disclaimer.htm",
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Public calendar and dated release documents; paced acquisition",
+      "temporal_policy": "Original publication header and IANA America/New_York; scheduled time is not effective received time"
+    },
+    "alfred": {
+      "provider": "Federal Reserve Bank of St Louis ALFRED",
+      "reference": "https://fred.stlouisfed.org/docs/api/fred/realtime_period.html",
+      "terms": "https://fred.stlouisfed.org/legal/",
+      "cost": {
+        "access": "free_with_key",
+        "account_required": true
+      },
+      "quota": "API key and endpoint policies; do not assume unbounded calls",
+      "temporal_policy": "Vintage dates preserve revisions; day-level real-time metadata is not an intraday publication timestamp"
+    },
+    "gdelt": {
+      "provider": "GDELT",
+      "reference": "https://www.gdeltproject.org/data.html",
+      "terms": "https://www.gdeltproject.org/about.html",
+      "cost": {
+        "access": "free_archive",
+        "account_required": false,
+        "bigquery_paid_queries_authorized": false
+      },
+      "quota": "Fifteen-minute archives; full global graph is TB scale, use justified filters",
+      "temporal_policy": "Discovery/first-seen time differs from original article publication; article edits and missing coverage explicit"
+    },
+    "coingecko": {
+      "provider": "CoinGecko",
+      "reference": "https://docs.coingecko.com/reference/coins-id-market-chart-range",
+      "terms": "https://www.coingecko.com/en/api_terms",
+      "cost": {
+        "access": "plan_dependent",
+        "account_required": true,
+        "paid_authorized": false
+      },
+      "quota": "Historical depth and granularity depend on plan; no two-year free coverage assumed",
+      "temporal_policy": "Aggregated provider timestamps and revisions; not executable exchange ticks"
+    },
+    "coinmetrics": {
+      "provider": "Coin Metrics Community",
+      "reference": "https://gitbook-docs.coinmetrics.io/packages/coin-metrics-community-data",
+      "terms": "https://coinmetrics.io/terms-and-conditions/",
+      "cost": {
+        "access": "community_subset_free",
+        "account_required": false,
+        "paid_authorized": false
+      },
+      "quota": "Community subset only; bounded API dates and pagination; per-asset availability must be probed",
+      "temporal_policy": "Daily metric time and retrieval time; provider methodology/revisions and publication delay required"
+    },
+    "tardis": {
+      "provider": "Tardis.dev",
+      "reference": "https://docs.tardis.dev/faq/general",
+      "terms": "https://tardis.dev/terms",
+      "cost": {
+        "access": "provider_subscription_or_sample",
+        "paid_authorized": false,
+        "public_redistribution_authorized": false
+      },
+      "quota": "Exchange/channel/date-specific coverage; subscription and redistribution rights required",
+      "temporal_policy": "Exchange plus provider receive time; vendor gaps remain possible"
+    },
+    "kaiko": {
+      "provider": "Kaiko",
+      "reference": "https://docs.kaiko.com/explore-our-data/data-dictionary",
+      "terms": "https://www.kaiko.com/",
+      "cost": {
+        "access": "commercial_contract",
+        "paid_authorized": false,
+        "public_redistribution_authorized": false
+      },
+      "quota": "Product/venue-specific coverage and rate limits; commercial quote required",
+      "temporal_policy": "Vendor snapshots/trades with data-version metadata; not guaranteed gap-free event-level L2"
+    },
+    "cboe": {
+      "provider": "Cboe",
+      "reference": "https://www.cboe.com/tradable-products/vix/vix-historical-data",
+      "terms": "https://www.cboe.com/us/legal/",
+      "cost": {
+        "access": "public_daily_or_licensed_intraday",
+        "public_redistribution_authorized": false,
+        "paid_authorized": false
+      },
+      "quota": "Daily public history differs from paid intraday/index redistribution licenses",
+      "temporal_policy": "End-of-day observations are unavailable at day's open; precise publication timing unproven"
+    },
+    "coinbase": {
+      "provider": "Coinbase Exchange",
+      "reference": "https://docs.cdp.coinbase.com/exchange/reference/exchangerestapi_getproductcandles",
+      "terms": "https://www.coinbase.com/legal/user_agreement/united_states",
+      "cost": {
+        "access": "public_market_data",
+        "paid_authorized": false
+      },
+      "quota": "Bounded candle queries; per-product retention/completeness must be validated",
+      "temporal_policy": "Exchange candle times plus received time; missing intervals must not be fabricated"
+    },
+    "sec": {
+      "provider": "US SEC",
+      "reference": "https://www.sec.gov/newsroom/press-releases",
+      "terms": "https://www.sec.gov/about/privacy-information",
+      "cost": {
+        "access": "public",
+        "account_required": false
+      },
+      "quota": "SEC fair-access limits and declared client identification; public announcements, not universal regulatory coverage",
+      "temporal_policy": "Original publication metadata plus received/revision timestamps; no retrospective edit substitution"
+    },
+    "ecb": {
+      "provider": "ECB",
+      "reference": "https://www.ecb.europa.eu/press/govcdec/mopo/html/index.en.html",
+      "terms": "https://www.ecb.europa.eu/services/disclaimer/html/index.en.html",
+      "cost": {
+        "access": "public",
+        "account_required": false
+      },
+      "quota": "Paced public document acquisition and caching",
+      "temporal_policy": "Original release time Europe/Berlin with DST; corrections separately versioned"
+    }
+  },
+  "datasets": [
+    {
+      "id": "um_trades",
+      "family": "operations",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "tick",
+      "schema": "id,price,qty,quote_qty,time,is_buyer_maker",
+      "units": "base units; USDT; ms UTC",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Source checksums and structural QA; ID gaps unresolved, retain quarantine and cross-dataset evidence",
+      "implementation": "core_quarantined",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "operations",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_aggTrades",
+      "family": "operations",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "aggregate_tick",
+      "schema": "agg_trade_id,price,quantity,first_trade_id,last_trade_id,timestamp,is_buyer_maker",
+      "units": "base units; USDT; ms UTC",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Not a lossless substitute for individual executions; RPI tags/normal quantity differ between archive and live",
+      "implementation": "core_running",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "operations",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_klines_1m",
+      "family": "operations",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "1m",
+      "schema": "OHLCV,quote_volume,trade_count,taker_buy_volume",
+      "units": "USDT; base; UTC ms",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Full-minute original observations; no fabricated empty bars",
+      "implementation": "core_running",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "operations",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_mark_price",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "1m",
+      "schema": "mark OHLC",
+      "units": "USDT; UTC ms",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Placeholder volume is not traded volume",
+      "implementation": "core_running",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_index_price",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "1m",
+      "schema": "index OHLC",
+      "units": "USDT; UTC ms",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Composite reference index; constituents/changes require separate snapshots",
+      "implementation": "core_running",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_premium_index",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "1m",
+      "schema": "premium OHLC",
+      "units": "signed dimensionless ratio; UTC ms",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Negative premium valid; not a dollar price",
+      "implementation": "core_running",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_metrics",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "5m",
+      "schema": "OI level/value; top account/position/global ratios; taker long-short ratio",
+      "units": "base units; USDT; ratios; UTC text",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Historical publication delay unknown; timestamp labeling and cross-day QA require investigation",
+      "implementation": "core_running",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_funding_settled",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "variable_interval",
+      "schema": "calc_time,funding_interval_hours,last_funding_rate",
+      "units": "signed rate; interval hours; UTC ms",
+      "selected": true,
+      "priority": 1,
+      "limitations": "23 complete permitted months; 32 boundary days missing; settled value not a forward forecast",
+      "implementation": "funding_queued",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_funding_rules",
+      "family": "execution",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "binance_rest",
+      "resolution": "change_event",
+      "schema": "caps,floors,fundingIntervalHours",
+      "units": "rates; hours",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Current fundingInfo plus dated announcements; no universal historical rule log",
+      "implementation": "rest_blocked",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "execution",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_bookDepth_summary",
+      "family": "order_book",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "coarse_snapshots",
+      "schema": "timestamp,percentage,depth,notional",
+      "units": "relative percent bands; base depth; USDT notional",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Coarse liquidity bands are not individual price levels, full L2 or OFI; source anomalies must be audited",
+      "implementation": "parser_pending",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": "2024-10-07",
+        "latest_verified": "2026-10-07",
+        "complete_requested_window_certified": false,
+        "bounds_kind": "individual HEAD observations; intermediate coverage not inferred"
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "order_book",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": [
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/BTCUSDT/BTCUSDT-bookDepth-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:38:30.876441+00:00",
+          "http_status": 200,
+          "bytes": 466314,
+          "symbol": "BTCUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/BTCUSDT/BTCUSDT-bookDepth-2025-04-07.zip",
+          "observed_at": "2026-10-08T13:38:32.041782+00:00",
+          "http_status": 200,
+          "bytes": 470784,
+          "symbol": "BTCUSDT",
+          "day": "2025-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/BTCUSDT/BTCUSDT-bookDepth-2026-04-07.zip",
+          "observed_at": "2026-10-08T13:38:33.197001+00:00",
+          "http_status": 200,
+          "bytes": 518152,
+          "symbol": "BTCUSDT",
+          "day": "2026-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/BTCUSDT/BTCUSDT-bookDepth-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:38:34.604118+00:00",
+          "http_status": 200,
+          "bytes": 67325,
+          "symbol": "BTCUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/ETHUSDT/ETHUSDT-bookDepth-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:38:46.557649+00:00",
+          "http_status": 200,
+          "bytes": 492669,
+          "symbol": "ETHUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/ETHUSDT/ETHUSDT-bookDepth-2025-04-07.zip",
+          "observed_at": "2026-10-08T13:38:47.973052+00:00",
+          "http_status": 200,
+          "bytes": 499340,
+          "symbol": "ETHUSDT",
+          "day": "2025-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/ETHUSDT/ETHUSDT-bookDepth-2026-04-07.zip",
+          "observed_at": "2026-10-08T13:38:49.396903+00:00",
+          "http_status": 200,
+          "bytes": 556704,
+          "symbol": "ETHUSDT",
+          "day": "2026-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/ETHUSDT/ETHUSDT-bookDepth-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:38:50.811716+00:00",
+          "http_status": 200,
+          "bytes": 72187,
+          "symbol": "ETHUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/SOLUSDT/SOLUSDT-bookDepth-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:03.381520+00:00",
+          "http_status": 200,
+          "bytes": 410028,
+          "symbol": "SOLUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/SOLUSDT/SOLUSDT-bookDepth-2025-04-07.zip",
+          "observed_at": "2026-10-08T13:39:04.782803+00:00",
+          "http_status": 200,
+          "bytes": 412075,
+          "symbol": "SOLUSDT",
+          "day": "2025-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/SOLUSDT/SOLUSDT-bookDepth-2026-04-07.zip",
+          "observed_at": "2026-10-08T13:39:06.191008+00:00",
+          "http_status": 200,
+          "bytes": 517991,
+          "symbol": "SOLUSDT",
+          "day": "2026-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookDepth/SOLUSDT/SOLUSDT-bookDepth-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:07.607272+00:00",
+          "http_status": 200,
+          "bytes": 67443,
+          "symbol": "SOLUSDT",
+          "day": "2026-10-07"
+        }
+      ]
+    },
+    {
+      "id": "um_bookTicker_archive",
+      "family": "order_book",
+      "kind": "ORIGINAL",
+      "classification": "UNAVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "quote_tick",
+      "schema": "update_id,bid,ask,bid_qty,ask_qty,time",
+      "units": "USDT; base; source UTC time",
+      "selected": true,
+      "priority": 1,
+      "limitations": "No files listed in the advertised official archive prefix inside the authorized window for all three symbols. Scope: this archive only; paid historical providers remain separately inventoried.",
+      "implementation": "official_window_listing_empty",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false,
+        "bounds_kind": "individual HEAD observations; intermediate coverage not inferred"
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "order_book",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": [
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/BTCUSDT/BTCUSDT-bookTicker-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:38:36.016565+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "BTCUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/BTCUSDT/BTCUSDT-bookTicker-2025-04-07.zip",
+          "observed_at": "2026-10-08T13:38:37.433258+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "BTCUSDT",
+          "day": "2025-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/BTCUSDT/BTCUSDT-bookTicker-2026-04-07.zip",
+          "observed_at": "2026-10-08T13:38:38.593081+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "BTCUSDT",
+          "day": "2026-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/BTCUSDT/BTCUSDT-bookTicker-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:38:40.024482+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "BTCUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/ETHUSDT/ETHUSDT-bookTicker-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:38:52.228511+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "ETHUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/ETHUSDT/ETHUSDT-bookTicker-2025-04-07.zip",
+          "observed_at": "2026-10-08T13:38:53.628894+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "ETHUSDT",
+          "day": "2025-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/ETHUSDT/ETHUSDT-bookTicker-2026-04-07.zip",
+          "observed_at": "2026-10-08T13:38:55.051732+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "ETHUSDT",
+          "day": "2026-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/ETHUSDT/ETHUSDT-bookTicker-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:38:56.467114+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "ETHUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/SOLUSDT/SOLUSDT-bookTicker-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:09.015080+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "SOLUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/SOLUSDT/SOLUSDT-bookTicker-2025-04-07.zip",
+          "observed_at": "2026-10-08T13:39:10.429955+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "SOLUSDT",
+          "day": "2025-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/SOLUSDT/SOLUSDT-bookTicker-2026-04-07.zip",
+          "observed_at": "2026-10-08T13:39:11.848614+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "SOLUSDT",
+          "day": "2026-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/bookTicker/SOLUSDT/SOLUSDT-bookTicker-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:13.251621+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "SOLUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "report": "reports/extended_source_probes.json",
+          "scope": "bounded complete prefix listing for selected symbols"
+        }
+      ]
+    },
+    {
+      "id": "um_liquidation_archive",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "UNAVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "liquidation_event",
+      "schema": "source liquidationSnapshot schema not yet established",
+      "units": "source quantities and times",
+      "selected": true,
+      "priority": 1,
+      "limitations": "No files listed in the advertised official archive prefix inside the authorized window for all three symbols. Scope: this archive only; paid historical providers remain separately inventoried.",
+      "implementation": "official_window_listing_empty",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false,
+        "bounds_kind": "individual HEAD observations; intermediate coverage not inferred"
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": [
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/BTCUSDT/BTCUSDT-liquidationSnapshot-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:38:41.431397+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "BTCUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/BTCUSDT/BTCUSDT-liquidationSnapshot-2025-04-07.zip",
+          "observed_at": "2026-10-08T13:38:42.583893+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "BTCUSDT",
+          "day": "2025-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/BTCUSDT/BTCUSDT-liquidationSnapshot-2026-04-07.zip",
+          "observed_at": "2026-10-08T13:38:43.742034+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "BTCUSDT",
+          "day": "2026-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/BTCUSDT/BTCUSDT-liquidationSnapshot-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:38:45.141393+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "BTCUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/ETHUSDT/ETHUSDT-liquidationSnapshot-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:38:57.874546+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "ETHUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/ETHUSDT/ETHUSDT-liquidationSnapshot-2025-04-07.zip",
+          "observed_at": "2026-10-08T13:38:59.281233+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "ETHUSDT",
+          "day": "2025-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/ETHUSDT/ETHUSDT-liquidationSnapshot-2026-04-07.zip",
+          "observed_at": "2026-10-08T13:39:00.689529+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "ETHUSDT",
+          "day": "2026-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/ETHUSDT/ETHUSDT-liquidationSnapshot-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:02.094197+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "ETHUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/SOLUSDT/SOLUSDT-liquidationSnapshot-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:14.656507+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "SOLUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/SOLUSDT/SOLUSDT-liquidationSnapshot-2025-04-07.zip",
+          "observed_at": "2026-10-08T13:39:16.056588+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "SOLUSDT",
+          "day": "2025-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/SOLUSDT/SOLUSDT-liquidationSnapshot-2026-04-07.zip",
+          "observed_at": "2026-10-08T13:39:17.451775+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "SOLUSDT",
+          "day": "2026-04-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/futures/um/daily/liquidationSnapshot/SOLUSDT/SOLUSDT-liquidationSnapshot-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:18.866911+00:00",
+          "http_status": 404,
+          "bytes": 0,
+          "symbol": "SOLUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "report": "reports/extended_source_probes.json",
+          "scope": "bounded complete prefix listing for selected symbols"
+        }
+      ]
+    },
+    {
+      "id": "um_depth_updates_live",
+      "family": "order_book",
+      "kind": "ORIGINAL",
+      "classification": "LIVE_ONLY",
+      "source_id": "binance_ws",
+      "resolution": "100ms_updates",
+      "schema": "U,u,pu,bids,asks,E,T",
+      "units": "price levels USDT; base quantity; UTC ms and receive ns",
+      "selected": true,
+      "priority": 0,
+      "limitations": "Snapshot bridge required; gap/reconnect invalidates book; raw deltas preserved",
+      "implementation": "source_fault_tested",
+      "provider": "Binance USD-M public WebSocket",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Routed public/market connections, heartbeats/reconnects; bounded payload queues",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/websocket-market-streams/Important-WebSocket-Change-Notice",
+      "temporal_policy": "Exchange ms and local receive ns; local clock calibration still required",
+      "dependencies": [],
+      "research_value": "order_book",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_bookTicker_live",
+      "family": "order_book",
+      "kind": "ORIGINAL",
+      "classification": "LIVE_ONLY",
+      "source_id": "binance_ws",
+      "resolution": "quote_event",
+      "schema": "u,b,B,a,A,E,T",
+      "units": "USDT; base; exchange ms and receive ns",
+      "selected": true,
+      "priority": 0,
+      "limitations": "Public top of book excludes hidden/RPI liquidity; historical free source not established",
+      "implementation": "source_fault_tested",
+      "provider": "Binance USD-M public WebSocket",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Routed public/market connections, heartbeats/reconnects; bounded payload queues",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/websocket-market-streams/Important-WebSocket-Change-Notice",
+      "temporal_policy": "Exchange ms and local receive ns; local clock calibration still required",
+      "dependencies": [],
+      "research_value": "order_book",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_liquidations_live",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "LIVE_ONLY",
+      "source_id": "binance_ws",
+      "resolution": "snapshot_stream",
+      "schema": "forceOrder payload",
+      "units": "side; price; quantity; exchange and receive time",
+      "selected": true,
+      "priority": 0,
+      "limitations": "Stream may publish snapshots rather than every liquidation; validate semantics before intensity metrics",
+      "implementation": "source_fault_tested",
+      "provider": "Binance USD-M public WebSocket",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Routed public/market connections, heartbeats/reconnects; bounded payload queues",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/websocket-market-streams/Important-WebSocket-Change-Notice",
+      "temporal_policy": "Exchange ms and local receive ns; local clock calibration still required",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_aggTrades_live",
+      "family": "operations",
+      "kind": "ORIGINAL",
+      "classification": "LIVE_ONLY",
+      "source_id": "binance_ws",
+      "resolution": "aggregate_event",
+      "schema": "a,p,q,f,l,T,m,nq when provided",
+      "units": "USDT; base; ms/ns",
+      "selected": true,
+      "priority": 0,
+      "limitations": "Extra live fields retained; not falsely described as individual tick executions",
+      "implementation": "source_fault_tested",
+      "provider": "Binance USD-M public WebSocket",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Routed public/market connections, heartbeats/reconnects; bounded payload queues",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/websocket-market-streams/Important-WebSocket-Change-Notice",
+      "temporal_policy": "Exchange ms and local receive ns; local clock calibration still required",
+      "dependencies": [],
+      "research_value": "operations",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_mark_funding_live",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "LIVE_ONLY",
+      "source_id": "binance_ws",
+      "resolution": "1s",
+      "schema": "mark,index,settle_estimate,funding,next_funding_time",
+      "units": "USDT; rate; UTC times",
+      "selected": true,
+      "priority": 0,
+      "limitations": "Estimated future settlement/funding distinct from later settled rates",
+      "implementation": "source_fault_tested",
+      "provider": "Binance USD-M public WebSocket",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Routed public/market connections, heartbeats/reconnects; bounded payload queues",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/websocket-market-streams/Important-WebSocket-Change-Notice",
+      "temporal_policy": "Exchange ms and local receive ns; local clock calibration still required",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_depth_snapshot_live",
+      "family": "order_book",
+      "kind": "ORIGINAL",
+      "classification": "LIVE_ONLY",
+      "source_id": "binance_rest",
+      "resolution": "poll_and_gap_recovery",
+      "schema": "lastUpdateId,bids,asks",
+      "units": "USDT; base quantities",
+      "selected": true,
+      "priority": 0,
+      "limitations": "REST 451 here; no evasion; valid book requires snapshot bridging",
+      "implementation": "rest_blocked",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "order_book",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_open_interest_live",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "LIVE_ONLY",
+      "source_id": "binance_rest",
+      "resolution": "polling",
+      "schema": "symbol,openInterest,time",
+      "units": "contract base units; UTC ms",
+      "selected": true,
+      "priority": 0,
+      "limitations": "Record polling availability; sampling is not continuous position/order observability",
+      "implementation": "rest_blocked",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_basis_rest",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "binance_rest",
+      "resolution": "5m_or_coarser",
+      "schema": "futuresPrice,indexPrice,basis,basisRate",
+      "units": "USDT; ratio; UTC ms",
+      "selected": true,
+      "priority": 2,
+      "limitations": "Latest 30 days; not a two-year endpoint; current REST region restriction",
+      "implementation": "rest_blocked",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_taker_buy_sell_rest",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "binance_rest",
+      "resolution": "5m_or_coarser",
+      "schema": "buyVol,sellVol,buySellRatio",
+      "units": "base quantities; ratio; UTC ms",
+      "selected": true,
+      "priority": 2,
+      "limitations": "Latest 30 days; archive metrics ratio is not raw buy and sell volume separately",
+      "implementation": "rest_blocked",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "um_position_ratios_rest",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "binance_rest",
+      "resolution": "5m_or_coarser",
+      "schema": "top/global account and position ratios",
+      "units": "dimensionless ratios",
+      "selected": true,
+      "priority": 2,
+      "limitations": "Latest 30 days; archive mappings must be verified before claiming equivalence",
+      "implementation": "rest_blocked",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "spot_trades",
+      "family": "related_markets",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "tick",
+      "schema": "id,price,qty,quoteQty,time,isBuyerMaker,isBestMatch",
+      "units": "USDT/base; ms before 2025, microseconds from 2025",
+      "selected": true,
+      "priority": 2,
+      "limitations": "Preserve source precision; USD-M schema cannot silently parse spot timestamps/extra fields",
+      "implementation": "parser_pending",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": "2024-10-07",
+        "latest_verified": "2026-10-07",
+        "complete_requested_window_certified": false,
+        "bounds_kind": "individual HEAD observations; intermediate coverage not inferred"
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "related_markets",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": [
+        {
+          "url": "https://data.binance.vision/data/spot/daily/trades/BTCUSDT/BTCUSDT-trades-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:24.508057+00:00",
+          "http_status": 200,
+          "bytes": 34679627,
+          "symbol": "BTCUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/trades/BTCUSDT/BTCUSDT-trades-2025-01-01.zip",
+          "observed_at": "2026-10-08T13:39:25.663392+00:00",
+          "http_status": 200,
+          "bytes": 14017578,
+          "symbol": "BTCUSDT",
+          "day": "2025-01-01"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/trades/BTCUSDT/BTCUSDT-trades-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:27.067215+00:00",
+          "http_status": 200,
+          "bytes": 40382150,
+          "symbol": "BTCUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/trades/ETHUSDT/ETHUSDT-trades-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:36.425977+00:00",
+          "http_status": 200,
+          "bytes": 24292791,
+          "symbol": "ETHUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/trades/ETHUSDT/ETHUSDT-trades-2025-01-01.zip",
+          "observed_at": "2026-10-08T13:39:37.841318+00:00",
+          "http_status": 200,
+          "bytes": 10939589,
+          "symbol": "ETHUSDT",
+          "day": "2025-01-01"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/trades/ETHUSDT/ETHUSDT-trades-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:39.246303+00:00",
+          "http_status": 200,
+          "bytes": 22585866,
+          "symbol": "ETHUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/trades/SOLUSDT/SOLUSDT-trades-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:48.866714+00:00",
+          "http_status": 200,
+          "bytes": 14806405,
+          "symbol": "SOLUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/trades/SOLUSDT/SOLUSDT-trades-2025-01-01.zip",
+          "observed_at": "2026-10-08T13:39:50.276575+00:00",
+          "http_status": 200,
+          "bytes": 8761121,
+          "symbol": "SOLUSDT",
+          "day": "2025-01-01"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/trades/SOLUSDT/SOLUSDT-trades-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:51.692391+00:00",
+          "http_status": 200,
+          "bytes": 7001701,
+          "symbol": "SOLUSDT",
+          "day": "2026-10-07"
+        }
+      ]
+    },
+    {
+      "id": "spot_aggTrades",
+      "family": "related_markets",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "aggregate_tick",
+      "schema": "id,price,qty,first,last,time,maker,best_match",
+      "units": "USDT/base; ms/us transition",
+      "selected": false,
+      "priority": 3,
+      "limitations": "Evaluate incremental research value after individual spot trades; no indiscriminate duplicate campaign",
+      "implementation": "discovery_running",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": "2024-10-07",
+        "latest_verified": "2026-10-07",
+        "complete_requested_window_certified": false,
+        "bounds_kind": "individual HEAD observations; intermediate coverage not inferred"
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "related_markets",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": [
+        {
+          "url": "https://data.binance.vision/data/spot/daily/aggTrades/BTCUSDT/BTCUSDT-aggTrades-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:28.218911+00:00",
+          "http_status": 200,
+          "bytes": 20171440,
+          "symbol": "BTCUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/aggTrades/BTCUSDT/BTCUSDT-aggTrades-2025-01-01.zip",
+          "observed_at": "2026-10-08T13:39:29.622282+00:00",
+          "http_status": 200,
+          "bytes": 9817372,
+          "symbol": "BTCUSDT",
+          "day": "2025-01-01"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/aggTrades/BTCUSDT/BTCUSDT-aggTrades-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:31.034058+00:00",
+          "http_status": 200,
+          "bytes": 35833390,
+          "symbol": "BTCUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/aggTrades/ETHUSDT/ETHUSDT-aggTrades-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:40.675989+00:00",
+          "http_status": 200,
+          "bytes": 14483255,
+          "symbol": "ETHUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/aggTrades/ETHUSDT/ETHUSDT-aggTrades-2025-01-01.zip",
+          "observed_at": "2026-10-08T13:39:42.085368+00:00",
+          "http_status": 200,
+          "bytes": 6778931,
+          "symbol": "ETHUSDT",
+          "day": "2025-01-01"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/aggTrades/ETHUSDT/ETHUSDT-aggTrades-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:43.483128+00:00",
+          "http_status": 200,
+          "bytes": 11791222,
+          "symbol": "ETHUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/aggTrades/SOLUSDT/SOLUSDT-aggTrades-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:53.090051+00:00",
+          "http_status": 200,
+          "bytes": 6474797,
+          "symbol": "SOLUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/aggTrades/SOLUSDT/SOLUSDT-aggTrades-2025-01-01.zip",
+          "observed_at": "2026-10-08T13:39:54.509895+00:00",
+          "http_status": 200,
+          "bytes": 4218102,
+          "symbol": "SOLUSDT",
+          "day": "2025-01-01"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/aggTrades/SOLUSDT/SOLUSDT-aggTrades-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:55.904706+00:00",
+          "http_status": 200,
+          "bytes": 3386045,
+          "symbol": "SOLUSDT",
+          "day": "2026-10-07"
+        }
+      ]
+    },
+    {
+      "id": "spot_klines_1m",
+      "family": "related_markets",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "1m",
+      "schema": "12-field OHLCV",
+      "units": "USDT/base; source ms/us precision",
+      "selected": true,
+      "priority": 2,
+      "limitations": "Official cross-check of spot trades and futures-spot comparisons",
+      "implementation": "parser_pending",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": "2024-10-07",
+        "latest_verified": "2026-10-07",
+        "complete_requested_window_certified": false,
+        "bounds_kind": "individual HEAD observations; intermediate coverage not inferred"
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "related_markets",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": [
+        {
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:20.263798+00:00",
+          "http_status": 200,
+          "bytes": 69802,
+          "symbol": "BTCUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-01-01.zip",
+          "observed_at": "2026-10-08T13:39:21.679588+00:00",
+          "http_status": 200,
+          "bytes": 69062,
+          "symbol": "BTCUSDT",
+          "day": "2025-01-01"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:23.093286+00:00",
+          "http_status": 200,
+          "bytes": 70060,
+          "symbol": "BTCUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:32.182926+00:00",
+          "http_status": 200,
+          "bytes": 67068,
+          "symbol": "ETHUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-01-01.zip",
+          "observed_at": "2026-10-08T13:39:33.598996+00:00",
+          "http_status": 200,
+          "bytes": 66406,
+          "symbol": "ETHUSDT",
+          "day": "2025-01-01"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:35.013057+00:00",
+          "http_status": 200,
+          "bytes": 67267,
+          "symbol": "ETHUSDT",
+          "day": "2026-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/klines/SOLUSDT/1m/SOLUSDT-1m-2024-10-07.zip",
+          "observed_at": "2026-10-08T13:39:44.639961+00:00",
+          "http_status": 200,
+          "bytes": 62081,
+          "symbol": "SOLUSDT",
+          "day": "2024-10-07"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/klines/SOLUSDT/1m/SOLUSDT-1m-2025-01-01.zip",
+          "observed_at": "2026-10-08T13:39:46.040968+00:00",
+          "http_status": 200,
+          "bytes": 61474,
+          "symbol": "SOLUSDT",
+          "day": "2025-01-01"
+        },
+        {
+          "url": "https://data.binance.vision/data/spot/daily/klines/SOLUSDT/1m/SOLUSDT-1m-2026-10-07.zip",
+          "observed_at": "2026-10-08T13:39:47.455320+00:00",
+          "http_status": 200,
+          "bytes": 59439,
+          "symbol": "SOLUSDT",
+          "day": "2026-10-07"
+        }
+      ]
+    },
+    {
+      "id": "spot_klines_1s",
+      "family": "related_markets",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_archive",
+      "resolution": "1s",
+      "schema": "12-field OHLCV",
+      "units": "USDT/base; source ms/us precision",
+      "selected": false,
+      "priority": 3,
+      "limitations": "Available spot interval; prioritize ticks plus 1m verification; never import 1s assumption into futures REST",
+      "implementation": "evaluated",
+      "provider": "Binance Vision",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false,
+        "commercial_authorization": false,
+        "dataset_license": "CC-BY-NC-SA-4.0"
+      },
+      "quota": "No fixed archive quota assumed; one request/second; respect rate/restriction responses",
+      "terms_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+      "source_reference": "https://github.com/binance/binance-public-data",
+      "temporal_policy": "Original source timestamps retained; publication latency unknown unless explicitly observed",
+      "dependencies": [],
+      "research_value": "related_markets",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "coinbase_btc_eth_sol",
+      "family": "related_markets",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "coinbase",
+      "resolution": "candle_or_tick",
+      "schema": "product_id,time,OHLCV/trade fields",
+      "units": "USD/base; source timestamps",
+      "selected": false,
+      "priority": 3,
+      "limitations": "BTC-USD/ETH-USD/SOL-USD extra venue context; retention, product dates and incremental utility not certified",
+      "implementation": "evaluated",
+      "provider": "Coinbase Exchange",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "public_market_data",
+        "paid_authorized": false
+      },
+      "quota": "Bounded candle queries; per-product retention/completeness must be validated",
+      "terms_url": "https://www.coinbase.com/legal/user_agreement/united_states",
+      "source_reference": "https://docs.cdp.coinbase.com/exchange/reference/exchangerestapi_getproductcandles",
+      "temporal_policy": "Exchange candle times plus received time; missing intervals must not be fabricated",
+      "dependencies": [],
+      "research_value": "related_markets",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "crypto_market_cap",
+      "family": "related_markets",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "coinmetrics",
+      "resolution": "1d",
+      "schema": "asset,time,CapMrktCurUSD and price metrics where offered",
+      "units": "USD; daily UTC",
+      "selected": true,
+      "priority": 3,
+      "limitations": "Community coverage and supply methodology differ by asset; does not guarantee entire crypto universe",
+      "implementation": "probe_pending",
+      "provider": "Coin Metrics Community",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "community_subset_free",
+        "account_required": false,
+        "paid_authorized": false
+      },
+      "quota": "Community subset only; bounded API dates and pagination; per-asset availability must be probed",
+      "terms_url": "https://coinmetrics.io/terms-and-conditions/",
+      "source_reference": "https://gitbook-docs.coinmetrics.io/packages/coin-metrics-community-data",
+      "temporal_policy": "Daily metric time and retrieval time; provider methodology/revisions and publication delay required",
+      "dependencies": [],
+      "research_value": "related_markets",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "crypto_global_dominance",
+      "family": "related_markets",
+      "kind": "ORIGINAL",
+      "classification": "PROVIDER_RESTRICTED",
+      "source_id": "coingecko",
+      "resolution": "provider_dependent",
+      "schema": "global market cap,dominance,coin market cap",
+      "units": "USD; percent; provider times",
+      "selected": false,
+      "priority": 3,
+      "limitations": "Full two-year free historical access/redistribution not established; no subscription authorized",
+      "implementation": "provider_gate",
+      "provider": "CoinGecko",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "plan_dependent",
+        "account_required": true,
+        "paid_authorized": false
+      },
+      "quota": "Historical depth and granularity depend on plan; no two-year free coverage assumed",
+      "terms_url": "https://www.coingecko.com/en/api_terms",
+      "source_reference": "https://docs.coingecko.com/reference/coins-id-market-chart-range",
+      "temporal_policy": "Aggregated provider timestamps and revisions; not executable exchange ticks",
+      "dependencies": [],
+      "research_value": "related_markets",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "macro_calendar",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "bls",
+      "resolution": "release_event",
+      "schema": "scheduled date,time,event,reference period,calendar revision",
+      "units": "America/New_York to UTC",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Calendars can change; retrieve original releases, not schedule alone as realized event evidence",
+      "implementation": "parser_pending",
+      "provider": "US Bureau of Labor Statistics",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Public release documents; cache and pace; API registration is separate from archived releases",
+      "terms_url": "https://www.bls.gov/bls/linksite.htm",
+      "source_reference": "https://www.bls.gov/bls/newsrels.htm",
+      "temporal_policy": "Release header time America/New_York with DST; original release and revisions kept separately",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "macro_cpi",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "bls",
+      "resolution": "monthly_release",
+      "schema": "original headline/core CPI release and revision metadata",
+      "units": "index levels; MoM/YoY percentages; release UTC",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Original archived release differs from current revised time series",
+      "implementation": "parser_pending",
+      "provider": "US Bureau of Labor Statistics",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Public release documents; cache and pace; API registration is separate from archived releases",
+      "terms_url": "https://www.bls.gov/bls/linksite.htm",
+      "source_reference": "https://www.bls.gov/bls/newsrels.htm",
+      "temporal_policy": "Release header time America/New_York with DST; original release and revisions kept separately",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "macro_ppi",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "bls",
+      "resolution": "monthly_release",
+      "schema": "original PPI release and revisions",
+      "units": "index/percent; publication UTC",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Revisions and rescheduled releases must be retained",
+      "implementation": "parser_pending",
+      "provider": "US Bureau of Labor Statistics",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Public release documents; cache and pace; API registration is separate from archived releases",
+      "terms_url": "https://www.bls.gov/bls/linksite.htm",
+      "source_reference": "https://www.bls.gov/bls/newsrels.htm",
+      "temporal_policy": "Release header time America/New_York with DST; original release and revisions kept separately",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "macro_nfp_employment",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "bls",
+      "resolution": "monthly_release",
+      "schema": "payrolls,unemployment,wages,initial and revised values",
+      "units": "persons; percent; earnings; UTC publication",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Payroll benchmark revisions and previous-month corrections cannot replace initial values",
+      "implementation": "parser_pending",
+      "provider": "US Bureau of Labor Statistics",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Public release documents; cache and pace; API registration is separate from archived releases",
+      "terms_url": "https://www.bls.gov/bls/linksite.htm",
+      "source_reference": "https://www.bls.gov/bls/newsrels.htm",
+      "temporal_policy": "Release header time America/New_York with DST; original release and revisions kept separately",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "macro_jolts",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "bls",
+      "resolution": "monthly_release",
+      "schema": "vacancies,hires,separations,initial/revised values",
+      "units": "persons/rates; release time",
+      "selected": true,
+      "priority": 2,
+      "limitations": "Release embargo time and revision lineage required",
+      "implementation": "parser_pending",
+      "provider": "US Bureau of Labor Statistics",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Public release documents; cache and pace; API registration is separate from archived releases",
+      "terms_url": "https://www.bls.gov/bls/linksite.htm",
+      "source_reference": "https://www.bls.gov/bls/newsrels.htm",
+      "temporal_policy": "Release header time America/New_York with DST; original release and revisions kept separately",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "fomc_calendar_statements",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "fed",
+      "resolution": "meeting_release",
+      "schema": "meeting dates,statement,target range,release time",
+      "units": "percent policy rates; America/New_York",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Statement, minutes and press conference are separate availability events",
+      "implementation": "parser_pending",
+      "provider": "Federal Reserve",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Public calendar and dated release documents; paced acquisition",
+      "terms_url": "https://www.federalreserve.gov/disclaimer.htm",
+      "source_reference": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "temporal_policy": "Original publication header and IANA America/New_York; scheduled time is not effective received time",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "fomc_minutes_sep",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "fed",
+      "resolution": "separate_release",
+      "schema": "minutes,SEP forecasts,dot-plot version",
+      "units": "document/time; forecast percent",
+      "selected": true,
+      "priority": 2,
+      "limitations": "Minutes are published after meeting; forecasts are not later realized values",
+      "implementation": "parser_pending",
+      "provider": "Federal Reserve",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Public calendar and dated release documents; paced acquisition",
+      "terms_url": "https://www.federalreserve.gov/disclaimer.htm",
+      "source_reference": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "temporal_policy": "Original publication header and IANA America/New_York; scheduled time is not effective received time",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "ecb_decisions",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "ecb",
+      "resolution": "policy_release",
+      "schema": "decision,rate levels,statement,time",
+      "units": "percent; Europe/Berlin to UTC",
+      "selected": true,
+      "priority": 2,
+      "limitations": "Euro policy context; separate original release and correction times",
+      "implementation": "parser_pending",
+      "provider": "ECB",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "public",
+        "account_required": false
+      },
+      "quota": "Paced public document acquisition and caching",
+      "terms_url": "https://www.ecb.europa.eu/services/disclaimer/html/index.en.html",
+      "source_reference": "https://www.ecb.europa.eu/press/govcdec/mopo/html/index.en.html",
+      "temporal_policy": "Original release time Europe/Berlin with DST; corrections separately versioned",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "macro_vintages",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "alfred",
+      "resolution": "vintage_date",
+      "schema": "series,value,realtime_start,realtime_end",
+      "units": "series units; daily real-time metadata",
+      "selected": true,
+      "priority": 2,
+      "limitations": "Free API key unavailable here; vintage date is not an intraday availability guarantee",
+      "implementation": "credential_gate",
+      "provider": "Federal Reserve Bank of St Louis ALFRED",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free_with_key",
+        "account_required": true
+      },
+      "quota": "API key and endpoint policies; do not assume unbounded calls",
+      "terms_url": "https://fred.stlouisfed.org/legal/",
+      "source_reference": "https://fred.stlouisfed.org/docs/api/fred/realtime_period.html",
+      "temporal_policy": "Vintage dates preserve revisions; day-level real-time metadata is not an intraday publication timestamp",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "financial_crypto_news_metadata",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "gdelt",
+      "resolution": "15m_archive",
+      "schema": "URL,first-seen,source,language,themes,mentions",
+      "units": "UTC crawl/mention times",
+      "selected": true,
+      "priority": 2,
+      "limitations": "DOC search short retention is not full archive limit; archive can cover window; scoped filter/storage pilot needed",
+      "implementation": "parser_pending",
+      "provider": "GDELT",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free_archive",
+        "account_required": false,
+        "bigquery_paid_queries_authorized": false
+      },
+      "quota": "Fifteen-minute archives; full global graph is TB scale, use justified filters",
+      "terms_url": "https://www.gdeltproject.org/about.html",
+      "source_reference": "https://www.gdeltproject.org/data.html",
+      "temporal_policy": "Discovery/first-seen time differs from original article publication; article edits and missing coverage explicit",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "news_original_text",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "PROVIDER_RESTRICTED",
+      "source_id": "gdelt",
+      "resolution": "article_release",
+      "schema": "original article publication and content revisions",
+      "units": "source time/text",
+      "selected": false,
+      "priority": 3,
+      "limitations": "GDELT URL discovery does not grant republication rights to every publisher article",
+      "implementation": "provider_gate",
+      "provider": "GDELT",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free_archive",
+        "account_required": false,
+        "bigquery_paid_queries_authorized": false
+      },
+      "quota": "Fifteen-minute archives; full global graph is TB scale, use justified filters",
+      "terms_url": "https://www.gdeltproject.org/about.html",
+      "source_reference": "https://www.gdeltproject.org/data.html",
+      "temporal_policy": "Discovery/first-seen time differs from original article publication; article edits and missing coverage explicit",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "regulatory_events",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "sec",
+      "resolution": "announcement_event",
+      "schema": "release URL,published time,topic,correction history",
+      "units": "UTC; document hash",
+      "selected": true,
+      "priority": 2,
+      "limitations": "SEC is one regulator; coverage scope explicit, no universal global-event completeness claim",
+      "implementation": "parser_pending",
+      "provider": "US SEC",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "public",
+        "account_required": false
+      },
+      "quota": "SEC fair-access limits and declared client identification; public announcements, not universal regulatory coverage",
+      "terms_url": "https://www.sec.gov/about/privacy-information",
+      "source_reference": "https://www.sec.gov/newsroom/press-releases",
+      "temporal_policy": "Original publication metadata plus received/revision timestamps; no retrospective edit substitution",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "binance_announcements",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "binance_rest",
+      "resolution": "announcement_event",
+      "schema": "original notice URL,time,contract/rule/incident changes",
+      "units": "publication UTC; original text hash",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Support announcements/terms and API change logs investigated separately; machine export not established",
+      "implementation": "discovery_pending",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "market_incidents",
+      "family": "external_context",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "binance_rest",
+      "resolution": "incident_event",
+      "schema": "status,maintenance notices,event times,affected symbols",
+      "units": "UTC intervals",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Use official notices plus observed connection/error logs; absence of notice is not proof of uptime",
+      "implementation": "discovery_pending",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "external_context",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "vix_daily",
+      "family": "related_markets",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "cboe",
+      "resolution": "1d",
+      "schema": "date,open,high,low,close",
+      "units": "volatility index points",
+      "selected": false,
+      "priority": 3,
+      "limitations": "Daily public history useful context; redistribution rights and original publication timing require review",
+      "implementation": "licensing_gate",
+      "provider": "Cboe",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "public_daily_or_licensed_intraday",
+        "public_redistribution_authorized": false,
+        "paid_authorized": false
+      },
+      "quota": "Daily public history differs from paid intraday/index redistribution licenses",
+      "terms_url": "https://www.cboe.com/us/legal/",
+      "source_reference": "https://www.cboe.com/tradable-products/vix/vix-historical-data",
+      "temporal_policy": "End-of-day observations are unavailable at day's open; precise publication timing unproven",
+      "dependencies": [],
+      "research_value": "related_markets",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "historical_l2_tardis",
+      "family": "order_book",
+      "kind": "ORIGINAL",
+      "classification": "PROVIDER_RESTRICTED",
+      "source_id": "tardis",
+      "resolution": "tick_L2",
+      "schema": "incremental_L2,snapshots,quotes,trades,funding",
+      "units": "exchange and provider receive timestamps",
+      "selected": false,
+      "priority": 1,
+      "limitations": "Historical L2 is commercially recoverable, not impossible; full authorized dates/coverage/rights require quote",
+      "implementation": "provider_gate",
+      "provider": "Tardis.dev",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "provider_subscription_or_sample",
+        "paid_authorized": false,
+        "public_redistribution_authorized": false
+      },
+      "quota": "Exchange/channel/date-specific coverage; subscription and redistribution rights required",
+      "terms_url": "https://tardis.dev/terms",
+      "source_reference": "https://docs.tardis.dev/faq/general",
+      "temporal_policy": "Exchange plus provider receive time; vendor gaps remain possible",
+      "dependencies": [],
+      "research_value": "order_book",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "historical_l2_kaiko",
+      "family": "order_book",
+      "kind": "ORIGINAL",
+      "classification": "PROVIDER_RESTRICTED",
+      "source_id": "kaiko",
+      "resolution": "provider_snapshots",
+      "schema": "L1/L2 snapshots,trades,derivative metrics",
+      "units": "price/qty/provider times",
+      "selected": false,
+      "priority": 2,
+      "limitations": "Snapshot product is not necessarily every depth event; venue coverage and redistribution license required",
+      "implementation": "provider_gate",
+      "provider": "Kaiko",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "commercial_contract",
+        "paid_authorized": false,
+        "public_redistribution_authorized": false
+      },
+      "quota": "Product/venue-specific coverage and rate limits; commercial quote required",
+      "terms_url": "https://www.kaiko.com/",
+      "source_reference": "https://docs.kaiko.com/explore-our-data/data-dictionary",
+      "temporal_policy": "Vendor snapshots/trades with data-version metadata; not guaranteed gap-free event-level L2",
+      "dependencies": [],
+      "research_value": "order_book",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "execution_contract_filters",
+      "family": "execution",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "binance_rest",
+      "resolution": "change_and_poll",
+      "schema": "tickSize,stepSize,minQty,minNotional,contractType,status",
+      "units": "USDT; base units; contract identifiers",
+      "selected": true,
+      "priority": 0,
+      "limitations": "Current exchangeInfo is not two-year historical filters; dated announcements and forward snapshots needed",
+      "implementation": "rest_blocked",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "execution",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "execution_fees_public",
+      "family": "execution",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "binance_rest",
+      "resolution": "change_event",
+      "schema": "public maker/taker fee tiers,effective dates,promotions",
+      "units": "decimal fee rates; qualification rules",
+      "selected": true,
+      "priority": 1,
+      "limitations": "Current fee table is not historical account-specific effective rate",
+      "implementation": "documentation_pending",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "execution",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "execution_fees_account",
+      "family": "execution",
+      "kind": "ORIGINAL",
+      "classification": "NOT_APPLICABLE",
+      "source_id": "binance_rest",
+      "resolution": "private_account",
+      "schema": "user commissionRate,income/filled orders",
+      "units": "fee rate; asset amounts",
+      "selected": false,
+      "priority": 3,
+      "limitations": "Public-market foundation has no private account permission or Binance credentials; never invent account fees",
+      "implementation": "scope_excluded",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "execution",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "execution_latency_observed",
+      "family": "execution",
+      "kind": "ORIGINAL",
+      "classification": "LIVE_ONLY",
+      "source_id": "binance_ws",
+      "resolution": "receive_event",
+      "schema": "exchange T/E,receive_ns,clock offset,processing delay",
+      "units": "ms/ns; uncertainty bounds",
+      "selected": true,
+      "priority": 0,
+      "limitations": "Receive times exist; calibrated clock and kernel receipt monitoring remain unimplemented",
+      "implementation": "partial_clock_unknown",
+      "provider": "Binance USD-M public WebSocket",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Routed public/market connections, heartbeats/reconnects; bounded payload queues",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/websocket-market-streams/Important-WebSocket-Change-Notice",
+      "temporal_policy": "Exchange ms and local receive ns; local clock calibration still required",
+      "dependencies": [],
+      "research_value": "execution",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "full_l3_participant_orders",
+      "family": "order_book",
+      "kind": "ORIGINAL",
+      "classification": "NOT_APPLICABLE",
+      "source_id": "binance_ws",
+      "resolution": "order_event",
+      "schema": "market-wide individual order identities/queue events",
+      "units": "order-level identifiers",
+      "selected": false,
+      "priority": 3,
+      "limitations": "Public Binance feed is market-by-price; private user orders do not reveal all participants; no deanonymization",
+      "implementation": "scope_excluded",
+      "provider": "Binance USD-M public WebSocket",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Routed public/market connections, heartbeats/reconnects; bounded payload queues",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/products/derivatives-trading-usds-futures/websocket-market-streams/Important-WebSocket-Change-Notice",
+      "temporal_policy": "Exchange ms and local receive ns; local clock calibration still required",
+      "dependencies": [],
+      "research_value": "order_book",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "insurance_adl_context",
+      "family": "derivatives",
+      "kind": "ORIGINAL",
+      "classification": "PARTIALLY_AVAILABLE",
+      "source_id": "binance_rest",
+      "resolution": "snapshot",
+      "schema": "insuranceBalance,ADL risk where public",
+      "units": "asset amounts/risk metrics",
+      "selected": false,
+      "priority": 3,
+      "limitations": "Not public individual ADL executions; no proof that archive ID gaps correspond to these exclusions",
+      "implementation": "evaluated",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "derivatives",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "continuous_contract_klines",
+      "family": "operations",
+      "kind": "ORIGINAL",
+      "classification": "HISTORICAL_AVAILABLE",
+      "source_id": "binance_rest",
+      "resolution": "1m_or_coarser",
+      "schema": "pair,contractType,OHLCV",
+      "units": "USDT/base; UTC ms",
+      "selected": false,
+      "priority": 3,
+      "limitations": "Perpetual pair already selected; extra delivery contracts excluded pending cost/utility assessment",
+      "implementation": "scope_evaluated",
+      "provider": "Binance USD-M public REST",
+      "acquisition_method": "see provider reference and implementation",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "cost": {
+        "access": "free",
+        "account_required": false
+      },
+      "quota": "Endpoint-specific IP weights and retention; current exchangeInfo limits must be captured",
+      "terms_url": "https://www.binance.com/en/terms",
+      "source_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "temporal_policy": "Keep exchange timestamp and received timestamp; no historical availability inference",
+      "dependencies": [],
+      "research_value": "operations",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "acquisition_state": "NOT_CERTIFIED_BY_INVENTORY",
+      "evidence": []
+    },
+    {
+      "id": "trade_aggressor_side",
+      "family": "microstructure",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_trades"
+      ],
+      "formula": "buyer_maker=true => seller aggressor; false => buyer aggressor",
+      "limitations": "Do not infer participant identity or hidden intention",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "buy_sell_volume_delta",
+      "family": "microstructure",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_trades"
+      ],
+      "formula": "buy=sum(qty for buyer aggressor); sell=sum(qty for seller aggressor); delta=buy-sell",
+      "limitations": "Base and quote units kept separately; trade-count coverage required",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "cvd",
+      "family": "microstructure",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_trades"
+      ],
+      "formula": "cumulative sum of signed aggressor quantity from explicit anchor",
+      "limitations": "Anchor/reset and missing intervals explicit; gap is not zero delta",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "vwap",
+      "family": "microstructure",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_trades"
+      ],
+      "formula": "sum(price*qty)/sum(qty), exact decimals and explicit UTC/session/rolling anchor",
+      "limitations": "Undefined at zero volume; daily/rolling/anchored variants versioned",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "volume_at_price_profile",
+      "family": "microstructure",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_trades"
+      ],
+      "formula": "sum(qty) by declared exact price or tick-size bins",
+      "limitations": "Volume-at-price and profile bin rules require time-valid contract filters",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "temporal_aggregations",
+      "family": "operations",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_trades"
+      ],
+      "formula": "OHLCV/count/taker volume from ordered executions in half-open UTC intervals",
+      "limitations": "Empty intervals and incomplete tape explicit; compare official bars",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "best_quote_spread",
+      "family": "order_book",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_bookTicker_live"
+      ],
+      "formula": "ask-bid; relative spread=(ask-bid)/mid",
+      "limitations": "Observed quotes only; no synthetic historical quote inferred from trades",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "book_liquidity_imbalance",
+      "family": "microstructure",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_depth_updates_live",
+        "um_depth_snapshot_live"
+      ],
+      "formula": "(sum(bid_qty)-sum(ask_qty))/(sum(bid_qty)+sum(ask_qty)) on declared levels",
+      "limitations": "Require valid snapshot bridge and every intervening sequence; hidden liquidity excluded",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "order_flow_imbalance",
+      "family": "microstructure",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_depth_updates_live",
+        "um_depth_snapshot_live"
+      ],
+      "formula": "Sum signed changes in displayed best bid/ask price and quantity under versioned OFI convention",
+      "limitations": "No OFI from executions alone; no valid output across an unsynchronized book",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "liquidity_walls",
+      "family": "microstructure",
+      "kind": "ESTIMATE",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_depth_updates_live",
+        "um_depth_snapshot_live"
+      ],
+      "formula": "Threshold/persistence rules on observed displayed depth",
+      "limitations": "Rule-dependent estimate; cannot identify spoofing or participant intent",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "absorption_pressure",
+      "family": "microstructure",
+      "kind": "ESTIMATE",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_trades",
+        "um_bookTicker_live"
+      ],
+      "formula": "Declared aggressive-flow/price-response statistic over synchronized windows",
+      "limitations": "Hypothesis proxy, not direct observation of hidden orders; no strategy optimization",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "oi_changes",
+      "family": "derivatives",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_metrics"
+      ],
+      "formula": "difference in OI levels between consecutive admitted observations",
+      "limitations": "Time-valid unit/specification mapping; missing samples not zero changes",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "perpetual_basis",
+      "family": "derivatives",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_mark_price",
+        "um_index_price"
+      ],
+      "formula": "mark-index and (mark-index)/index at matching observed timestamps",
+      "limitations": "One-minute OHLC-derived basis is a sampled proxy, not simultaneous intrabar execution basis",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "futures_spot_spread",
+      "family": "related_markets",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_klines_1m",
+        "spot_klines_1m"
+      ],
+      "formula": "matching-close difference and relative difference",
+      "limitations": "Clock/interval/quote-currency alignment; not an executable arbitrage signal",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "cross_asset_volatility_correlation",
+      "family": "related_markets",
+      "kind": "DERIVED",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_klines_1m"
+      ],
+      "formula": "causal returns, rolling realized volatility/correlation with explicit sample window",
+      "limitations": "No future returns, revised context or forward-filled missing inputs",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "regime_descriptors",
+      "family": "related_markets",
+      "kind": "ESTIMATE",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_klines_1m",
+        "um_metrics"
+      ],
+      "formula": "Versioned descriptive volatility/volume/OI transformations",
+      "limitations": "No predictive model or optimized trading regime in this phase",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    },
+    {
+      "id": "execution_cost_scenarios",
+      "family": "execution",
+      "kind": "ESTIMATE",
+      "classification": "DERIVABLE",
+      "source_id": null,
+      "provider": "Reproducible transformation of admitted observations",
+      "resolution": "declared transformation windows",
+      "schema": "versioned feature schema pending",
+      "units": "inherited and explicitly documented per transform",
+      "selected": true,
+      "priority": 2,
+      "implementation": "contract_defined_not_certified",
+      "dependencies": [
+        "um_bookTicker_live",
+        "execution_contract_filters",
+        "execution_fees_public",
+        "um_funding_settled"
+      ],
+      "formula": "Explicit fee/funding/spread/slippage scenario assumptions",
+      "limitations": "Assumptions never relabeled as observed fills or measured latency; no trading simulation here",
+      "cost": {
+        "access": "local_compute",
+        "paid_authorized": false
+      },
+      "quota": "Bounded memory and persisted source hashes",
+      "terms_url": null,
+      "temporal_policy": "Each output available no earlier than latest contributing input; missing availability blocks strict replay",
+      "historical_bounds": {
+        "earliest_verified": null,
+        "latest_verified": null,
+        "complete_requested_window_certified": false
+      },
+      "acquisition_state": "CONDITIONAL_ON_VALIDATED_INPUTS",
+      "volume_estimate_ref": "reports/storage_capacity_plan.json",
+      "evidence": []
+    }
+  ],
+  "evidence_generated_at": "2026-10-08T13:40:12.071285+00:00",
+  "notice": "Availability is a source capability, not acquired/validated coverage. Unknown bounds/quotas remain explicit. No C16 or Phase 1 acceptance inferred."
+}
