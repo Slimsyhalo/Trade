@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 import gzip
 import json
 import os
+import re
 from pathlib import Path
 import time
 import uuid
@@ -62,13 +63,16 @@ def receipt_matches(record, receipt):
 
 
 class Sink:
-    def __init__(self, root, budget, route, remote=None, *, max_bytes=8_000_000, max_seconds=60):
+    def __init__(self, root, budget, route, remote=None, *, max_bytes=8_000_000, max_seconds=60, release_prefix="live"):
         if route not in ROUTES:
             raise ValueError('Unsupported live route')
         if max_bytes <= 0 or max_seconds <= 0:
             raise ValueError('Positive segment limits required')
         self.root = Path(root).resolve()
         self.root.mkdir(parents=True, exist_ok=True)
+        if not isinstance(release_prefix,str) or not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,49}',release_prefix):
+            raise ValueError('Invalid isolated live release prefix')
+        self.release_prefix=release_prefix
         self.budget, self.route, self.remote = budget, route, remote
         self.max_bytes, self.max_seconds = max_bytes, max_seconds
         self.manifest_path = self.root / (route + '-manifest.json')
@@ -147,30 +151,47 @@ class Sink:
     def _set_tag(self, record):
         stamp = record.get('last_receive_ns') or time.time_ns()
         hour = datetime.fromtimestamp(stamp / 1e9, timezone.utc).strftime('%Y-%m-%d-%H')
-        record.setdefault('tag', f'live-{self.route}-{hour}')
+        record.setdefault('tag', f'{self.release_prefix}-{self.route}-{hour}')
 
     def write(self, kind, payload):
-        now = time.time_ns()
-        data = (json.dumps(dict(receive_timestamp_ns=now, kind=kind, payload=payload),
-                           separators=(',', ':')) + '\n').encode()
-        if len(data) > MAX_RECORD_BYTES:
-            raise ValueError('Live row exceeds declared envelope limit')
-        self.budget.check(len(data) + 65536)
-        if self.f is None:
-            name = f'{self.route}-{now}-{uuid.uuid4().hex}.jsonl.gz.part'
-            self.path = self.root / name
-            self.raw = self.path.open('xb')
-            self.f = gzip.GzipFile(fileobj=self.raw, mode='wb', filename='', mtime=0)
-            self.count = 0
-            self.started = time.monotonic()
-            self.first_receive_ns = now
-        self.f.write(data)
-        self.f.flush()
-        self.raw.flush()
-        self.count += 1
-        self.last_receive_ns = now
-        if self.path.stat().st_size >= self.max_bytes or time.monotonic()-self.started >= self.max_seconds:
-            self.close()
+        self.write_batch([(kind, payload, time.time_ns(), deepcopy(self.sequence_state))])
+
+    def write_batch(self, entries):
+        """Append bounded, already received rows; one disk scan/flush per batch.
+
+        Cursor snapshots belong to each row, including rotations inside a batch.
+        All sizes/receipts are checked before writing. No background writer,
+        silent drop, reordering or guessed exchange-time receipt is introduced.
+        """
+        if not entries or len(entries)>256:
+            raise ValueError('Live batch must contain 1..256 records')
+        encoded=[]
+        for kind,payload,stamp,cursor in entries:
+            if type(stamp) is not int or stamp<=0 or not isinstance(kind,str) or not isinstance(cursor,dict):
+                raise ValueError('Invalid live batch envelope/cursor')
+            data=(json.dumps(dict(receive_timestamp_ns=stamp,kind=kind,payload=payload),separators=(',',':'))+'\n').encode()
+            if len(data)>MAX_RECORD_BYTES:raise ValueError('Live row exceeds declared envelope limit')
+            encoded.append((data,stamp,cursor))
+        size=sum(len(data) for data,_,_ in encoded)
+        if len(entries)>1 and size>4_000_000:raise ValueError('Live batch exceeds bounded encoded bytes')
+        # Includes conservative compressed buffering/header/manifest margin per
+        # potential rotation. Original shared Budget remains authoritative.
+        self.budget.check(size+65536*len(entries))
+        for data,now,cursor in encoded:
+            self.sequence_state=deepcopy(cursor)
+            if self.f is None:
+                name=f'{self.route}-{now}-{uuid.uuid4().hex}.jsonl.gz.part'
+                self.path=self.root/name;self.raw=self.path.open('xb')
+                self.f=gzip.GzipFile(fileobj=self.raw,mode='wb',filename='',mtime=0,compresslevel=1)
+                self.count=0;self.started=time.monotonic();self.first_receive_ns=now
+            self.f.write(data);self.count+=1;self.last_receive_ns=now
+            # Flush the compressor once per bounded batch; check rotation using
+            # bytes already emitted and the independent elapsed-time limit.
+            if self.raw.tell()>=self.max_bytes or time.monotonic()-self.started>=self.max_seconds:
+                self.close()
+        if self.f is not None:
+            self.f.flush();self.raw.flush()
+            if self.path.stat().st_size>=self.max_bytes:self.close()
 
     def close(self):
         if self.f is None:

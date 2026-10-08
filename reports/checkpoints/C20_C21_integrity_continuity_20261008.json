@@ -1,0 +1,55 @@
+{
+  "timestamp_utc": "2026-10-08T19:48:02.727288+00:00",
+  "scope": "C21 independent restoration completed and C20 full original capture continuity finding / candidate persistence optimization",
+  "audit_source_commit": "8407d79b416b7a000bf39bf6b91fcece91036bb8",
+  "audit_run_url": "https://github.com/Slimsyhalo/Trade/actions/runs/37832859398",
+  "independently_restored_objects": 150,
+  "audit_plan_completed": true,
+  "sampling_not_global_certification": true,
+  "recovered_capture_segments": 227,
+  "recovered_capture_rows": 6578897,
+  "public_disconnects": 196,
+  "depth_gaps": 588,
+  "tests_local": 213,
+  "tests_cloud_audit": 204,
+  "buffered_probe_status": "NOT_YET_EXECUTED",
+  "files": [
+    "audit_live_continuity.py",
+    "benchmark_live_batching.py",
+    "live_collector/spool.py",
+    "live_collector/collector.py",
+    "remote_live.py",
+    "tests/test_live_batching.py",
+    "tests/test_live_continuity_audit.py"
+  ],
+  "effective_codex_work_seconds": null,
+  "external_measurements": {
+    "full_capture_scan_elapsed_seconds": 82.243,
+    "full_capture_scan_process_cpu_seconds": 66.626,
+    "benchmark": {
+      "original": {
+        "rows": 10000,
+        "elapsed_seconds": 0.6713532559997475,
+        "process_cpu_seconds": 0.671383073,
+        "compressed_bytes": 407469,
+        "payload_preservation": "PASS"
+      },
+      "batched": {
+        "rows": 10000,
+        "elapsed_seconds": 0.10168521699961275,
+        "process_cpu_seconds": 0.10159888300000008,
+        "compressed_bytes": 394137,
+        "payload_preservation": "PASS"
+      }
+    }
+  },
+  "phase_1_accepted": false,
+  "C20_accepted": false,
+  "C21_accepted": false,
+  "next_steps": [
+    "Inspect independent hosted audit final receipts",
+    "Measure candidate collector in finite real cloud probe",
+    "Promote only after a safe writer boundary",
+    "Continue full historical acquisition, source reconciliation and final independent restoration"
+  ]
+}
