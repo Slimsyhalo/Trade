@@ -1,31 +1,21 @@
 # Binance QuantLab — Data Foundation
 
-**Phase 1 incomplete. Remote pilot verified; historical expansion starting.**
+Phase 1 remains incomplete. Current coverage and remote readback counts are generated from manifest.jsonl in DATA_COVERAGE.md, data_catalog.json and AUDIT_SUMMARY.json. Do not assume a dataset exists unless listed in that catalog.
 
-BTCUSDT, ETHUSDT and SOLUSDT — Binance USD-M perpetual futures. Authorized window: 2024-10-07 through 2026-10-07 UTC. No trading, strategy optimization or profitability claims.
+BTCUSDT, ETHUSDT and SOLUSDT, Binance USD-M perpetual futures. Fixed authorized window: 2024-10-07 through 2026-10-07 UTC. No strategy optimization or orders.
 
-## Verified results
+## Verified infrastructure
 
-- 38 local tests pass; the initial remote job also passed its 31-test suite.
-- 18 passing pilot partitions were reconstructed, uploaded as 36 immutable hash-named Release assets and fully read back for SHA-256/size verification.
-- A restored BTC aggTrades Parquet matched its manifest: 1,459,023 rows.
-- The pilot covers 2024-10-07 only. Its 3,428,256 aggregate trades are not two years of history.
-- Three individual-trade partitions remain quarantined locally due to ID gaps.
+Public ZIP/checksum downloads, exact decimal normalization, Parquet/ZSTD, bounded storage, versioned manifests, QA, causal replay primitives, GitHub Release readbacks and restoration evidence. Current test results are in QA_REPORT.md and reports/tests.txt.
 
-## Current acquisition
+Official monthly funding archives are supported only for complete months inside the window: November 2024 through September 2026. October boundary archives are refused before download. Funding publication times are unknown and excluded from strict replay. Small official funding fixtures support reproducible tests and are outside the acquisition catalog.
 
-The Historical data acquisition workflow scans the authorized range for aggTrades, klines, markPriceKlines, indexPriceKlines, premiumIndexKlines and metrics. It checkpoints every 25 partitions, pushes manifests before pruning, respects the 2 GB data budget and pauses after four hours. It can be resumed through workflow_dispatch. It stops on failed QA or remote verification; unavailable archives are recorded explicitly.
+## Execution and checkpoints
 
-The 72-archive stratified storage review is complete; aggTrades acquisition is enabled. Individual trades still require ID-gap investigation. Funding and full live order-book readiness remain unresolved. A successful pilot is not a complete C15 foundation.
+The historical writer acquires aggTrades, klines, markPriceKlines, indexPriceKlines, premiumIndexKlines and metrics. The funding checkpoint workflow waits for the same writer lock, tests and integrates its source against latest main, acquires up to 69 permitted monthly funding partitions, then resumes historical work in up to twenty sequential four-hour batches. Completion or QA failure stops further acquisition. Each batch checks out the latest manifest; no parallel writers or restart from zero.
 
-[Release datasets](https://github.com/Slimsyhalo/Trade/releases) · [Actions](https://github.com/Slimsyhalo/Trade/actions)
+Both original ZIP and Parquet must pass full readback; manifests are committed before local pruning. Actual elapsed time and process CPU time are recorded separately where available.
 
-Current evidence: reports/remote_execution.json, reports/historical_execution.json (when the first historical checkpoint is written), manifest.jsonl and data_catalog.json. Original audit reports describe the initial local pilot; their new publication notices supersede the former GitHub 403 blocker.
+[Dataset Releases](https://github.com/Slimsyhalo/Trade/releases) · [Actions](https://github.com/Slimsyhalo/Trade/actions)
 
-**DO NOT ASSUME DATA EXISTS UNLESS LISTED IN THE CATALOG.**
-
-See REPRODUCIBILITY.md and RESEARCH_HANDOFF.md for schemas, restoration and research safeguards.
-
-## Resume checkpoint — 2026-10-08
-
-The previous historical job stopped at 502 verified partitions due to GitHub rate limiting. The resumed client paces API calls, caches release metadata and distinguishes rate-limit waits from permission errors. Tests cover rejected-upload body rewinding and prevent retries of ambiguous mutations. Existing remote partitions are skipped. Current progress is recorded in reports/historical_execution.json.
+Individual-trade ID gaps, full L2 reconstruction, liquidation completeness, complete coverage and final C15 remain unresolved. See FOUNDATION_CHECKPOINT.md, REPRODUCIBILITY.md, DATA_SOURCES.md and RESEARCH_HANDOFF.md.
