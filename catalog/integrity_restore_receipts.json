@@ -778,5 +778,140 @@
       "strict_causal_replay_certified": false
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "derived/BTCUSDT/oi_change_5m/2024-10-07/c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872/product/574a79d70b53b4f1a9969b4d6793babff0b75f07ea6a747d6338aa3285b2b9fb": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:34:21.357359+00:00",
+    "source": {
+      "ledger": "derived",
+      "dataset": "oi_change_5m",
+      "symbol": "BTCUSDT",
+      "partition_key": "BTCUSDT/oi_change_5m/2024-10-07/c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872",
+      "object_kind": "product",
+      "sha256": "574a79d70b53b4f1a9969b4d6793babff0b75f07ea6a747d6338aa3285b2b9fb",
+      "bytes": 22121,
+      "remote": {
+        "asset_id": 622714258,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622714258",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/derived-BTCUSDT-oi_change_5m-2024-10/574a79d70b53b4f1a9969b4d6793babff0b75f07ea6a747d6338aa3285b2b9fb-oi_change_5m-c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872.parquet",
+        "sha256": "574a79d70b53b4f1a9969b4d6793babff0b75f07ea6a747d6338aa3285b2b9fb",
+        "bytes": 22121,
+        "verified_at": 1791485797.810338
+      },
+      "expected_rows": 288,
+      "source_identity": "c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872",
+      "source_ledger_sha": "7c9d5561d3019df4b1c53bfaccce63ed40319bfb"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 288,
+      "first_event": 1728259200000,
+      "last_event": 1728345300000,
+      "event_unit": "ms",
+      "unknown_availability_rows": 288,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "event_time_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "previous_observation_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "observation_interval_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "declared_expected_interval_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "expected_cadence_matched",
+          "type": "bool",
+          "nullable": true
+        },
+        {
+          "name": "oi_level_original",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "oi_value_original",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "oi_observed_difference_source_units",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "oi_value_observed_difference_source_units",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "oi_expected_cadence_difference_source_units",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "availability_basis",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "available_at_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "input_availability_bases",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "unit_policy",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "classification",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "strict_causal_replay_certified",
+          "type": "bool",
+          "nullable": true
+        },
+        {
+          "name": "transform_version",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "transform_version": "derivatives-1",
+        "source_identity": "c52ada191544d0cdf2dbefab77d8bd38a508c7b4b64aa9d178e38aea43ac9872",
+        "inputs": "{\"indexPriceKlines\":{\"key\":\"BTCUSDT/indexPriceKlines/2024-10-07\",\"normalized_sha256\":\"a203f54b3d9c63f140b1bcbb79b1e7fd3413e697290c769b056089e438d8fb21\",\"raw_sha256\":\"12313ee42f19c42c1550430ed8ddf3c2561101750e0d20b6fe269027c82cc630\"},\"markPriceKlines\":{\"key\":\"BTCUSDT/markPriceKlines/2024-10-07\",\"normalized_sha256\":\"62788266f7cf3e2320db8c4e0b83d0b442890c7b3fc02ac30bbaa5ed42decea7\",\"raw_sha256\":\"dc645696f5d2a5c8924d9da0174c64564771e4385f5d3e6d1ac82719f549f9e6\"},\"metrics\":{\"key\":\"BTCUSDT/metrics/2024-10-07\",\"normalized_sha256\":\"fc7d525d001ba5601e47842576bcbb028f2cc5460b2c507d8fa7bd7faaa5f176\",\"raw_sha256\":\"5ab2472c534913489ec09dafffa88f76f2a964e0e7258980fd894661c7924f95\"}}",
+        "timezone": "UTC",
+        "strict_causal_replay_certified": "false"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
