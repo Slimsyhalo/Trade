@@ -2614,5 +2614,109 @@
       "crc_check": "PASS"
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "expansion/BTCUSDT/spot_trades/2024-10-07/normalized/7962e4962f248996501e6a3bb4f2da881a7b1df6a0be2a2afe3773654fc7c8ae": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:35:39.106808+00:00",
+    "source": {
+      "ledger": "expansion",
+      "dataset": "spot_trades",
+      "symbol": "BTCUSDT",
+      "partition_key": "BTCUSDT/spot_trades/2024-10-07",
+      "object_kind": "normalized",
+      "sha256": "7962e4962f248996501e6a3bb4f2da881a7b1df6a0be2a2afe3773654fc7c8ae",
+      "bytes": 41970348,
+      "remote": {
+        "asset_id": 622147778,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622147778",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-BTCUSDT-spot_trades-2024-10/7962e4962f248996501e6a3bb4f2da881a7b1df6a0be2a2afe3773654fc7c8ae-2024-10-07-ab75f6504c3db3b3.parquet",
+        "sha256": "7962e4962f248996501e6a3bb4f2da881a7b1df6a0be2a2afe3773654fc7c8ae",
+        "bytes": 41970348,
+        "verified_at": 1791471758.752755
+      },
+      "expected_rows": 4809342,
+      "source_identity": null,
+      "source_ledger_sha": "f71bca8c84951e6658136308fe937e7bed0903b6"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 4809342,
+      "first_event": 1728259200295000,
+      "last_event": 1728345598934000,
+      "event_unit": "us",
+      "unknown_availability_rows": 4809342,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "trade_id",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "price",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "quantity",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "quote_quantity",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "timestamp",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "is_buyer_maker",
+          "type": "bool",
+          "nullable": true
+        },
+        {
+          "name": "is_best_match",
+          "type": "bool",
+          "nullable": true
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "source_time_unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "event_time_us",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "available_at_us",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "availability_basis",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "extended-1",
+        "timezone": "UTC",
+        "decimals": "exact source strings",
+        "book_semantics": "percentage summaries are not L2"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
