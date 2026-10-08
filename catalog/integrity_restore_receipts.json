@@ -5462,5 +5462,103 @@
       "crc_check": "PASS"
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "main/ETHUSDT/aggTrades/2024-10-07/normalized/011101c295736a70e24c87df2b5c8b9f34ce64bf0d53af44270d4b3b17645316": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:38:42.668705+00:00",
+    "source": {
+      "ledger": "main",
+      "dataset": "aggTrades",
+      "symbol": "ETHUSDT",
+      "partition_key": "ETHUSDT/aggTrades/2024-10-07",
+      "object_kind": "normalized",
+      "sha256": "011101c295736a70e24c87df2b5c8b9f34ce64bf0d53af44270d4b3b17645316",
+      "bytes": 21879928,
+      "remote": {
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/619843368",
+        "asset_id": 619843368,
+        "bytes": 21879928,
+        "sha256": "011101c295736a70e24c87df2b5c8b9f34ce64bf0d53af44270d4b3b17645316",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/data-ETHUSDT-aggTrades-2024-10/011101c295736a70e24c87df2b5c8b9f34ce64bf0d53af44270d4b3b17645316-07-ee83f4462a94af39.parquet",
+        "verified_at": 1791407983.291424
+      },
+      "expected_rows": 1221050,
+      "source_identity": null,
+      "source_ledger_sha": "a4ab5406a199a02590c5c35c943af538e3750fd8"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 1221050,
+      "first_event": 1728259203742,
+      "last_event": 1728345599899,
+      "event_unit": "ms",
+      "unknown_availability_rows": 0,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "agg_trade_id",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "price",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "quantity",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "first_trade_id",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "last_trade_id",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "timestamp",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "is_buyer_maker",
+          "type": "bool",
+          "nullable": true
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "event_time_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "available_at_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "availability_basis",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
