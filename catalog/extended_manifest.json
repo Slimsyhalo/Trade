@@ -22498,5 +22498,248 @@
     },
     "storage_state": "REMOTE_VERIFIED",
     "quality_state": "VALIDATED"
+  },
+  "BTCUSDT/um_individual_trades/2024-10-23": {
+    "key": "BTCUSDT/um_individual_trades/2024-10-23",
+    "kind": "um_individual_trades",
+    "symbol": "BTCUSDT",
+    "day": "2024-10-23",
+    "source": "https://data.binance.vision/data/futures/um/daily/trades/BTCUSDT/BTCUSDT-trades-2024-10-23.zip",
+    "source_checksum": "9bc63dcb1adaacb6c65cf52683b206712dc215b0f5581803bf9ee760af363554  BTCUSDT-trades-2024-10-23.zip\n",
+    "downloaded_at": "2026-10-08T21:03:32.249942+00:00",
+    "state": "VALIDATED",
+    "qa": {
+      "rows": 3273578,
+      "duplicates_found": 0,
+      "duplicates_removed": 0,
+      "deduplication_reason": "No silent removal; duplicates fail QA",
+      "id_gaps": 691,
+      "interval_gaps": 0,
+      "out_of_order": 0,
+      "malformed_rows": 0,
+      "schema_violations": 0,
+      "status": "PASS",
+      "min_timestamp": 1729641604157,
+      "max_timestamp": 1729727999335,
+      "state": "VALIDATED",
+      "id_continuity_policy": "Not required for official market tape only when independent full-minute consistency certificate passes; original ID gaps retained"
+    },
+    "raw": {
+      "path": "data/extended/raw/BTCUSDT/um_individual_trades/2024-10-23-9bc63dcb1adaacb6.zip",
+      "sha256": "9bc63dcb1adaacb6c65cf52683b206712dc215b0f5581803bf9ee760af363554",
+      "bytes": 27311079,
+      "remote": {
+        "asset_id": 623004489,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/623004489",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-BTCUSDT-um_individual_trades-2024-10/9bc63dcb1adaacb6c65cf52683b206712dc215b0f5581803bf9ee760af363554-2024-10-23-9bc63dcb1adaacb6.zip",
+        "sha256": "9bc63dcb1adaacb6c65cf52683b206712dc215b0f5581803bf9ee760af363554",
+        "bytes": 27311079,
+        "verified_at": 1791493468.981612
+      }
+    },
+    "source_terms_ref": "DATA_LICENSE.md",
+    "schema_version": "1",
+    "admission": {
+      "state": "VALIDATED",
+      "admitted_scope": "Official source market order-book executions; excludes undocumented/uncaptured global-ID event types",
+      "global_identifier_continuity_certified": false,
+      "raw_sha256": "9bc63dcb1adaacb6c65cf52683b206712dc215b0f5581803bf9ee760af363554",
+      "verification_bars_sha256": "c320f0d138869be16663cc2cef05f9b19250bc368650e5022e30bea591f8126f",
+      "symbol": "BTCUSDT",
+      "day": "2024-10-23",
+      "original_strict_qa": {
+        "rows": 3273578,
+        "duplicates_found": 0,
+        "duplicates_removed": 0,
+        "deduplication_reason": "No silent removal; duplicates fail QA",
+        "id_gaps": 691,
+        "interval_gaps": 0,
+        "out_of_order": 0,
+        "malformed_rows": 0,
+        "schema_violations": 0,
+        "status": "FAILED",
+        "min_timestamp": 1729641604157,
+        "max_timestamp": 1729727999335
+      },
+      "independent_bar_evidence": {
+        "symbol": "BTCUSDT",
+        "day": "2024-10-23",
+        "rows": 3273578,
+        "missing_identifier_count": 691,
+        "gap_transitions": 690,
+        "duplicate_ids": 0,
+        "out_of_order": 0,
+        "gap_examples": [
+          {
+            "before": 5494634822,
+            "after": 5494634824,
+            "time_ms": 1729641656464,
+            "skipped": 1
+          },
+          {
+            "before": 5494635894,
+            "after": 5494635896,
+            "time_ms": 1729641706928,
+            "skipped": 1
+          },
+          {
+            "before": 5494664439,
+            "after": 5494664441,
+            "time_ms": 1729642641463,
+            "skipped": 1
+          },
+          {
+            "before": 5494674739,
+            "after": 5494674741,
+            "time_ms": 1729642922557,
+            "skipped": 1
+          },
+          {
+            "before": 5494676160,
+            "after": 5494676162,
+            "time_ms": 1729642955748,
+            "skipped": 1
+          },
+          {
+            "before": 5494678610,
+            "after": 5494678612,
+            "time_ms": 1729643012504,
+            "skipped": 1
+          },
+          {
+            "before": 5494684972,
+            "after": 5494684974,
+            "time_ms": 1729643274187,
+            "skipped": 1
+          },
+          {
+            "before": 5494686227,
+            "after": 5494686229,
+            "time_ms": 1729643372559,
+            "skipped": 1
+          },
+          {
+            "before": 5494686371,
+            "after": 5494686373,
+            "time_ms": 1729643386877,
+            "skipped": 1
+          },
+          {
+            "before": 5494687627,
+            "after": 5494687629,
+            "time_ms": 1729643435232,
+            "skipped": 1
+          },
+          {
+            "before": 5494690870,
+            "after": 5494690872,
+            "time_ms": 1729643606633,
+            "skipped": 1
+          },
+          {
+            "before": 5494692077,
+            "after": 5494692079,
+            "time_ms": 1729643645172,
+            "skipped": 1
+          },
+          {
+            "before": 5494692457,
+            "after": 5494692459,
+            "time_ms": 1729643667383,
+            "skipped": 1
+          },
+          {
+            "before": 5494693022,
+            "after": 5494693024,
+            "time_ms": 1729643709517,
+            "skipped": 1
+          },
+          {
+            "before": 5494699970,
+            "after": 5494699972,
+            "time_ms": 1729644135745,
+            "skipped": 1
+          },
+          {
+            "before": 5494704537,
+            "after": 5494704539,
+            "time_ms": 1729644372263,
+            "skipped": 1
+          },
+          {
+            "before": 5494705883,
+            "after": 5494705885,
+            "time_ms": 1729644435269,
+            "skipped": 1
+          },
+          {
+            "before": 5494706274,
+            "after": 5494706276,
+            "time_ms": 1729644466507,
+            "skipped": 1
+          },
+          {
+            "before": 5494719665,
+            "after": 5494719667,
+            "time_ms": 1729644986262,
+            "skipped": 1
+          },
+          {
+            "before": 5494725805,
+            "after": 5494725807,
+            "time_ms": 1729645378362,
+            "skipped": 1
+          }
+        ],
+        "first_id": 5494631933,
+        "last_id": 5497906201,
+        "bar_comparison_status": "PASS",
+        "differences": [],
+        "difference_count": 0,
+        "interpretation": "SOURCE_TAPE_MATCHES_OFFICIAL_MARKET_BARS",
+        "global_identifier_gap_cause": "NOT_DETERMINED",
+        "QA_decision": "REVIEW_WITH_SOURCE_SEMANTICS; original quarantine unchanged",
+        "limitations": [
+          "OHLCV consistency does not reveal executions excluded by the source or participant identity",
+          "Source checksums and independent tape/bar agreement do not prove global identifier continuity",
+          "This diagnostic tests historical aggregation, not causal publication/latency availability"
+        ]
+      },
+      "decision_rule": "Unique ordered structurally valid official tape AND exact reconstruction of all 1440 official minute bars including trade count and both taker volumes",
+      "decided_at": "2026-10-08T21:04:19.817182+00:00",
+      "cause_of_specific_global_id_gaps": "NOT_DETERMINED",
+      "source_semantics_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "source_semantics": "Current recent-trades documentation excludes insurance-fund and ADL transactions and makes no contiguous-ID guarantee. Archive README identifies fapi/v1/trades as source. Do not attribute specific gaps to those types without evidence."
+    },
+    "verification_bars": {
+      "path": "data/extended/verification/BTCUSDT/2024-10-23-c320f0d138869be1.zip",
+      "sha256": "c320f0d138869be16663cc2cef05f9b19250bc368650e5022e30bea591f8126f",
+      "bytes": 62157,
+      "source": "https://data.binance.vision/data/futures/um/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2024-10-23.zip",
+      "source_checksum": "c320f0d138869be16663cc2cef05f9b19250bc368650e5022e30bea591f8126f  BTCUSDT-1m-2024-10-23.zip\n",
+      "remote": {
+        "asset_id": 623005507,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/623005507",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-BTCUSDT-verification-2024-10/c320f0d138869be16663cc2cef05f9b19250bc368650e5022e30bea591f8126f-2024-10-23-c320f0d138869be1.zip",
+        "sha256": "c320f0d138869be16663cc2cef05f9b19250bc368650e5022e30bea591f8126f",
+        "bytes": 62157,
+        "verified_at": 1791493500.1730413
+      }
+    },
+    "normalized": {
+      "path": "data/extended/normalized/BTCUSDT/um_individual_trades/2024-10-23-9bc63dcb1adaacb6.parquet",
+      "sha256": "bad16d0d0d12f994260f5a8725f7691a01fdcea04299bae7c5ed2a8d080ab7c7",
+      "bytes": 40076662,
+      "remote": {
+        "asset_id": 623004964,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/623004964",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-BTCUSDT-um_individual_trades-2024-10/bad16d0d0d12f994260f5a8725f7691a01fdcea04299bae7c5ed2a8d080ab7c7-2024-10-23-9bc63dcb1adaacb6.parquet",
+        "sha256": "bad16d0d0d12f994260f5a8725f7691a01fdcea04299bae7c5ed2a8d080ab7c7",
+        "bytes": 40076662,
+        "verified_at": 1791493485.3201725
+      }
+    },
+    "storage_state": "REMOTE_VERIFIED",
+    "quality_state": "VALIDATED"
   }
 }
