@@ -1,6 +1,6 @@
 # Current data coverage
 
-Generated: 2026-10-08T16:30:11.549989+00:00
+Generated: 2026-10-08T16:32:31.570610+00:00
 
 QA days count observed passing dates. Remote days require matching RAW and Parquet readback receipts. Monthly funding coverage counts observed dates, not one day per archive.
 
@@ -29,7 +29,7 @@ QA days count observed passing dates. Remote days require matching RAW and Parqu
 | SOLUSDT | indexPriceKlines | 2024-10-07 | 2024-12-15 | 70 / 731 | 70 | 100,800 | 70 | 70 |
 | SOLUSDT | premiumIndexKlines | 2024-10-07 | 2024-12-15 | 70 / 731 | 70 | 100,800 | 70 | 70 |
 | SOLUSDT | metrics | 2024-10-07 | 2024-12-15 | 70 / 731 | 70 | 20,158 | 70 | 70 |
-| SOLUSDT | fundingRate | 2024-11-01 | 2025-07-31 | 273 / 731 | 273 | 819 | 9 | 9 |
+| SOLUSDT | fundingRate | 2024-11-01 | 2025-12-31 | 426 / 731 | 426 | 1,278 | 14 | 14 |
 
 Missing-date lists, failed partitions and remote URLs are in data_catalog.json. Unacquired dates do not imply Binance lacks those dates.
 
