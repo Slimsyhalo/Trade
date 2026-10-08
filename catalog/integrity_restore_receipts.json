@@ -648,5 +648,135 @@
       "strict_causal_replay_certified": false
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "derived/SOLUSDT/basis_close_1m/2024-10-17/fb507e9693b6a1c9ce3a5b1e304975e0a8aa4a6d3cf2d1269b99dc88122a3a1e/product/65d90328405ef48413fea1bb084015568cc48c1d4f9873578b794fc443addeb8": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:34:17.322537+00:00",
+    "source": {
+      "ledger": "derived",
+      "dataset": "basis_close_1m",
+      "symbol": "SOLUSDT",
+      "partition_key": "SOLUSDT/basis_close_1m/2024-10-17/fb507e9693b6a1c9ce3a5b1e304975e0a8aa4a6d3cf2d1269b99dc88122a3a1e",
+      "object_kind": "product",
+      "sha256": "65d90328405ef48413fea1bb084015568cc48c1d4f9873578b794fc443addeb8",
+      "bytes": 115237,
+      "remote": {
+        "asset_id": 622796623,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622796623",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/derived-SOLUSDT-basis_close_1m-2024-10/65d90328405ef48413fea1bb084015568cc48c1d4f9873578b794fc443addeb8-basis_close_1m-fb507e9693b6a1c9ce3a5b1e304975e0a8aa4a6d3cf2d1269b99dc88122a3a1e.parquet",
+        "sha256": "65d90328405ef48413fea1bb084015568cc48c1d4f9873578b794fc443addeb8",
+        "bytes": 115237,
+        "verified_at": 1791487917.9000027
+      },
+      "expected_rows": 1440,
+      "source_identity": "fb507e9693b6a1c9ce3a5b1e304975e0a8aa4a6d3cf2d1269b99dc88122a3a1e",
+      "source_ledger_sha": "7c9d5561d3019df4b1c53bfaccce63ed40319bfb"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 1440,
+      "first_event": 1729123259999,
+      "last_event": 1729209599999,
+      "event_unit": "ms",
+      "unknown_availability_rows": 0,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "window_start_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "window_end_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "event_time_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "mark_close_original",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "index_close_original",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sampled_basis_quote_units",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "sampled_relative_basis",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "relative_basis_numerator",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "relative_basis_denominator",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "available_at_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "input_availability_bases",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "classification",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "strict_causal_replay_certified",
+          "type": "bool",
+          "nullable": true
+        },
+        {
+          "name": "transform_version",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "decimal_precision",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "decimal_rounding",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "transform_version": "derivatives-1",
+        "source_identity": "fb507e9693b6a1c9ce3a5b1e304975e0a8aa4a6d3cf2d1269b99dc88122a3a1e",
+        "inputs": "{\"indexPriceKlines\":{\"key\":\"SOLUSDT/indexPriceKlines/2024-10-17\",\"normalized_sha256\":\"2d0764bad75b1d891e969c99d5e1f9bcc34a2a8e98d336eb4a7162c271ca2223\",\"raw_sha256\":\"b80733c821772a069c94e351ae4c49ab654b7db5ed2eaaae1569ff3affd35ee2\"},\"markPriceKlines\":{\"key\":\"SOLUSDT/markPriceKlines/2024-10-17\",\"normalized_sha256\":\"954fa915281882bfcb920e9d1d2296ec3089356d99a7af2f44e4ad67fa34fd93\",\"raw_sha256\":\"e7136e7edac13d5c0410b7c59b10d362b8ae011a192b69baa5e04d45dd66f3f7\"},\"metrics\":{\"key\":\"SOLUSDT/metrics/2024-10-17\",\"normalized_sha256\":\"f9af82a676c89c32d92d3df08ed90b9a561586357a7158950f4d88fdddda6502\",\"raw_sha256\":\"4b5f36acf43f2d490212e96761895227c4662849dbcfe1598199ae6b2b9748f3\"},\"previous_metrics\":{\"key\":\"SOLUSDT/metrics/2024-10-16\",\"normalized_sha256\":\"e7fbef1a3f645ea2c471ac5935e7fbcf7370d19b5c43d28ab50e4149ffeadeb0\",\"raw_sha256\":\"2feb85346d1d609b22a48268b3d6d8cc049a881acfdb9257a9aa50022e0c0d48\"}}",
+        "timezone": "UTC",
+        "strict_causal_replay_certified": "false"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
