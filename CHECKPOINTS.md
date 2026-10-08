@@ -1,23 +1,37 @@
-> Publication update 2026-10-07: the former GitHub 403 is resolved. The code and 18 passing pilot partitions (36 Release assets) are published; full readback and an isolated restoration passed. See reports/remote_execution.json. The original pilot findings below remain historical evidence; full-window extraction and C15 are still incomplete.
+# Checkpoints — evidence-driven status, 2026-10-08
 
-# Checkpoints — evidence-driven, none approved remotely
+Source checkpoints preserve progress; they do not approve the full foundation.
+For live acquisition counts use main's current reports/historical_execution.json
+and manifest. This branch's catalog is an earlier snapshot, not the active writer.
 
-| Checkpoint | Local evidence / state | Acceptance |
+| Checkpoint | Current evidence | Acceptance |
 |---|---|---|
-| C01 Repository/bootstrap | Empty public Trade discovered; dependency lock, bootstrap, README and tests created | BLOCKED: integration 403, not pushed |
-| C02 Official discovery | Current official docs, archive probes and actual REST/WS observations | PARTIAL: broad date discovery pending |
-| C03 Storage | Sample sizes and conservative policy; Releases chosen | PARTIAL: stratified estimate and remote capacity verification pending |
-| C04 Historical downloader | Daily streaming ZIP, checksums, retry, resume | LOCAL TESTED; bulk not approved |
-| C05 Integrity | SHA256, byte counts, rows, manifest and validation | LOCAL TESTED; remote missing |
-| C06 Normalization | Versioned typed schemas and ZSTD for pilot | LOCAL TESTED |
-| C07 QA | Unit, fault/mocked integration, actual source QA | PARTIAL: cross-day/fault-duration gates pending |
-| C08 BTC extraction | Single-day pilot only | INCOMPLETE |
-| C09 ETH extraction | Single-day pilot only | INCOMPLETE |
-| C10 SOL extraction | Single-day pilot only | INCOMPLETE |
-| C11 Derivatives | Mark/index/premium/metrics samples; funding blocked via REST | INCOMPLETE |
-| C12 Live | 20-second observed capture, routed streams, gap markers | PARTIAL; book snapshot blocked, no deployment |
-| C13 GitHub storage | Adapter and mocked verification; no real upload | BLOCKED |
-| C14 Replay | Availability guards and exact comparison reports | PARTIAL; aggregate reconstruction discrepancy |
-| C15 Audit/handoff | Honest pilot audit and handoff delivered | NOT APPROVED; full foundation incomplete |
+| C01 Repository/bootstrap | Code published, locked dependencies, tests | IMPLEMENTED; former write 403 resolved |
+| C02 Official discovery | Official contracts, archive probes, observed REST/WS limits | PARTIAL: full-window discovery remains tied to acquisition |
+| C03 Storage | 72 stratified probes; 2GB local budget; Releases readback | PARTIAL: entire-window storage not yet demonstrated |
+| C04 Historical downloader | Resumable daily acquisition, rate-limit backoff, serialized writer | IMPLEMENTED for scoped sources; long scan running |
+| C05 Integrity | Source checksums, local hashes, full asset readbacks, pilot restore | IMPLEMENTED for verified partitions; not all requested data |
+| C06 Normalization | Exact decimal strings, typed Parquet/ZSTD; funding source extension tested | IMPLEMENTED for supported schemas |
+| C07 QA | 82 tests; source QA, quarantine, causal guards, adjacent-day replay checks | PARTIAL: full historical QA and long live fault gates pending |
+| C08 BTC extraction | Pilot plus incremental remote-backed acquisition | INCOMPLETE: consult current catalog for missing dates |
+| C09 ETH extraction | Pilot plus incremental remote-backed acquisition | INCOMPLETE: consult current catalog for missing dates |
+| C10 SOL extraction | Pilot plus incremental remote-backed acquisition | INCOMPLETE: consult current catalog for missing dates |
+| C11 Derivatives | Mark/index/premium/metrics acquired incrementally; real monthly funding fixtures pass | INCOMPLETE: funding acquisition/restore queued; boundary months unavailable |
+| C12 Live | 20-second observed capture and gap markers | PARTIAL: REST snapshot blocked; long recovery validation pending |
+| C13 GitHub storage | 18 pilot partitions, 36 assets, full readback and isolated restore PASS; historical checkpoints advancing | IMPLEMENTED for published receipts; full corpus not complete |
+| C14 Replay | Streaming Parquet, backward cross-asset joins; 3,428,256 actual aggTrades and 4,320 klines replayed | PARTIAL: isolated branch; funding/OI timing and full coverage unresolved |
+| C15 Audit/handoff | Manifest-driven audit extension tested and queued for integration | NOT APPROVED: foundation remains incomplete |
 
-Each future approval requires tests PASS + dataset QA PASS + source/checksums valid + documentation + verified remote state. A local source snapshot commit is not a checkpoint approval. Never label a blocked checkpoint approved because its unit tests pass.
+Remote status observed at 2026-10-08 12:41:16 UTC: 602 verified historical/pilot
+partitions, historical run 37774209643 in progress, funding run 37777532680 pending.
+See reports/replay_remote_status.json for the captured run/commit observation.
+Counts may advance; they are not claims of full date coverage.
+
+Individual trade pilot files remain quarantined for source ID gaps. Funding/OI
+publication availability stays unknown; replay cannot silently invent it. The
+historical continuation excludes individual trades until their source QA gate is
+resolved. Funding's permitted monthly method excludes boundary October months.
+
+Each dataset acceptance requires source integrity, PASS QA, documentation, verified
+remote state and scoped restoration evidence. A passing test suite or source commit
+does not approve a blocked/incomplete dataset or C15. See REPLAY_CHECKPOINT.md.

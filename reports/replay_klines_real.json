@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "generated_at": "2026-10-08T12:43:22.962494+00:00",
+  "scope": "Selected local inputs and events available through cutoff only; not C15 approval",
+  "until_ms": 1728345600000,
+  "batch_size": 1000,
+  "allow_exchange_assumption": true,
+  "selected_inputs": [
+    {
+      "key": "BTCUSDT/klines/2024-10-07",
+      "normalized_sha256": "31371be8b348f6ce35e9ab45c3a220a563ba6bad17c522d7a77ef91c3cf17fe3",
+      "declared_rows": 1440
+    },
+    {
+      "key": "ETHUSDT/klines/2024-10-07",
+      "normalized_sha256": "c04a4a4fa96d69d81935591cd7c35d3cb24d2b4f2306fa0696a244e87e9ec74d",
+      "declared_rows": 1440
+    },
+    {
+      "key": "SOLUSDT/klines/2024-10-07",
+      "normalized_sha256": "27cebb648b47adcb9864558951c69318c9ec9f6c3d7175918b88130c16bb3d64",
+      "declared_rows": 1440
+    }
+  ],
+  "emitted_rows": 4320,
+  "rows_by_stream": {
+    "BTCUSDT/klines": 1440,
+    "ETHUSDT/klines": 1440,
+    "SOLUSDT/klines": 1440
+  },
+  "first_available_at_ms": 1728259260000,
+  "last_available_at_ms": 1728345600000,
+  "replay_sha256": "2bfe48e191430206ed59407bf29048ad8e6a7fd8a24d44eaa12a25e21e0cdfee",
+  "asof": {
+    "decisions": 1441,
+    "missing": 3,
+    "available": 4320,
+    "max_age_ms": 60000,
+    "age_basis": "event_time_ms",
+    "equal_time_policy": "consume_all_before_decision"
+  },
+  "limitations": [
+    "No inferred availability for funding/OI",
+    "No full-window coverage claim",
+    "No simulated trades or costs",
+    "Historical timestamps do not establish received latency"
+  ],
+  "selected_coverage_gaps": []
+}
