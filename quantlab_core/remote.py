@@ -1,30 +1,63 @@
 """GitHub Releases: immutable hash-named assets and full readback verification.
 GITHUB_TOKEN is read only from the environment; never written to files or logs.
 """
-import os, hashlib, time
+import os, hashlib, time, random
 from pathlib import Path
 import requests
 from .io import sha256
 
 class GitHubRemote:
-    def __init__(self, repository, session=None):
+    def __init__(self, repository, session=None, interval=4.0, attempts=5):
         token = os.environ.get('GITHUB_TOKEN')
         if not token and session is None: raise RuntimeError('GitHub write authentication unavailable; keep local data')
         self.session=session or requests.Session(); self.repository=repository
         self.session.headers.update({'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'})
         if token: self.session.headers['Authorization']='Bearer '+token
         self.base='https://api.github.com/repos/'+repository
+        self.interval=interval; self.attempts=attempts; self.last_request=0
+        self.releases={}; self.assets={}; self.rate_events=[]
+    @staticmethod
+    def rate_delay(response, attempt, now=None):
+        now=time.time() if now is None else now
+        headers=response.headers
+        if headers.get('X-RateLimit-Remaining')=='0':
+            return max(1, float(headers.get('X-RateLimit-Reset',now+60))-now+2)
+        if headers.get('Retry-After'):
+            return max(1, float(headers['Retry-After']))
+        if response.status_code==429 or 'rate limit' in response.text.lower():
+            return 60*(2**attempt)
+        return None
+    @staticmethod
+    def wait(seconds):
+        # Emit observable progress; long server waits are split into <=60s sleeps.
+        while seconds>0:
+            step=min(60,seconds); time.sleep(step); seconds-=step
     def request(self, method, url, **kwargs):
-        # Mutations never blindly retried: caller reconciles by immutable asset name.
-        r=self.session.request(method,url,timeout=(15,120),**kwargs)
-        if r.status_code in (403,429):
-            raise RuntimeError('GitHub permission/rate limit blocked; preserve local files and resume later')
-        r.raise_for_status(); return r
+        # Only explicitly rejected rate-limit responses are retried. Transport
+        # errors/ambiguous mutations propagate for immutable-name reconciliation.
+        for attempt in range(self.attempts):
+            self.wait(max(0,self.interval-(time.monotonic()-self.last_request)))
+            self.last_request=time.monotonic()
+            body=kwargs.get('data'); position=body.tell() if hasattr(body,'tell') else None
+            r=self.session.request(method,url,timeout=(15,120),**kwargs)
+            if r.status_code in (403,429):
+                delay=self.rate_delay(r,attempt)
+                if delay is None:
+                    r.close(); raise RuntimeError('GitHub permission denied (not rate limiting); retain local files')
+                self.rate_events.append({'status':r.status_code,'delay_seconds':delay,'attempt':attempt+1})
+                print(f'GitHub rate limit: waiting {delay:.0f}s before retry {attempt+1}',flush=True)
+                r.close()
+                if attempt+1==self.attempts: raise RuntimeError('GitHub rate-limit retry budget exhausted; retain local files')
+                if position is not None: body.seek(position)
+                self.wait(delay+random.random()); continue
+            if r.status_code==404: return r
+            r.raise_for_status(); return r
     def release(self, tag):
-        r=self.session.get(self.base+'/releases/tags/'+tag,timeout=30)
+        if tag in self.releases: return self.releases[tag]
+        r=self.request('GET',self.base+'/releases/tags/'+tag)
         if r.status_code==404:
-            return self.request('POST',self.base+'/releases',json={'tag_name':tag,'name':tag,'body':'Immutable public market-data partitions. Verify against manifest.','prerelease':True}).json()
-        r.raise_for_status(); return r.json()
+            r=self.request('POST',self.base+'/releases',json={'tag_name':tag,'name':tag,'body':'Immutable public market-data partitions. Verify against manifest.','prerelease':True})
+        r.raise_for_status(); self.releases[tag]=r.json(); return self.releases[tag]
     def verify(self, url, expected, size):
         h=hashlib.sha256(); count=0
         with self.request('GET',url,headers={'Accept':'application/octet-stream'},stream=True) as r:
@@ -34,17 +67,21 @@ class GitHubRemote:
         path=Path(path); digest=sha256(path); size=path.stat().st_size
         if size>=2*1024**3: raise ValueError('Asset exceeds GitHub limit; split partition first')
         rel=self.release(tag); name=digest+'-'+path.name
-        assets=[]; page=1
-        while True:
-            batch=self.request('GET',rel['assets_url'],params={'per_page':100,'page':page}).json(); assets+=batch
-            if len(batch)<100: break
-            page+=1
+        if tag not in self.assets:
+            assets=[]; page=1
+            while True:
+                batch=self.request('GET',rel['assets_url'],params={'per_page':100,'page':page}).json(); assets+=batch
+                if len(batch)<100: break
+                page+=1
+            self.assets[tag]=assets
+        assets=self.assets[tag]
         matches=[x for x in assets if x['name']==name]
         if matches: asset=matches[0]
         else:
             if len(assets)>=1000: raise RuntimeError('Release asset limit reached')
             with path.open('rb') as f:
                 asset=self.request('POST',rel['upload_url'].split('{')[0],params={'name':name},headers={'Content-Type':'application/octet-stream'},data=f).json()
+            assets.append(asset)
         self.verify(asset['url'],digest,size)
         return {'asset_id':asset['id'],'api_url':asset['url'],'url':asset['browser_download_url'],'sha256':digest,'bytes':size,'verified_at':time.time()}
     def restore(self, record, path, budget):

@@ -18,3 +18,7 @@ Each successful upload is downloaded in full into a streaming hash before it is 
 The pipeline refuses >=2 GiB assets instead of uploading blindly. Automatic splitting for unusually large daily partitions is NOT yet implemented. Do not approve bulk production until tested. GitHub upload integration is implemented but not integration-tested against a real authorized repository. A mock restore test cannot approve the remote acceptance gate.
 
 Disk budget applies to `data/`, including temporary, quarantined, live and restored payloads; installed environment/source/log metadata are outside the stated data budget. CLI single writer is mandatory; do not run collector and historical sync simultaneously under the same budget until coordinated reservations are added. Raw revisions get hash-versioned paths; never overwrite a different archive version.
+
+## GitHub Actions rate control — 2026-10-08
+
+GITHUB_TOKEN has a repository-scoped 1000 requests/hour primary limit, separate from the usual 5000 authenticated REST limit. Default API spacing is four seconds; release/asset lists are cached within the single writer. Retry-After, X-RateLimit-Remaining and X-RateLimit-Reset determine waits. Genuine permission failures and ambiguous POST transport errors stop safely. Full readbacks remain mandatory. Primary source: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api .

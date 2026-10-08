@@ -13,7 +13,15 @@ from quantlab_core.pipeline import Pipeline
 from quantlab_core.remote import GitHubRemote
 from quantlab_core.sources import days
 
-DATASETS = ('klines', 'markPriceKlines', 'indexPriceKlines', 'premiumIndexKlines', 'metrics')
+DATASETS = ('aggTrades', 'klines', 'markPriceKlines', 'indexPriceKlines', 'premiumIndexKlines', 'metrics')
+
+
+def validate_storage_review(root):
+    probes=json.loads((root/'reports/stratified_storage_probe.json').read_text())
+    for symbol in ('BTCUSDT','ETHUSDT','SOLUSDT'):
+        sample=[r for r in probes if r['symbol']==symbol and r['dataset']=='aggTrades']
+        if len(sample)!=12 or any(r.get('status')!=200 or r.get('bytes',0)<=0 for r in sample):
+            raise RuntimeError('Stratified aggTrades storage review is incomplete')
 
 
 def is_verified(record):
@@ -28,18 +36,21 @@ def main():
     if pilot.get('status') != 'PASS' or pilot.get('restore', {}).get('status') != 'PASS':
         raise RuntimeError('Real remote restore gate not passed')
     cfg = yaml.safe_load((root/'config.yaml').read_text())
+    validate_storage_review(root)
     pipe = Pipeline(root, cfg)
-    remote = GitHubRemote(cfg['repository'])
+    remote = GitHubRemote(cfg['repository'],interval=cfg.get('github_request_interval_seconds',4))
     start = time.monotonic()
     pending = []
     report = {'status': 'RUNNING', 'scope': list(DATASETS), 'processed_this_run': 0,
               'started_at': datetime.now(timezone.utc).isoformat(),
-              'notice': 'Small datasets only. Trades/aggTrades bulk awaits stratified capacity review. Phase 1 incomplete.'}
+              'notice': 'AggTrades capacity reviewed across 12 dates/symbol. Individual trades remain quarantined for ID gaps. Phase 1 incomplete.'}
 
     def checkpoint():
         pipe.catalog()
         report['updated_at'] = datetime.now(timezone.utc).isoformat()
         report['remote_verified_partitions'] = sum(is_verified(r) for r in pipe.records.values())
+        report['elapsed_seconds'] = round(time.monotonic()-start,2)
+        report['github_rate_events'] = remote.rate_events
         atomic_json(root/'reports/historical_execution.json', report)
         subprocess.run(['git', 'add', 'manifest.jsonl', 'data_catalog.json', 'reports/historical_execution.json'], check=True)
         if subprocess.run(['git', 'diff', '--cached', '--quiet']).returncode:
@@ -51,6 +62,7 @@ def main():
         pending.clear()
 
     try:
+        checkpoint()
         for day in days(cfg['start_date'], cfg['end_date']):
             if day >= datetime.now(timezone.utc).date():
                 continue
@@ -60,6 +72,8 @@ def main():
                     existing = pipe.records.get(key, {})
                     if is_verified(existing):
                         continue
+                    # A 404 is an observed absence, not downloaded coverage.
+                    # Retry missing archives once per new run, not repeatedly within it.
                     if time.monotonic()-start > 240*60:
                         report['status'] = 'PAUSED_TIME_BUDGET'
                         checkpoint()
@@ -67,14 +81,16 @@ def main():
                     record = pipe.sync_one(symbol, dataset, day, remote, False)
                     report['processed_this_run'] += 1
                     report['last_partition'] = key
+                    print(json.dumps({'partition':key,'status':record.get('status'),'rows':record.get('qa',{}).get('rows')}),flush=True)
                     if record.get('status') == 'not_published_or_unavailable':
                         pass
                     elif not is_verified(record):
                         raise RuntimeError(f'QA or remote verification failed: {key}')
                     else:
                         pending.append(record)
-                    # <=25 small partitions retained until a durable Git checkpoint.
-                    if report['processed_this_run'] % 25 == 0:
+                    # Commit before pruning; keep large partitions well within budget.
+                    pending_bytes=sum(r[k]['bytes'] for r in pending for k in ('raw','normalized'))
+                    if report['processed_this_run']==1 or report['processed_this_run'] % 25 == 0 or pending_bytes>250_000_000:
                         checkpoint()
         report['status'] = 'SCOPED_SCAN_FINISHED'
         checkpoint()

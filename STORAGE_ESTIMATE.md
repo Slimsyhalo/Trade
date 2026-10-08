@@ -64,3 +64,18 @@ No invented compression ratios. Pilot measurements will be appended. aggTrades a
 | SOLUSDT | metrics | 35891 | 10909 | 57096 | 15723 | 26632 |
 | SOLUSDT | premiumIndexKlines | 128113 | 29044 | 244099 | 55531 | 84575 |
 | SOLUSDT | trades | 92947729 | 13856642 | 208796391 | 20034007 | 33890649 |
+
+## Stratified official archive probes (2026-10-07)
+
+72 of 72 official archives returned HTTP 200: 12 dates spread across the window, three symbols, aggTrades and trades. HEAD probes measured compressed source ZIP sizes only; availability of unprobed days is not implied.
+
+| Symbol | Dataset | Mean ZIP MB | Largest ZIP MB | Estimated 731-day RAW ZIP GB |
+|---|---|---:|---:|---:|
+| BTCUSDT | aggTrades | 23.47 | 60.52 | 17.16 |
+| BTCUSDT | trades | 36.29 | 92.54 | 26.53 |
+| ETHUSDT | aggTrades | 28.64 | 62.05 | 20.93 |
+| ETHUSDT | trades | 62.87 | 123.23 | 45.96 |
+| SOLUSDT | aggTrades | 6.65 | 13.00 | 4.86 |
+| SOLUSDT | trades | 20.28 | 35.29 | 14.82 |
+
+These are estimates, not downloaded coverage. Parquet ratios are still based on the original pilot. Retain the 2 GB hard limit and stop safely on oversized days; individual-trade QA remains unresolved. Full source evidence: reports/stratified_storage_probe.json.
