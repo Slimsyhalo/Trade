@@ -35,15 +35,39 @@ def summarize(root, destination):
                 latest_receive_ns=max((r['last_receive_ns'] for r in records if r.get('last_receive_ns')), default=None))
 
 
+def push_checkpoint(branch, parent_sha, commit_sha, attempts=5):
+    """Retry the identical commit only while the remote retains the expected parent."""
+    ref='refs/heads/'+branch
+    for attempt in range(attempts):
+        result=subprocess.run(['git','push','origin',commit_sha+':'+ref],capture_output=True,text=True)
+        if result.returncode==0: return
+        # Read back even after a failed transport: the write might have succeeded.
+        probe=subprocess.run(['git','ls-remote','origin',ref],capture_output=True,text=True)
+        if probe.returncode!=0:
+            raise RuntimeError('Cannot verify checkpoint branch head; publication stopped safely')
+        if probe.returncode==0:
+            remote_sha=probe.stdout.split()[0] if probe.stdout.strip() else None
+            if remote_sha==commit_sha: return
+            if remote_sha!=parent_sha:
+                raise RuntimeError('Checkpoint branch changed externally; publication stopped without overwrite')
+        detail=result.stderr.lower()
+        if any(x in detail for x in ('authentication failed','permission denied','write access','403','non-fast-forward','fetch first')):
+            raise subprocess.CalledProcessError(result.returncode,result.args)
+        if attempt+1==attempts:
+            raise subprocess.CalledProcessError(result.returncode,result.args)
+        time.sleep(min(5*(2**attempt),60))
+
+
 def commit_checkpoint(paths, branch, message):
     if not branch.startswith('codex/') or branch in ('codex/data-foundation-next',):
         raise ValueError('Live ledger requires an isolated development branch')
     subprocess.run(['git','add','--',*map(str,paths)],check=True)
     changed=subprocess.run(['git','diff','--cached','--quiet']).returncode
     if changed:
+        parent_sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
         subprocess.run(['git','commit','-m',message],check=True)
-        # Non-force push; external changes stop this component rather than overwrite.
-        subprocess.run(['git','push','origin','HEAD:refs/heads/'+branch],check=True)
+        commit_sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+        push_checkpoint(branch,parent_sha,commit_sha)
     return subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
 
 
