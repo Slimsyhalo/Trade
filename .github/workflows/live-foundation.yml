@@ -12,7 +12,12 @@ concurrency:
 jobs:
   live:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 270
+    strategy:
+      max-parallel: 1
+      fail-fast: true
+      matrix:
+        batch: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,12 +38,14 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           CHECKPOINT_SOURCE_SHA: ${{ github.sha }}
           LIVE_LEDGER_BRANCH: codex/c16-source-inventory
+          LIVE_CAPTURE_ID: ${{ github.run_id }}-${{ matrix.batch }}
+          LIVE_SECONDS: '7200'
         run: python remote_live.py
       - name: Preserve raw payloads if publication is blocked
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: live-foundation-${{ github.run_id }}-diagnostics
+          name: live-foundation-${{ github.run_id }}-${{ matrix.batch }}-diagnostics
           path: |
             reports/live_execution/
             catalog/live/

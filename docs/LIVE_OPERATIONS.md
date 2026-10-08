@@ -1,13 +1,18 @@
 # Live research capture: operation and limits
 
-`live-foundation.yml` runs a bounded ten-minute observation on an independent
-branch ledger. It leaves the main historical writer and queued funding job
+`live-foundation.yml` first proved a bounded ten-minute observation on an independent
+branch ledger. Its continuation runs twelve serial two-hour capture jobs, with a
+unique run/batch namespace so fresh runners never overwrite earlier ledgers.
+This finite campaign leaves the main historical writer and queued funding job
 untouched. Raw combined WebSocket messages, receipt times, connection markers
 and detected sequence gaps are preserved. Segments rotate at 300 seconds or
 32 MB compressed. One publisher owns remote mutations, paced at 15 seconds;
 the repository API quota is shared with historical jobs and rate waits remain
 observable. Full SHA-256/size readback precedes verified receipts. Git ledger
-checkpoints occur each minute. Raw inputs are not pruned by this runner.
+checkpoints occur each minute. Raw inputs are not pruned by this runner. A job's
+two-hour raw backlog, publisher drain and sample restores must fit the 2 GB
+workspace budget; exhaustion stops safely and preserves unverified inputs.
+Startup/drain/restoration intervals between jobs remain unobserved gaps.
 
 Separate routes preserve depth/best quotes, aggregate trades, mark/funding
 observations and liquidation notifications. REST depth/OI failure is explicit;
