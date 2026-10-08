@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "checkpoint": "C12 live recovery source checkpoint",
+  "branch": "codex/live-recovery",
+  "measurement_started_at": "2026-10-08T13:06:07.196Z",
+  "measurement_ended_at": "2026-10-08T13:20:18.797Z",
+  "measured_work_window_seconds": 851.6,
+  "effective_active_seconds": null,
+  "end_boundary": "Source validation and documentation prepared before GitHub publication",
+  "measurement_notes": [
+    "Instrumentation started after initial repository inspection; earlier time is not reconstructed.",
+    "Work-window elapsed time includes development reasoning, edits, test execution and tool/network waits.",
+    "Effective active time was not separately instrumented; it is null rather than inferred from elapsed or CPU time.",
+    "Background GitHub historical/funding acquisition time is excluded from this foreground checkpoint.",
+    "GitHub publication and final remote readback occur after this measurement boundary.",
+    "This checkpoint cannot by itself establish a 4x productivity estimate."
+  ],
+  "observed_validation_tool_wall_seconds": {
+    "initial_suite": 0.858926481,
+    "intermediate_suite": 0.645896818,
+    "final_suite": 1.252838815,
+    "original_live_pilot_validation": 0.081240278
+  },
+  "validation": {
+    "full_suite_passed": 111,
+    "new_live_fault_cases": 29,
+    "actual_original_pilot_rows": 3990,
+    "actual_original_pilot_segments": 3
+  }
+}
