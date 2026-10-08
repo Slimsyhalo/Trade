@@ -10984,5 +10984,128 @@
       "crc_check": "PASS"
     },
     "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
+  },
+  "main/SOLUSDT/premiumIndexKlines/2024-10-07/normalized/0c011fd09dec3aa1ca55c53e130428716c96a515ecf0214aa31464f1144d24e9": {
+    "state": "RESTORED_AND_TESTED",
+    "restored_at": "2026-10-08T19:43:45.416803+00:00",
+    "source": {
+      "ledger": "main",
+      "dataset": "premiumIndexKlines",
+      "symbol": "SOLUSDT",
+      "partition_key": "SOLUSDT/premiumIndexKlines/2024-10-07",
+      "object_kind": "normalized",
+      "sha256": "0c011fd09dec3aa1ca55c53e130428716c96a515ecf0214aa31464f1144d24e9",
+      "bytes": 55531,
+      "remote": {
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/619845898",
+        "asset_id": 619845898,
+        "bytes": 55531,
+        "sha256": "0c011fd09dec3aa1ca55c53e130428716c96a515ecf0214aa31464f1144d24e9",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/data-SOLUSDT-premiumIndexKlines-2024-10/0c011fd09dec3aa1ca55c53e130428716c96a515ecf0214aa31464f1144d24e9-07-8bea2f0be285cd2c.parquet",
+        "verified_at": 1791408058.3178964
+      },
+      "expected_rows": 1440,
+      "source_identity": null,
+      "source_ledger_sha": "a4ab5406a199a02590c5c35c943af538e3750fd8"
+    },
+    "inspection": {
+      "format": "parquet",
+      "rows": 1440,
+      "first_event": 1728259200000,
+      "last_event": 1728345540000,
+      "event_unit": "ms",
+      "unknown_availability_rows": 0,
+      "timestamp_order": "NONDECREASING",
+      "availability_not_before_event": "PASS",
+      "fields": [
+        {
+          "name": "open_time",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "open",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "high",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "low",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "close",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "volume",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "close_time",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "quote_volume",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "number_of_trades",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "taker_buy_base_volume",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "taker_buy_quote_volume",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "ignore",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "event_time_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "available_at_ms",
+          "type": "int64",
+          "nullable": true
+        },
+        {
+          "name": "availability_basis",
+          "type": "string",
+          "nullable": true
+        }
+      ],
+      "arrow_metadata": {
+        "schema_version": "1",
+        "timezone": "UTC",
+        "decimals": "exact source strings"
+      },
+      "strict_causal_replay_certified": false
+    },
+    "audit_code_sha": "8407d79b416b7a000bf39bf6b91fcece91036bb8"
   }
 }
