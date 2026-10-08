@@ -12,6 +12,7 @@ from quantlab_core.io import atomic_json
 from quantlab_core.pipeline import Pipeline
 from quantlab_core.remote import GitHubRemote
 from quantlab_core.sources import days
+from build_audit import build_audit
 
 DATASETS = ('aggTrades', 'klines', 'markPriceKlines', 'indexPriceKlines', 'premiumIndexKlines', 'metrics')
 
@@ -40,6 +41,7 @@ def main():
     pipe = Pipeline(root, cfg)
     remote = GitHubRemote(cfg['repository'],interval=cfg.get('github_request_interval_seconds',4))
     start = time.monotonic()
+    cpu_start=time.process_time()
     pending = []
     report = {'status': 'RUNNING', 'scope': list(DATASETS), 'processed_this_run': 0,
               'started_at': datetime.now(timezone.utc).isoformat(),
@@ -50,9 +52,11 @@ def main():
         report['updated_at'] = datetime.now(timezone.utc).isoformat()
         report['remote_verified_partitions'] = sum(is_verified(r) for r in pipe.records.values())
         report['elapsed_seconds'] = round(time.monotonic()-start,2)
+        report['process_cpu_seconds'] = round(time.process_time()-cpu_start,2)
         report['github_rate_events'] = remote.rate_events
         atomic_json(root/'reports/historical_execution.json', report)
-        subprocess.run(['git', 'add', 'manifest.jsonl', 'data_catalog.json', 'reports/historical_execution.json'], check=True)
+        build_audit(root)
+        subprocess.run(['git', 'add', 'manifest.jsonl', 'data_catalog.json', 'reports/historical_execution.json','AUDIT_SUMMARY.json','AUDIT_SUMMARY.md','DATA_COVERAGE.md','QA_REPORT.md','reports/validation.json'], check=True)
         if subprocess.run(['git', 'diff', '--cached', '--quiet']).returncode:
             subprocess.run(['git', 'commit', '-m', 'Checkpoint verified historical data and coverage'], check=True)
             subprocess.run(['git', 'push', 'origin', 'HEAD:main'], check=True)

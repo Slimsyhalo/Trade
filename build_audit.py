@@ -1,54 +1,77 @@
-"""Generate coverage and pilot audit from observed manifests, never from plans."""
-import json, collections, gzip
+"""Generate audits from recorded evidence; absent files are not revalidated."""
+import argparse
+import json
+from datetime import datetime, timezone
 from pathlib import Path
 import yaml
-from quantlab_core.pipeline import Pipeline
-from quantlab_core.io import atomic_json, sha256
-p=Pipeline('.',yaml.safe_load(Path('config.yaml').read_text())); catalog=p.catalog(); validation=p.validate()
-records=list(p.records.values()); good=[r for r in records if r.get('qa',{}).get('status')=='PASS']
-comparisons={}
-for source in ('trades','aggTrades'):
- for symbol in p.config['symbols']:
-  path=Path(f'reports/bar_comparison_{source}_{symbol}.json')
-  if path.exists():
-   report=json.loads(path.read_text()); comparisons[f'{symbol}/{source}']={'status':report['status'],'mismatched_fields':len(report['differences']),'mismatched_minutes':len({x['time'] for x in report['differences']}),'fields':dict(collections.Counter(x['field'] for x in report['differences']))}
-live=[]
-for path in Path('data/live').glob('*.gz'):
- counts=collections.Counter(); symbols=collections.Counter(); minimum=maximum=None
- for line in gzip.open(path,'rt'):
-  row=json.loads(line); counts[row['kind']]+=1
-  ts=row['receive_timestamp_ns']; minimum=ts if minimum is None else min(minimum,ts); maximum=ts if maximum is None else max(maximum,ts)
-  if row['kind']=='event': symbols[row['payload'].get('data',{}).get('s','unknown')]+=1
- live.append(dict(path=str(path),rows=sum(counts.values()),kinds=dict(counts),symbols=dict(symbols),sha256=sha256(path),bytes=path.stat().st_size,min_receive_ns=minimum,max_receive_ns=maximum))
-atomic_json('reports/live_inventory.json',live)
-symbols={}
-for symbol in p.config['symbols']:
- rows=[r for r in good if r['symbol']==symbol]
- symbols[symbol]={'datasets':[r for r in catalog if r['symbol']==symbol],'trades':sum(r['qa']['rows'] for r in rows if r['dataset']=='trades'),'aggTrades':sum(r['qa']['rows'] for r in rows if r['dataset']=='aggTrades'),'bars':sum(r['qa']['rows'] for r in rows if r['dataset'].endswith('Klines') or r['dataset']=='klines'),'partitions':len(rows),'compressed_gb':sum(r['normalized']['bytes'] for r in rows)/1e9,'quality':{k:sum(r['qa'].get(k,0) for r in rows) for k in ('duplicates_found','duplicates_removed','id_gaps','interval_gaps','out_of_order','schema_violations')},'raw_zip_bytes':sum(r['raw']['bytes'] for r in rows)}
-summary={'phase':'1','status':'INCOMPLETE_BLOCKED','historical_window':{'start':'2024-10-07T00:00:00Z','end_exclusive':'2026-10-08T00:00:00Z','inclusive_calendar_days':731},'symbols':symbols,'tests':Path('reports/tests.txt').read_text(),'local_file_validation':{'checked':len(validation),'passed':sum(x['status']=='PASS' for x in validation),'integrity_passed':sum(x.get('integrity_status')=='PASS' for x in validation)},'bar_reconstruction':comparisons,'live':live,'remote':{'repository':'https://github.com/Slimsyhalo/Trade','uploaded_partitions':0,'restore_test':'NOT_RUN_BLOCKED','error':'HTTP 403 Resource not accessible by integration'},'rest':{'status':451,'reason':'Regional restriction; no bypass attempted'},'quarantined_data':[r for r in records if r.get('qa',{}).get('status')=='FAILED'],'available_data':'Only passing manifest/catalog entries and separately inventoried live smoke captures','unavailable_data':['Remaining historical days','Funding history','Full reconstructible historical L2','Verified complete liquidation history','GitHub copies','REST depth/OI snapshots'],'approved_checkpoints':[]}
-atomic_json('AUDIT_SUMMARY.json',summary)
-lines=['# Data coverage — pilot only','','Coverage means downloaded and locally QA-passing daily partitions; remote coverage is 0%. Null remote locations are intentional.','', '| Symbol | Dataset | First | Last | Expected days | Available | Missing | Coverage | Rows |','|---|---|---|---|---:|---:|---:|---:|---:|']
-for r in catalog: lines.append(f"| {r['symbol']} | {r['dataset']} | {r['first_available']} | {r['last_available']} | {r['expected_days']} | {r['available_days']} | {r['missing_days']} | {r['coverage_percentage']:.4f}% | {r['rows']:,} |")
-lines+=['','Full missing-day lists are in data_catalog.json. first_available refers to first acquired passing partition, not an assertion about earliest source availability. Unprobed dates are missing locally, not necessarily missing at Binance. The end day was still in progress.']
-Path('DATA_COVERAGE.md').write_text('\n'.join(lines)+'\n')
-qa=['# QA report','','## Local tests','',summary['tests'].strip(),'','## Actual data validation','',f"{len(validation)} RAW/Parquet file checks; {summary['local_file_validation']['passed']} PASS. Integrity checks pass separately from dataset QA; individual trades with ID gaps fail promotion. Validated SHA256, bytes and Parquet row counts. All promoted partitions passed within-day source/schema/ID/interval checks. Source schema discovery initially rejected the trades header quote_qty; explicit alias added and regression-tested before accepting data.",'','## Reconstruction','', '| Dataset | Result | Mismatched minutes | Mismatched fields |','|---|---|---:|---:|']
-for key,value in comparisons.items(): qa.append(f"| {key} | {value['status']} | {value['mismatched_minutes']} | {value['mismatched_fields']} |")
-qa+=['','A reconstruction FAILED is distinct from a source integrity PASS. Aggregate-derived bars are not certified as exact. All discrepancies retained in reports/bar_comparison_*.json. Synthetic tests do not establish arbitrary feature code or production system correctness.','', '## Remote acceptance','','NOT RUN / BLOCKED: GitHub 403. Mock upload/restore integrity tests are not counted as a real restore. No checkpoint approved.','', '## Live','','Observed market/public events; REST snapshots returned 451. Full L2 reconstruction not certified. See reports/live_inventory.json.']
-Path('QA_REPORT.md').write_text('\n'.join(qa)+'\n')
-audit=['# Audit summary — Phase 1 incomplete','','Outcome: reproducible local pilot, no GitHub publication and no full-window extraction.','', '| Symbol | Individual trades | Aggregate trades | OHLC rows (all price series) | Passing partitions | Parquet GB |','|---|---:|---:|---:|---:|---:|']
-for symbol,r in symbols.items(): audit.append(f"| {symbol} | {r['trades']:,} | {r['aggTrades']:,} | {r['bars']:,} | {r['partitions']} | {r['compressed_gb']:.4f} |")
-audit+=['','Historical sample day: 2024-10-07 UTC; each covered dataset has 1/731 days (0.1368%). No other dates are implied.','', 'Blocking issues: GitHub integration write access 403; Binance REST regional 451; incomplete history; aggregate-based reconstruction differences; individual-trade source ID gaps. The independently accessible public archive and WS sources were used without attempting to bypass restrictions.','', 'No C01–C15 checkpoint is approved because real remote state and restore cannot be verified. Tests and local partition QA are evidence of the pilot only.','', 'Next actions: authorize the GitHub integration for Trade, publish the reviewed source snapshot, perform a real release upload/download/row-count test, broaden sample estimation, then run incremental historical batches. Resolve trade reconstruction semantics before promoting replay. Deploy live capture only after fault/recovery testing and valid snapshot stitching.','', 'See DATA_COVERAGE.md, QA_REPORT.md, LIMITATIONS.md and RESEARCH_HANDOFF.md for exact scope.']
-Path('AUDIT_SUMMARY.md').write_text('\n'.join(audit)+'\n')
-# Append measured pilot compression; no fabricated normalized expansion factors.
-import zipfile
-estimate=Path('STORAGE_ESTIMATE.md').read_text().split('## Measured pilot')[0]
-estimate+='\n## Measured pilot\n\n| Symbol | Dataset | Raw CSV bytes | Original ZIP bytes | Uncompressed Arrow bytes | Parquet ZSTD bytes | Remote needed ZIP+Parquet |\n|---|---|---:|---:|---:|---:|---:|\n'
-import pyarrow.parquet as pq
-for r in records:
- if 'raw' not in r or 'normalized' not in r: continue
- raw=Path(r['raw']['path']); normalized=Path(r['normalized']['path'])
- with zipfile.ZipFile(raw) as z: csvsize=sum(m.file_size for m in z.infolist())
- arrowbytes=sum(batch.nbytes for batch in pq.ParquetFile(normalized).iter_batches())
- estimate+=f"| {r['symbol']} | {r['dataset']} | {csvsize} | {r['raw']['bytes']} | {arrowbytes} | {r['normalized']['bytes']} | {r['raw']['bytes']+r['normalized']['bytes']} |\n"
-Path('STORAGE_ESTIMATE.md').write_text(estimate)
-print(json.dumps({'partitions':len(good),'rows':sum(r['qa']['rows'] for r in good),'remote_uploaded':0,'comparisons':comparisons},indent=2))
+from quantlab_core.pipeline import Pipeline, remote_verified
+from quantlab_core.io import atomic_json
+
+
+def optional_json(path):
+    return json.loads(path.read_text()) if path.exists() else {}
+
+
+def build_audit(root):
+    root=Path(root)
+    pipe=Pipeline(root,yaml.safe_load((root/'config.yaml').read_text()))
+    catalog=pipe.catalog(); records=list(pipe.records.values())
+    good=[r for r in records if r.get('qa',{}).get('status')=='PASS']
+    backed=[r for r in records if remote_verified(r)]
+    bad=[r for r in records if r.get('qa',{}).get('status')=='FAILED']
+    pilot=optional_json(root/'reports/remote_execution.json')
+    restore=pilot.get('restore',{'status':'NOT_RUN'})
+    checks=pipe.validate()
+    tests=(root/'reports/tests.txt').read_text().strip() if (root/'reports/tests.txt').exists() else 'No test evidence recorded'
+    symbols={}
+    for symbol in pipe.config['symbols']:
+        accepted=[r for r in good if r['symbol']==symbol]
+        symbols[symbol]={
+            'datasets':[r for r in catalog if r['symbol']==symbol],
+            'qa_passing_partitions':len(accepted),
+            'remote_verified_partitions':sum(remote_verified(r) for r in accepted),
+            'aggregate_trades':sum(r['qa']['rows'] for r in accepted if r['dataset']=='aggTrades'),
+            'individual_trades':sum(r['qa']['rows'] for r in accepted if r['dataset']=='trades'),
+            'bars':sum(r['qa']['rows'] for r in accepted if r['dataset'] in ('klines','markPriceKlines','indexPriceKlines','premiumIndexKlines')),
+            'funding_settlements':sum(r['qa']['rows'] for r in accepted if r['dataset']=='fundingRate'),
+            'compressed_gb':sum(r['normalized']['bytes'] for r in accepted)/1e9,
+            'quality_all_acquired':{k:sum(r.get('qa',{}).get(k,0) for r in records if r['symbol']==symbol) for k in ('duplicates_found','duplicates_removed','id_gaps','interval_gaps','out_of_order','schema_violations')},
+            'quarantined_partitions':[r['key'] for r in bad if r['symbol']==symbol]}
+    summary={'phase':1,'status':'INCOMPLETE','generated_at':datetime.now(timezone.utc).isoformat(),
+             'notice':'DO NOT ASSUME DATA EXISTS UNLESS LISTED IN THE CATALOG.',
+             'historical_window':{'start':pipe.config['start_date'],'end_inclusive':pipe.config['end_date']},
+             'symbols':symbols,'tests':tests,
+             'remote':{'repository':'https://github.com/'+pipe.config['repository'],'verified_partitions':len(backed),'verified_assets':2*len(backed),'restore_test':restore,'verification_basis':'Recorded full readback at verified_at; not a fresh redownload of every asset'},
+             'local_validation':{'present_file_checks':sum('integrity_status' in r for r in checks),'present_integrity_failures':[r for r in checks if r.get('integrity_status')=='FAILED'],'remote_not_rechecked':sum(r.get('status')=='REMOTE_NOT_RECHECKED' for r in checks),'missing_local_unbacked_files':sum(r.get('status')=='FAILED' and 'integrity_status' not in r for r in checks)},
+             'quarantined_partitions':[r['key'] for r in bad],
+             'last_historical_run_report':optional_json(root/'reports/historical_execution.json'),
+             'last_funding_run_report':optional_json(root/'reports/funding_execution.json'),
+             'limitations':['Full-window coverage incomplete','Individual-trade ID gaps unresolved','Aggregate bars not certified as exact official klines','Historical publication latency unknown for metrics and funding','Boundary funding months excluded because full archives cross authorized limits','Full historical L2 and complete market liquidation coverage not established'],
+             'approved_scope':['Initial 18-partition remote pilot and isolated restore'] if pilot.get('status')=='PASS' and restore.get('status')=='PASS' else [],'phase_2_authorized':False}
+    atomic_json(root/'AUDIT_SUMMARY.json',summary)
+    lines=['# Current data coverage','',f"Generated: {summary['generated_at']}",'',
+           'QA days count observed passing dates. Remote days require matching RAW and Parquet readback receipts. Monthly funding coverage counts observed dates, not one day per archive.','',
+           '| Symbol | Dataset | First | Last | QA days / expected | Remote days | Rows | QA partitions | Remote partitions |','|---|---|---|---|---:|---:|---:|---:|---:|']
+    for r in catalog:
+        lines.append(f"| {r['symbol']} | {r['dataset']} | {r['first_available']} | {r['last_available']} | {r['available_days']} / {r['expected_days']} | {r['remote_verified_days']} | {r['rows']:,} | {r['partitions']} | {r['remote_verified_partitions']} |")
+    lines+=['','Missing-date lists, failed partitions and remote URLs are in data_catalog.json. Unacquired dates do not imply Binance lacks those dates.','',
+            'Funding archives are restricted to complete months inside the window. October 2024 and October 2026 need another permitted source for their in-window dates. No outside-window records were downloaded.']
+    (root/'DATA_COVERAGE.md').write_text('\n'.join(lines)+'\n')
+    lines=['# Current audit — Phase 1 incomplete','',f"Generated: {summary['generated_at']}",'',f"{len(good)} QA-passing partitions; {len(backed)} verified remote RAW/Parquet pairs; {len(bad)} quarantined partitions.",'',
+           '| Symbol | Aggregate trades | Individual trades | Bars | Funding settlements | Remote partitions |','|---|---:|---:|---:|---:|---:|']
+    for symbol,r in symbols.items():
+        lines.append(f"| {symbol} | {r['aggregate_trades']:,} | {r['individual_trades']:,} | {r['bars']:,} | {r['funding_settlements']:,} | {r['remote_verified_partitions']} |")
+    lines+=['',f"Initial restore: {restore.get('status','NOT_RUN')}. Remote counts reflect recorded readbacks; assets were not all downloaded again today.",'','Full-window coverage and final C15 remain incomplete. See DATA_COVERAGE.md and AUDIT_SUMMARY.json.']
+    (root/'AUDIT_SUMMARY.md').write_text('\n'.join(lines)+'\n')
+    lines=['# Current QA report','',tests,'',f"Manifest: {len(good)} QA-passing, {len(bad)} quarantined, {len(backed)} verified remote partitions.",'',
+           'Absent local files after verified pruning are REMOTE_NOT_RECHECKED, never a fresh validation PASS. SHA-256/size/readback times remain in the manifest. Real restoration evidence is in reports/remote_execution.json and reports/funding_execution.json when available.','',
+           'Funding schedule checks use one-second QA resolution for observed millisecond jitter. Original calc_time is unchanged; variable intervals use source funding_interval_hours. Publication timestamps remain null and fail strict replay.','',
+           'Reconstruction evidence remains in reports/bar_comparison_*.json. Individual-trade bars matched pilot candles but ID-gap QA failed; aggregate bars differed. Archive integrity does not erase either limitation.']
+    (root/'QA_REPORT.md').write_text('\n'.join(lines)+'\n')
+    return summary
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(); parser.add_argument('--root',default='.')
+    report=build_audit(parser.parse_args().root)
+    print(json.dumps({'status':report['status'],'verified_remote_partitions':report['remote']['verified_partitions']}))

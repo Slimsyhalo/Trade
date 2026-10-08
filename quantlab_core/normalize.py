@@ -4,16 +4,19 @@ from decimal import Decimal
 from pathlib import Path
 import pyarrow as pa
 import pyarrow.parquet as pq
-from .sources import BARS, day_ms
+from .sources import BARS, day_ms, period_bounds
 
 FIELDS = {
  'aggTrades': ['agg_trade_id','price','quantity','first_trade_id','last_trade_id','timestamp','is_buyer_maker'],
  'trades': ['trade_id','price','quantity','quote_quantity','timestamp','is_buyer_maker'],
  'klines': ['open_time','open','high','low','close','volume','close_time','quote_volume','number_of_trades','taker_buy_base_volume','taker_buy_quote_volume','ignore'],
- 'metrics': ['create_time','symbol','sum_open_interest','sum_open_interest_value','count_toptrader_long_short_ratio','sum_toptrader_long_short_ratio','count_long_short_ratio','sum_taker_long_short_vol_ratio']
+ 'metrics': ['create_time','symbol','sum_open_interest','sum_open_interest_value','count_toptrader_long_short_ratio','sum_toptrader_long_short_ratio','count_long_short_ratio','sum_taker_long_short_vol_ratio'],
+ 'fundingRate': ['calc_time','funding_interval_hours','last_funding_rate']
 }
 INTS = {'agg_trade_id','trade_id','first_trade_id','last_trade_id','timestamp','open_time','close_time','number_of_trades'}
+INTS.update(('calc_time','funding_interval_hours'))
 NUMERIC = {'price','quantity','quote_quantity','open','high','low','close','volume','quote_volume','taker_buy_base_volume','taker_buy_quote_volume','sum_open_interest','sum_open_interest_value','count_toptrader_long_short_ratio','sum_toptrader_long_short_ratio','count_long_short_ratio','sum_taker_long_short_vol_ratio'}
+NUMERIC.add('last_funding_rate')
 HEADERS = {'quote_qty':'quote_quantity','agg_trade_id':'agg_trade_id','id':'trade_id','qty':'quantity','time':'timestamp','transact_time':'timestamp','isBuyerMaker':'is_buyer_maker','quoteQty':'quote_quantity','count':'number_of_trades','taker_buy_volume':'taker_buy_base_volume','taker_buy_quote_asset_volume':'taker_buy_quote_volume','quote_asset_volume':'quote_volume'}
 
 
@@ -33,7 +36,9 @@ def normalize(raw, out, dataset, symbol, day, budget):
     if out.exists(): raise RuntimeError('Normalized output exists; validate or version it')
     qa = dict(rows=0,duplicates_found=0,duplicates_removed=0,deduplication_reason='No silent removal; duplicates fail QA',id_gaps=0,interval_gaps=0,out_of_order=0,malformed_rows=0,schema_violations=0,status='PASS')
     previous_ts = previous_id = None; seen = set(); batch = []; first = last = None
-    start = day_ms(day); end = start + 86400000
+    begin,finish=period_bounds(dataset,day)
+    start = day_ms(begin); end = day_ms(finish)
+    observed_days=set()
     try:
         with zipfile.ZipFile(raw) as z:
             members = z.infolist()
@@ -55,9 +60,23 @@ def normalize(raw, out, dataset, symbol, day, budget):
                         elif k in NUMERIC:
                             d = Decimal(v)
                             if not d.is_finite(): raise ValueError('Nonfinite numeric')
-                            if dataset != 'premiumIndexKlines' and d < 0: raise ValueError('Negative amount/price')
+                            if dataset != 'premiumIndexKlines' and k!='last_funding_rate' and d < 0: raise ValueError('Negative amount/price')
                             if k in ('price','open','high','low','close') and dataset != 'premiumIndexKlines' and d <= 0: raise ValueError('Nonpositive price')
-                    if dataset == 'metrics':
+                    if dataset=='fundingRate':
+                        ts=row['calc_time']
+                        if row['funding_interval_hours']<=0: raise ValueError('Invalid funding interval')
+                        # Archive contains settled rates, not forward forecasts.
+                        available=None; basis='unknown_historical_publication'
+                        # Actual archive calc_time has millisecond settlement
+                        # jitter. Preserve it; compare declared schedules at
+                        # one-second QA resolution and disclose that policy.
+                        qa['funding_schedule_precision_ms']=1000
+                        qa['max_subsecond_offset_ms']=max(qa.get('max_subsecond_offset_ms',0),ts%1000)
+                        if previous_ts is not None and ts//1000-previous_ts//1000!=row['funding_interval_hours']*3600:
+                            qa['interval_gaps']+=1
+                        from datetime import datetime, timezone
+                        observed_days.add(datetime.fromtimestamp(ts/1000,timezone.utc).date().isoformat())
+                    elif dataset == 'metrics':
                         from datetime import datetime, timezone
                         ts = int(datetime.fromisoformat(row['create_time']).replace(tzinfo=timezone.utc).timestamp()*1000)
                         if row['symbol'] != symbol: raise ValueError('Symbol mismatch')
@@ -95,6 +114,11 @@ def normalize(raw, out, dataset, symbol, day, budget):
             qa['interval_gaps'] += (first-start)//60000 + (end-60000-last)//60000 if first is not None else 1440
         if not qa['rows'] or any(qa[k] for k in ('duplicates_found','id_gaps','interval_gaps','out_of_order')): qa['status']='FAILED'
         qa.update(min_timestamp=first,max_timestamp=last)
+        if dataset=='fundingRate':
+            qa['observed_days']=sorted(observed_days)
+            qa['expected_days']=(finish-begin).days
+            qa['missing_days']=qa['expected_days']-len(observed_days)
+            if qa['missing_days']: qa['status']='FAILED'
         budget.check(); os.replace(temp,out)
         return qa
     finally:

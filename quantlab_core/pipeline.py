@@ -4,8 +4,21 @@ from datetime import datetime, timezone
 import requests
 import pyarrow.parquet as pq
 from .io import HTTP, Budget, sha256, atomic_json
-from .sources import days, archive_url, checksum_text
+from .sources import days, archive_url, checksum_text, period_bounds
 from .normalize import normalize
+
+
+def remote_verified(record):
+    if record.get('qa',{}).get('status')!='PASS': return False
+    for kind in ('raw','normalized'):
+        local=record.get(kind,{})
+        remote=local.get('remote') or {}
+        digest=local.get('sha256')
+        if not isinstance(digest,str) or len(digest)!=64 or not isinstance(local.get('bytes'),int) or local['bytes']<=0:
+            return False
+        if not remote.get('verified_at') or remote.get('sha256')!=local.get('sha256') or remote.get('bytes')!=local.get('bytes'):
+            return False
+    return True
 
 class Pipeline:
     def __init__(self, root, config):
@@ -21,6 +34,10 @@ class Pipeline:
         # Merge durable records before writing; CLI additionally enforces a single writer.
         self.records.update({r['key']:r for r in self.records_list()})
         previous=self.records.get(record['key'])
+        if previous and previous.get('qa')!=record.get('qa') and previous.get('raw',{}).get('sha256'):
+            history=self.root/'reports/manifest_qa_revisions.jsonl'
+            history.parent.mkdir(parents=True,exist_ok=True)
+            with history.open('a') as f: f.write(json.dumps(previous,sort_keys=True)+'\n')
         if previous and previous.get('raw',{}).get('sha256') and previous.get('raw',{}).get('sha256') != record.get('raw',{}).get('sha256'):
             history=self.root/'reports/manifest_revisions.jsonl'
             history.parent.mkdir(parents=True,exist_ok=True)
@@ -46,6 +63,7 @@ class Pipeline:
             for k in ('raw','normalized'):
                 p=self.root/existing[k]['path']
                 if p.exists() and sha256(p)!=existing[k]['sha256']: p.rename(p.with_name(p.name+'.corrupt-'+str(time.time_ns())))
+        begin,finish=period_bounds(dataset,day)
         url=archive_url(symbol,dataset,day)
         try:
             check=self.http.get(url+'.CHECKSUM').text
@@ -61,13 +79,14 @@ class Pipeline:
         if not sidecar.exists(): sidecar.write_text(check)
         out=self.root/'data/normalized'/folder/(f'{day.day:02d}-{digest[:16]}.parquet')
         if out.exists():
-            if existing and existing.get('raw',{}).get('sha256')==digest and existing.get('normalized',{}).get('sha256')==sha256(out): return existing
+            if existing and existing.get('qa',{}).get('status')=='PASS' and existing.get('raw',{}).get('sha256')==digest and existing.get('normalized',{}).get('sha256')==sha256(out): return existing
             out.rename(out.with_name(out.name+'.uncommitted-'+str(time.time_ns())))
         try: qa=normalize(raw,out,dataset,symbol,day,self.budget)
         except Exception as e:
             record=dict(key=key,symbol=symbol,dataset=dataset,day=str(day),source=url,status='FAILED',error=str(e),qa={'status':'FAILED'})
             self.save(record); raise
         record=dict(key=key,symbol=symbol,dataset=dataset,day=str(day),source=url,download_timestamp=datetime.now(timezone.utc).isoformat(),schema_version='1',qa=qa,status=qa['status'],source_checksum=check.strip())
+        record.update(granularity='month' if dataset=='fundingRate' else 'day',period_start=str(begin),period_end_exclusive=str(finish))
         for kind,path in [('raw',raw),('normalized',out)]:
             record[kind]={'path':str(path.relative_to(self.root)),'sha256':sha256(path),'bytes':path.stat().st_size,'remote':None}
         self.save(record)
@@ -87,9 +106,13 @@ class Pipeline:
         for symbol in self.config['symbols']:
             for dataset in self.config['datasets']:
                 allrows=[r for r in self.records.values() if r['symbol']==symbol and r['dataset']==dataset]
-                good=[r for r in allrows if r.get('qa',{}).get('status')=='PASS']; present={r['day'] for r in good}
+                good=[r for r in allrows if r.get('qa',{}).get('status')=='PASS']
+                present={day for r in good for day in (r['qa'].get('observed_days',[]) if dataset=='fundingRate' else [r['day']])}
                 missing=[d for d in expected if d not in present]
                 result.append(dict(symbol=symbol,dataset=dataset,first_available=min(present,default=None),last_available=max(present,default=None),first_timestamp=min((r['qa']['min_timestamp'] for r in good),default=None),last_timestamp=max((r['qa']['max_timestamp'] for r in good),default=None),expected_days=len(expected),available_days=len(present),missing_days=len(missing),coverage_percentage=100*len(present)/len(expected),missing_partitions=missing,rows=sum(r['qa']['rows'] for r in good),partitions=len(good),compressed_bytes=sum(r['normalized']['bytes'] for r in good),raw_zip_bytes=sum(r['raw']['bytes'] for r in good),schema_version='1',remote_locations=[r['normalized']['remote'] for r in good if r['normalized']['remote']],qa_status='PARTIAL' if missing else 'PASS',acquired_partitions=len([r for r in allrows if 'normalized' in r]),quarantined_rows=sum(r.get('qa',{}).get('rows',0) for r in allrows if r.get('qa',{}).get('status')=='FAILED'),failed_partitions=[r['key'] for r in allrows if r.get('qa',{}).get('status')=='FAILED']))
+                backed=[r for r in good if remote_verified(r)]
+                backed_days={day for r in backed for day in (r['qa'].get('observed_days',[]) if dataset=='fundingRate' else [r['day']])}
+                result[-1].update(partition_granularity='month' if dataset=='fundingRate' else 'day',remote_verified_partitions=len(backed),remote_verified_days=len(backed_days),remote_coverage_percentage=100*len(backed_days)/len(expected))
         atomic_json(self.root/'data_catalog.json',{'notice':'DO NOT ASSUME DATA EXISTS UNLESS LISTED IN THE CATALOG.','datasets':result})
         return result
     def validate(self):
