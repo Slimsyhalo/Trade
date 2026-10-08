@@ -1,6 +1,6 @@
 # Current data coverage
 
-Generated: 2026-10-08T16:18:20.128055+00:00
+Generated: 2026-10-08T16:20:41.572763+00:00
 
 QA days count observed passing dates. Remote days require matching RAW and Parquet readback receipts. Monthly funding coverage counts observed dates, not one day per archive.
 
@@ -21,7 +21,7 @@ QA days count observed passing dates. Remote days require matching RAW and Parqu
 | ETHUSDT | indexPriceKlines | 2024-10-07 | 2024-12-15 | 70 / 731 | 70 | 100,800 | 70 | 70 |
 | ETHUSDT | premiumIndexKlines | 2024-10-07 | 2024-12-15 | 70 / 731 | 70 | 100,800 | 70 | 70 |
 | ETHUSDT | metrics | 2024-10-07 | 2024-12-15 | 70 / 731 | 70 | 20,158 | 70 | 70 |
-| ETHUSDT | fundingRate | 2024-11-01 | 2025-05-31 | 212 / 731 | 212 | 636 | 7 | 7 |
+| ETHUSDT | fundingRate | 2024-11-01 | 2025-10-31 | 365 / 731 | 365 | 1,095 | 12 | 12 |
 | SOLUSDT | trades | None | None | 0 / 731 | 0 | 0 | 0 | 0 |
 | SOLUSDT | aggTrades | 2024-10-07 | 2024-12-15 | 70 / 731 | 70 | 29,546,563 | 70 | 70 |
 | SOLUSDT | klines | 2024-10-07 | 2024-12-15 | 70 / 731 | 70 | 100,800 | 70 | 70 |
