@@ -1,0 +1,37 @@
+[
+  {
+    "state": "VALIDATED",
+    "classification": "DERIVED",
+    "transform_version": "tape-flow-1",
+    "symbol": "BTCUSDT",
+    "day": "2024-10-07",
+    "source_parquet_sha256": "1a832b7b4a78173d7b52d5cd5eb1f249adaddd2d27981f8b7e6ae4eafbf1abcb",
+    "source_raw_sha256": "257e2d85f1cfa8cb48b4e89e05f6efa0b993681f4703492980099797151e0d34",
+    "normalized": {
+      "path": "data/derived/flow/BTCUSDT/2024-10-07-tape-flow-1.parquet",
+      "sha256": "e240fb33db46673aa2168450458b60a4b125ad7eb8593778839a97b738424330",
+      "bytes": 2162686,
+      "remote": {
+        "asset_id": 622240854,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/622240854",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/derived-flow-BTCUSDT-2024-10/e240fb33db46673aa2168450458b60a4b125ad7eb8593778839a97b738424330-2024-10-07-tape-flow-1.parquet",
+        "sha256": "e240fb33db46673aa2168450458b60a4b125ad7eb8593778839a97b738424330",
+        "bytes": 2162686,
+        "verified_at": 1791473930.2577443
+      }
+    },
+    "source_rows": 3730708,
+    "derived_rows": 1440,
+    "aggregation_seconds": 60,
+    "elapsed_seconds": 20.454,
+    "process_cpu_seconds": 21.411,
+    "strict_causal_replay_certified": false,
+    "limitations": [
+      "Tape-only metrics; no OFI or L2 liquidity inferred",
+      "CVD anchor resets explicitly per partition",
+      "Window closure/input availability assumptions preserved, no retroactive latency claim"
+    ],
+    "storage_state": "REMOTE_VERIFIED",
+    "restoration_state": "RESTORED_AND_TESTED"
+  }
+]
