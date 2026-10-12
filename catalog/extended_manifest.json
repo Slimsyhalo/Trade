@@ -377538,5 +377538,248 @@
     },
     "storage_state": "REMOTE_VERIFIED",
     "quality_state": "VALIDATED"
+  },
+  "SOLUSDT/um_individual_trades/2025-07-14": {
+    "key": "SOLUSDT/um_individual_trades/2025-07-14",
+    "kind": "um_individual_trades",
+    "symbol": "SOLUSDT",
+    "day": "2025-07-14",
+    "source": "https://data.binance.vision/data/futures/um/daily/trades/SOLUSDT/SOLUSDT-trades-2025-07-14.zip",
+    "source_checksum": "bd64e29561a3101cdadd6af6691aad9ac69d521fa7f77cc6837881dd93e75765  SOLUSDT-trades-2025-07-14.zip\n",
+    "downloaded_at": "2026-10-12T19:34:35.219335+00:00",
+    "state": "VALIDATED",
+    "qa": {
+      "rows": 2708907,
+      "duplicates_found": 0,
+      "duplicates_removed": 0,
+      "deduplication_reason": "No silent removal; duplicates fail QA",
+      "id_gaps": 234,
+      "interval_gaps": 0,
+      "out_of_order": 0,
+      "malformed_rows": 0,
+      "schema_violations": 0,
+      "status": "PASS",
+      "min_timestamp": 1752451202118,
+      "max_timestamp": 1752537599681,
+      "state": "VALIDATED",
+      "id_continuity_policy": "Not required for official market tape only when independent full-minute consistency certificate passes; original ID gaps retained"
+    },
+    "raw": {
+      "path": "data/extended/raw/SOLUSDT/um_individual_trades/2025-07-14-bd64e29561a3101c.zip",
+      "sha256": "bd64e29561a3101cdadd6af6691aad9ac69d521fa7f77cc6837881dd93e75765",
+      "bytes": 24256906,
+      "remote": {
+        "asset_id": 634778463,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/634778463",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-SOLUSDT-um_individual_trades-2025-07/bd64e29561a3101cdadd6af6691aad9ac69d521fa7f77cc6837881dd93e75765-2025-07-14-bd64e29561a3101c.zip",
+        "sha256": "bd64e29561a3101cdadd6af6691aad9ac69d521fa7f77cc6837881dd93e75765",
+        "bytes": 24256906,
+        "verified_at": 1791833716.9660988
+      }
+    },
+    "source_terms_ref": "DATA_LICENSE.md",
+    "schema_version": "1",
+    "admission": {
+      "state": "VALIDATED",
+      "admitted_scope": "Official source market order-book executions; excludes undocumented/uncaptured global-ID event types",
+      "global_identifier_continuity_certified": false,
+      "raw_sha256": "bd64e29561a3101cdadd6af6691aad9ac69d521fa7f77cc6837881dd93e75765",
+      "verification_bars_sha256": "c95bab237d99fe0089528428a2bb731b90c7ce6a94d81a3437e6ed1d570c932e",
+      "symbol": "SOLUSDT",
+      "day": "2025-07-14",
+      "original_strict_qa": {
+        "rows": 2708907,
+        "duplicates_found": 0,
+        "duplicates_removed": 0,
+        "deduplication_reason": "No silent removal; duplicates fail QA",
+        "id_gaps": 234,
+        "interval_gaps": 0,
+        "out_of_order": 0,
+        "malformed_rows": 0,
+        "schema_violations": 0,
+        "status": "FAILED",
+        "min_timestamp": 1752451202118,
+        "max_timestamp": 1752537599681
+      },
+      "independent_bar_evidence": {
+        "symbol": "SOLUSDT",
+        "day": "2025-07-14",
+        "rows": 2708907,
+        "missing_identifier_count": 234,
+        "gap_transitions": 234,
+        "duplicate_ids": 0,
+        "out_of_order": 0,
+        "gap_examples": [
+          {
+            "before": 2460997045,
+            "after": 2460997047,
+            "time_ms": 1752452281428,
+            "skipped": 1
+          },
+          {
+            "before": 2461006336,
+            "after": 2461006338,
+            "time_ms": 1752452681483,
+            "skipped": 1
+          },
+          {
+            "before": 2461027305,
+            "after": 2461027307,
+            "time_ms": 1752453641539,
+            "skipped": 1
+          },
+          {
+            "before": 2461035151,
+            "after": 2461035153,
+            "time_ms": 1752453903799,
+            "skipped": 1
+          },
+          {
+            "before": 2461037868,
+            "after": 2461037870,
+            "time_ms": 1752454000177,
+            "skipped": 1
+          },
+          {
+            "before": 2461038314,
+            "after": 2461038316,
+            "time_ms": 1752454019003,
+            "skipped": 1
+          },
+          {
+            "before": 2461038596,
+            "after": 2461038598,
+            "time_ms": 1752454024748,
+            "skipped": 1
+          },
+          {
+            "before": 2461045786,
+            "after": 2461045788,
+            "time_ms": 1752454492274,
+            "skipped": 1
+          },
+          {
+            "before": 2461083912,
+            "after": 2461083914,
+            "time_ms": 1752456444648,
+            "skipped": 1
+          },
+          {
+            "before": 2461129473,
+            "after": 2461129475,
+            "time_ms": 1752458479411,
+            "skipped": 1
+          },
+          {
+            "before": 2461132035,
+            "after": 2461132037,
+            "time_ms": 1752458553343,
+            "skipped": 1
+          },
+          {
+            "before": 2461134593,
+            "after": 2461134595,
+            "time_ms": 1752458685673,
+            "skipped": 1
+          },
+          {
+            "before": 2461147940,
+            "after": 2461147942,
+            "time_ms": 1752459260954,
+            "skipped": 1
+          },
+          {
+            "before": 2461152947,
+            "after": 2461152949,
+            "time_ms": 1752459461894,
+            "skipped": 1
+          },
+          {
+            "before": 2461174582,
+            "after": 2461174584,
+            "time_ms": 1752459881535,
+            "skipped": 1
+          },
+          {
+            "before": 2461202050,
+            "after": 2461202052,
+            "time_ms": 1752460301348,
+            "skipped": 1
+          },
+          {
+            "before": 2461209564,
+            "after": 2461209566,
+            "time_ms": 1752460554883,
+            "skipped": 1
+          },
+          {
+            "before": 2461212457,
+            "after": 2461212459,
+            "time_ms": 1752460651832,
+            "skipped": 1
+          },
+          {
+            "before": 2461219722,
+            "after": 2461219724,
+            "time_ms": 1752460881270,
+            "skipped": 1
+          },
+          {
+            "before": 2461240324,
+            "after": 2461240326,
+            "time_ms": 1752461201500,
+            "skipped": 1
+          }
+        ],
+        "first_id": 2460976601,
+        "last_id": 2463685741,
+        "bar_comparison_status": "PASS",
+        "differences": [],
+        "difference_count": 0,
+        "interpretation": "SOURCE_TAPE_MATCHES_OFFICIAL_MARKET_BARS",
+        "global_identifier_gap_cause": "NOT_DETERMINED",
+        "QA_decision": "REVIEW_WITH_SOURCE_SEMANTICS; original quarantine unchanged",
+        "limitations": [
+          "OHLCV consistency does not reveal executions excluded by the source or participant identity",
+          "Source checksums and independent tape/bar agreement do not prove global identifier continuity",
+          "This diagnostic tests historical aggregation, not causal publication/latency availability"
+        ]
+      },
+      "decision_rule": "Unique ordered structurally valid official tape AND exact reconstruction of all 1440 official minute bars including trade count and both taker volumes",
+      "decided_at": "2026-10-12T19:35:07.927505+00:00",
+      "cause_of_specific_global_id_gaps": "NOT_DETERMINED",
+      "source_semantics_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "source_semantics": "Current recent-trades documentation excludes insurance-fund and ADL transactions and makes no contiguous-ID guarantee. Archive README identifies fapi/v1/trades as source. Do not attribute specific gaps to those types without evidence."
+    },
+    "verification_bars": {
+      "path": "data/extended/verification/SOLUSDT/2025-07-14-c95bab237d99fe00.zip",
+      "sha256": "c95bab237d99fe0089528428a2bb731b90c7ce6a94d81a3437e6ed1d570c932e",
+      "bytes": 59665,
+      "source": "https://data.binance.vision/data/futures/um/daily/klines/SOLUSDT/1m/SOLUSDT-1m-2025-07-14.zip",
+      "source_checksum": "c95bab237d99fe0089528428a2bb731b90c7ce6a94d81a3437e6ed1d570c932e  SOLUSDT-1m-2025-07-14.zip\n",
+      "remote": {
+        "asset_id": 634779962,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/634779962",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-SOLUSDT-verification-2025-07/c95bab237d99fe0089528428a2bb731b90c7ce6a94d81a3437e6ed1d570c932e-2025-07-14-c95bab237d99fe00.zip",
+        "sha256": "c95bab237d99fe0089528428a2bb731b90c7ce6a94d81a3437e6ed1d570c932e",
+        "bytes": 59665,
+        "verified_at": 1791833748.66129
+      }
+    },
+    "normalized": {
+      "path": "data/extended/normalized/SOLUSDT/um_individual_trades/2025-07-14-bd64e29561a3101c.parquet",
+      "sha256": "432e21c6ad3c58804ff26ac46132edaf7dec67e62a271a98c087fa5b68bf8018",
+      "bytes": 32793339,
+      "remote": {
+        "asset_id": 634779186,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/634779186",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-SOLUSDT-um_individual_trades-2025-07/432e21c6ad3c58804ff26ac46132edaf7dec67e62a271a98c087fa5b68bf8018-2025-07-14-bd64e29561a3101c.parquet",
+        "sha256": "432e21c6ad3c58804ff26ac46132edaf7dec67e62a271a98c087fa5b68bf8018",
+        "bytes": 32793339,
+        "verified_at": 1791833733.1599288
+      }
+    },
+    "storage_state": "REMOTE_VERIFIED",
+    "quality_state": "VALIDATED"
   }
 }
