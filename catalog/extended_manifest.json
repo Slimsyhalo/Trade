@@ -349256,5 +349256,248 @@
     },
     "storage_state": "REMOTE_VERIFIED",
     "quality_state": "VALIDATED"
+  },
+  "ETHUSDT/um_individual_trades/2025-06-23": {
+    "key": "ETHUSDT/um_individual_trades/2025-06-23",
+    "kind": "um_individual_trades",
+    "symbol": "ETHUSDT",
+    "day": "2025-06-23",
+    "source": "https://data.binance.vision/data/futures/um/daily/trades/ETHUSDT/ETHUSDT-trades-2025-06-23.zip",
+    "source_checksum": "aa71e6f16643cfccab8040d8a812cef6eaeccb81c1764f4e475b1efb5642733a  ETHUSDT-trades-2025-06-23.zip\n",
+    "downloaded_at": "2026-10-12T07:28:21.427933+00:00",
+    "state": "VALIDATED",
+    "qa": {
+      "rows": 7962034,
+      "duplicates_found": 0,
+      "duplicates_removed": 0,
+      "deduplication_reason": "No silent removal; duplicates fail QA",
+      "id_gaps": 1303,
+      "interval_gaps": 0,
+      "out_of_order": 0,
+      "malformed_rows": 0,
+      "schema_violations": 0,
+      "status": "PASS",
+      "min_timestamp": 1750636800026,
+      "max_timestamp": 1750723199493,
+      "state": "VALIDATED",
+      "id_continuity_policy": "Not required for official market tape only when independent full-minute consistency certificate passes; original ID gaps retained"
+    },
+    "raw": {
+      "path": "data/extended/raw/ETHUSDT/um_individual_trades/2025-06-23-aa71e6f16643cfcc.zip",
+      "sha256": "aa71e6f16643cfccab8040d8a812cef6eaeccb81c1764f4e475b1efb5642733a",
+      "bytes": 78051492,
+      "remote": {
+        "asset_id": 633029656,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/633029656",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-ETHUSDT-um_individual_trades-2025-06/aa71e6f16643cfccab8040d8a812cef6eaeccb81c1764f4e475b1efb5642733a-2025-06-23-aa71e6f16643cfcc.zip",
+        "sha256": "aa71e6f16643cfccab8040d8a812cef6eaeccb81c1764f4e475b1efb5642733a",
+        "bytes": 78051492,
+        "verified_at": 1791790226.2727168
+      }
+    },
+    "source_terms_ref": "DATA_LICENSE.md",
+    "schema_version": "1",
+    "admission": {
+      "state": "VALIDATED",
+      "admitted_scope": "Official source market order-book executions; excludes undocumented/uncaptured global-ID event types",
+      "global_identifier_continuity_certified": false,
+      "raw_sha256": "aa71e6f16643cfccab8040d8a812cef6eaeccb81c1764f4e475b1efb5642733a",
+      "verification_bars_sha256": "9a79013ae7c32a3bf7c109e2b10037f5c091a183d0b7899637c39c7892e9dc9f",
+      "symbol": "ETHUSDT",
+      "day": "2025-06-23",
+      "original_strict_qa": {
+        "rows": 7962034,
+        "duplicates_found": 0,
+        "duplicates_removed": 0,
+        "deduplication_reason": "No silent removal; duplicates fail QA",
+        "id_gaps": 1303,
+        "interval_gaps": 0,
+        "out_of_order": 0,
+        "malformed_rows": 0,
+        "schema_violations": 0,
+        "status": "FAILED",
+        "min_timestamp": 1750636800026,
+        "max_timestamp": 1750723199493
+      },
+      "independent_bar_evidence": {
+        "symbol": "ETHUSDT",
+        "day": "2025-06-23",
+        "rows": 7962034,
+        "missing_identifier_count": 1303,
+        "gap_transitions": 1078,
+        "duplicate_ids": 0,
+        "out_of_order": 0,
+        "gap_examples": [
+          {
+            "before": 5863381528,
+            "after": 5863381530,
+            "time_ms": 1750637124411,
+            "skipped": 1
+          },
+          {
+            "before": 5863381676,
+            "after": 5863381678,
+            "time_ms": 1750637128198,
+            "skipped": 1
+          },
+          {
+            "before": 5863406871,
+            "after": 5863406873,
+            "time_ms": 1750637629513,
+            "skipped": 1
+          },
+          {
+            "before": 5863408667,
+            "after": 5863408669,
+            "time_ms": 1750637662954,
+            "skipped": 1
+          },
+          {
+            "before": 5863417491,
+            "after": 5863417493,
+            "time_ms": 1750637798633,
+            "skipped": 1
+          },
+          {
+            "before": 5863418892,
+            "after": 5863418894,
+            "time_ms": 1750637815495,
+            "skipped": 1
+          },
+          {
+            "before": 5863423609,
+            "after": 5863423611,
+            "time_ms": 1750637869537,
+            "skipped": 1
+          },
+          {
+            "before": 5863425397,
+            "after": 5863425399,
+            "time_ms": 1750637884159,
+            "skipped": 1
+          },
+          {
+            "before": 5863427226,
+            "after": 5863427228,
+            "time_ms": 1750637907235,
+            "skipped": 1
+          },
+          {
+            "before": 5863431071,
+            "after": 5863431073,
+            "time_ms": 1750637971679,
+            "skipped": 1
+          },
+          {
+            "before": 5863434793,
+            "after": 5863434795,
+            "time_ms": 1750638033499,
+            "skipped": 1
+          },
+          {
+            "before": 5863441452,
+            "after": 5863441454,
+            "time_ms": 1750638073563,
+            "skipped": 1
+          },
+          {
+            "before": 5863445285,
+            "after": 5863445287,
+            "time_ms": 1750638108413,
+            "skipped": 1
+          },
+          {
+            "before": 5863485649,
+            "after": 5863485651,
+            "time_ms": 1750638701947,
+            "skipped": 1
+          },
+          {
+            "before": 5863488902,
+            "after": 5863488904,
+            "time_ms": 1750638763579,
+            "skipped": 1
+          },
+          {
+            "before": 5863511037,
+            "after": 5863511039,
+            "time_ms": 1750639119209,
+            "skipped": 1
+          },
+          {
+            "before": 5863530699,
+            "after": 5863530701,
+            "time_ms": 1750639218721,
+            "skipped": 1
+          },
+          {
+            "before": 5863531215,
+            "after": 5863531217,
+            "time_ms": 1750639228561,
+            "skipped": 1
+          },
+          {
+            "before": 5863546389,
+            "after": 5863546391,
+            "time_ms": 1750639372337,
+            "skipped": 1
+          },
+          {
+            "before": 5863547345,
+            "after": 5863547347,
+            "time_ms": 1750639384944,
+            "skipped": 1
+          }
+        ],
+        "first_id": 5863363843,
+        "last_id": 5871327179,
+        "bar_comparison_status": "PASS",
+        "differences": [],
+        "difference_count": 0,
+        "interpretation": "SOURCE_TAPE_MATCHES_OFFICIAL_MARKET_BARS",
+        "global_identifier_gap_cause": "NOT_DETERMINED",
+        "QA_decision": "REVIEW_WITH_SOURCE_SEMANTICS; original quarantine unchanged",
+        "limitations": [
+          "OHLCV consistency does not reveal executions excluded by the source or participant identity",
+          "Source checksums and independent tape/bar agreement do not prove global identifier continuity",
+          "This diagnostic tests historical aggregation, not causal publication/latency availability"
+        ]
+      },
+      "decision_rule": "Unique ordered structurally valid official tape AND exact reconstruction of all 1440 official minute bars including trade count and both taker volumes",
+      "decided_at": "2026-10-12T07:30:15.848403+00:00",
+      "cause_of_specific_global_id_gaps": "NOT_DETERMINED",
+      "source_semantics_reference": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+      "source_semantics": "Current recent-trades documentation excludes insurance-fund and ADL transactions and makes no contiguous-ID guarantee. Archive README identifies fapi/v1/trades as source. Do not attribute specific gaps to those types without evidence."
+    },
+    "verification_bars": {
+      "path": "data/extended/verification/ETHUSDT/2025-06-23-9a79013ae7c32a3b.zip",
+      "sha256": "9a79013ae7c32a3bf7c109e2b10037f5c091a183d0b7899637c39c7892e9dc9f",
+      "bytes": 65840,
+      "source": "https://data.binance.vision/data/futures/um/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-06-23.zip",
+      "source_checksum": "9a79013ae7c32a3bf7c109e2b10037f5c091a183d0b7899637c39c7892e9dc9f  ETHUSDT-1m-2025-06-23.zip\n",
+      "remote": {
+        "asset_id": 633031120,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/633031120",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-ETHUSDT-verification-2025-06/9a79013ae7c32a3bf7c109e2b10037f5c091a183d0b7899637c39c7892e9dc9f-2025-06-23-9a79013ae7c32a3b.zip",
+        "sha256": "9a79013ae7c32a3bf7c109e2b10037f5c091a183d0b7899637c39c7892e9dc9f",
+        "bytes": 65840,
+        "verified_at": 1791790256.643092
+      }
+    },
+    "normalized": {
+      "path": "data/extended/normalized/ETHUSDT/um_individual_trades/2025-06-23-aa71e6f16643cfcc.parquet",
+      "sha256": "d1c51efabbb64fde999c9ce94b244d8602a69f4673a8ef4a6fe933e9a908230e",
+      "bytes": 105389841,
+      "remote": {
+        "asset_id": 633030451,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/633030451",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-ETHUSDT-um_individual_trades-2025-06/d1c51efabbb64fde999c9ce94b244d8602a69f4673a8ef4a6fe933e9a908230e-2025-06-23-aa71e6f16643cfcc.parquet",
+        "sha256": "d1c51efabbb64fde999c9ce94b244d8602a69f4673a8ef4a6fe933e9a908230e",
+        "bytes": 105389841,
+        "verified_at": 1791790242.1352155
+      }
+    },
+    "storage_state": "REMOTE_VERIFIED",
+    "quality_state": "VALIDATED"
   }
 }
