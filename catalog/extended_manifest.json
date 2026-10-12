@@ -355737,5 +355737,92 @@
     },
     "storage_state": "REMOTE_VERIFIED",
     "quality_state": "VALIDATED"
+  },
+  "ETHUSDT/um_bookDepth_summary/2025-06-28": {
+    "key": "ETHUSDT/um_bookDepth_summary/2025-06-28",
+    "kind": "um_bookDepth_summary",
+    "symbol": "ETHUSDT",
+    "day": "2025-06-28",
+    "source": "https://data.binance.vision/data/futures/um/daily/bookDepth/ETHUSDT/ETHUSDT-bookDepth-2025-06-28.zip",
+    "source_checksum": "9dabbca473ff3b4a3f0d2b9ddaf0379d51a9b779cb692b549e74b2f84bcde975  ETHUSDT-bookDepth-2025-06-28.zip\n",
+    "downloaded_at": "2026-10-12T08:23:39.850438+00:00",
+    "state": "QUARANTINED",
+    "qa": {
+      "state": "QUARANTINED",
+      "status": "FAILED",
+      "rows": 28570,
+      "duplicates": 0,
+      "out_of_order": 0,
+      "id_discontinuities": 0,
+      "missing_minutes": 0,
+      "source_time_unit": "UTC_text_seconds",
+      "first_event_us": 1751068807000000,
+      "last_event_us": 1751155173000000,
+      "source_kind": "um_bookDepth_summary",
+      "book_reconstruction_eligible": false,
+      "assumptions": [
+        "Boundary review threshold = twice observed median cadence; not an exchange continuity guarantee"
+      ],
+      "review_reasons": [
+        "Internal snapshot gap above twice observed median cadence; source continuity not certified"
+      ],
+      "snapshot_groups": 2857,
+      "observed_percentage_bands": [
+        "-1",
+        "-2",
+        "-3",
+        "-4",
+        "-5",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "median_observed_cadence_us": 30000000.0,
+      "largest_observed_gap_us": 178000000,
+      "max_identical_band_seconds": {
+        "-5": 12,
+        "-4": 12,
+        "-3": 12,
+        "-2": 12,
+        "-1": 12,
+        "1": 12,
+        "2": 12,
+        "3": 12,
+        "4": 12,
+        "5": 12
+      }
+    },
+    "raw": {
+      "path": "data/extended/raw/ETHUSDT/um_bookDepth_summary/2025-06-28-9dabbca473ff3b4a.zip",
+      "sha256": "9dabbca473ff3b4a3f0d2b9ddaf0379d51a9b779cb692b549e74b2f84bcde975",
+      "bytes": 492150,
+      "remote": {
+        "asset_id": 633149331,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/633149331",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-ETHUSDT-um_bookDepth_summary-2025-06/9dabbca473ff3b4a3f0d2b9ddaf0379d51a9b779cb692b549e74b2f84bcde975-2025-06-28-9dabbca473ff3b4a.zip",
+        "sha256": "9dabbca473ff3b4a3f0d2b9ddaf0379d51a9b779cb692b549e74b2f84bcde975",
+        "bytes": 492150,
+        "verified_at": 1791793431.6992064
+      }
+    },
+    "source_terms_ref": "DATA_LICENSE.md",
+    "schema_version": "extended-1",
+    "normalized": {
+      "path": "data/extended/normalized/ETHUSDT/um_bookDepth_summary/2025-06-28-9dabbca473ff3b4a.parquet",
+      "sha256": "b2b1405e22c7050c886b72fee0e5bb2654984a682f2a46beecce7a16fcac4a28",
+      "bytes": 520902,
+      "remote": {
+        "asset_id": 633149839,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/633149839",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-ETHUSDT-um_bookDepth_summary-2025-06/b2b1405e22c7050c886b72fee0e5bb2654984a682f2a46beecce7a16fcac4a28-2025-06-28-9dabbca473ff3b4a.parquet",
+        "sha256": "b2b1405e22c7050c886b72fee0e5bb2654984a682f2a46beecce7a16fcac4a28",
+        "bytes": 520902,
+        "verified_at": 1791793447.6828883
+      }
+    },
+    "storage_state": "REMOTE_VERIFIED",
+    "quality_state": "QUARANTINED"
   }
 }
