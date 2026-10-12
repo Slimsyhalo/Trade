@@ -340291,5 +340291,92 @@
     },
     "storage_state": "REMOTE_VERIFIED",
     "quality_state": "VALIDATED"
+  },
+  "SOLUSDT/um_bookDepth_summary/2025-06-16": {
+    "key": "SOLUSDT/um_bookDepth_summary/2025-06-16",
+    "kind": "um_bookDepth_summary",
+    "symbol": "SOLUSDT",
+    "day": "2025-06-16",
+    "source": "https://data.binance.vision/data/futures/um/daily/bookDepth/SOLUSDT/SOLUSDT-bookDepth-2025-06-16.zip",
+    "source_checksum": "713bc470fadfeaaace0921158904d070754a58f5075f0bca0f7e6da19667ef34  SOLUSDT-bookDepth-2025-06-16.zip\n",
+    "downloaded_at": "2026-10-12T03:57:34.784383+00:00",
+    "state": "QUARANTINED",
+    "qa": {
+      "state": "QUARANTINED",
+      "status": "FAILED",
+      "rows": 28440,
+      "duplicates": 0,
+      "out_of_order": 0,
+      "id_discontinuities": 0,
+      "missing_minutes": 0,
+      "source_time_unit": "UTC_text_seconds",
+      "first_event_us": 1750032007000000,
+      "last_event_us": 1750118372000000,
+      "source_kind": "um_bookDepth_summary",
+      "book_reconstruction_eligible": false,
+      "assumptions": [
+        "Boundary review threshold = twice observed median cadence; not an exchange continuity guarantee"
+      ],
+      "review_reasons": [
+        "Internal snapshot gap above twice observed median cadence; source continuity not certified"
+      ],
+      "snapshot_groups": 2844,
+      "observed_percentage_bands": [
+        "-1",
+        "-2",
+        "-3",
+        "-4",
+        "-5",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "median_observed_cadence_us": 30000000,
+      "largest_observed_gap_us": 259000000,
+      "max_identical_band_seconds": {
+        "-5": 14,
+        "-4": 14,
+        "-3": 14,
+        "-2": 14,
+        "-1": 14,
+        "1": 14,
+        "2": 14,
+        "3": 14,
+        "4": 14,
+        "5": 14
+      }
+    },
+    "raw": {
+      "path": "data/extended/raw/SOLUSDT/um_bookDepth_summary/2025-06-16-713bc470fadfeaaa.zip",
+      "sha256": "713bc470fadfeaaace0921158904d070754a58f5075f0bca0f7e6da19667ef34",
+      "bytes": 474032,
+      "remote": {
+        "asset_id": 632596684,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/632596684",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-SOLUSDT-um_bookDepth_summary-2025-06/713bc470fadfeaaace0921158904d070754a58f5075f0bca0f7e6da19667ef34-2025-06-16-713bc470fadfeaaa.zip",
+        "sha256": "713bc470fadfeaaace0921158904d070754a58f5075f0bca0f7e6da19667ef34",
+        "bytes": 474032,
+        "verified_at": 1791777466.3307867
+      }
+    },
+    "source_terms_ref": "DATA_LICENSE.md",
+    "schema_version": "extended-1",
+    "normalized": {
+      "path": "data/extended/normalized/SOLUSDT/um_bookDepth_summary/2025-06-16-713bc470fadfeaaa.parquet",
+      "sha256": "1c46b6ba775729d58fbaa8c918484adb4d259e70a3db9e16ca1785b3a40d97b4",
+      "bytes": 488742,
+      "remote": {
+        "asset_id": 632597152,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/632597152",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-SOLUSDT-um_bookDepth_summary-2025-06/1c46b6ba775729d58fbaa8c918484adb4d259e70a3db9e16ca1785b3a40d97b4-2025-06-16-713bc470fadfeaaa.parquet",
+        "sha256": "1c46b6ba775729d58fbaa8c918484adb4d259e70a3db9e16ca1785b3a40d97b4",
+        "bytes": 488742,
+        "verified_at": 1791777482.535071
+      }
+    },
+    "storage_state": "REMOTE_VERIFIED",
+    "quality_state": "QUARANTINED"
   }
 }
