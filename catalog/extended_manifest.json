@@ -404476,5 +404476,92 @@
     },
     "storage_state": "REMOTE_VERIFIED",
     "quality_state": "VALIDATED"
+  },
+  "BTCUSDT/um_bookDepth_summary/2025-08-05": {
+    "key": "BTCUSDT/um_bookDepth_summary/2025-08-05",
+    "kind": "um_bookDepth_summary",
+    "symbol": "BTCUSDT",
+    "day": "2025-08-05",
+    "source": "https://data.binance.vision/data/futures/um/daily/bookDepth/BTCUSDT/BTCUSDT-bookDepth-2025-08-05.zip",
+    "source_checksum": "2cb4a87d06a0523df2586f60355a1b72dc6157479f15a31617a14b78eca3030d  BTCUSDT-bookDepth-2025-08-05.zip\n",
+    "downloaded_at": "2026-10-13T04:03:18.655322+00:00",
+    "state": "QUARANTINED",
+    "qa": {
+      "state": "QUARANTINED",
+      "status": "FAILED",
+      "rows": 28000,
+      "duplicates": 0,
+      "out_of_order": 0,
+      "id_discontinuities": 0,
+      "missing_minutes": 0,
+      "source_time_unit": "UTC_text_seconds",
+      "first_event_us": 1754352007000000,
+      "last_event_us": 1754438371000000,
+      "source_kind": "um_bookDepth_summary",
+      "book_reconstruction_eligible": false,
+      "assumptions": [
+        "Boundary review threshold = twice observed median cadence; not an exchange continuity guarantee"
+      ],
+      "review_reasons": [
+        "Internal snapshot gap above twice observed median cadence; source continuity not certified"
+      ],
+      "snapshot_groups": 2800,
+      "observed_percentage_bands": [
+        "-1",
+        "-2",
+        "-3",
+        "-4",
+        "-5",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "median_observed_cadence_us": 30000000,
+      "largest_observed_gap_us": 203000000,
+      "max_identical_band_seconds": {
+        "-5": 15,
+        "-4": 15,
+        "-3": 15,
+        "-2": 15,
+        "-1": 15,
+        "1": 15,
+        "2": 15,
+        "3": 15,
+        "4": 15,
+        "5": 15
+      }
+    },
+    "raw": {
+      "path": "data/extended/raw/BTCUSDT/um_bookDepth_summary/2025-08-05-2cb4a87d06a0523d.zip",
+      "sha256": "2cb4a87d06a0523df2586f60355a1b72dc6157479f15a31617a14b78eca3030d",
+      "bytes": 455570,
+      "remote": {
+        "asset_id": 635833572,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/635833572",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-BTCUSDT-um_bookDepth_summary-2025-08/2cb4a87d06a0523df2586f60355a1b72dc6157479f15a31617a14b78eca3030d-2025-08-05-2cb4a87d06a0523d.zip",
+        "sha256": "2cb4a87d06a0523df2586f60355a1b72dc6157479f15a31617a14b78eca3030d",
+        "bytes": 455570,
+        "verified_at": 1791864210.4357643
+      }
+    },
+    "source_terms_ref": "DATA_LICENSE.md",
+    "schema_version": "extended-1",
+    "normalized": {
+      "path": "data/extended/normalized/BTCUSDT/um_bookDepth_summary/2025-08-05-2cb4a87d06a0523d.parquet",
+      "sha256": "02a34edf9c620e5d36a01f3ec87ba1e3fad56c1d1932c438b63629bb5ca02e50",
+      "bytes": 480628,
+      "remote": {
+        "asset_id": 635833962,
+        "api_url": "https://api.github.com/repos/Slimsyhalo/Trade/releases/assets/635833962",
+        "url": "https://github.com/Slimsyhalo/Trade/releases/download/extended-BTCUSDT-um_bookDepth_summary-2025-08/02a34edf9c620e5d36a01f3ec87ba1e3fad56c1d1932c438b63629bb5ca02e50-2025-08-05-2cb4a87d06a0523d.parquet",
+        "sha256": "02a34edf9c620e5d36a01f3ec87ba1e3fad56c1d1932c438b63629bb5ca02e50",
+        "bytes": 480628,
+        "verified_at": 1791864226.5562131
+      }
+    },
+    "storage_state": "REMOTE_VERIFIED",
+    "quality_state": "QUARANTINED"
   }
 }
