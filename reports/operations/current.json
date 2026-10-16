@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-10-16T01:42:03.723052+00:00",
+  "observed_at": "2026-10-16T06:26:58.401251+00:00",
   "evidence_commits": {
-    "main": "fb16bf2c147c0e8793c37b48ec11560d0fab1a6b",
-    "expansion": "86207c179e3fa7a965d4b6e22bb8e9b122f721ed",
-    "live": "839c9e38b8ccf23514b715c1b29a091465b82467",
+    "main": "b7b825755839515bb8d1a440cde755847a93cf32",
+    "expansion": "8d15f6c8e73e608c10124e9f473b3d6461a949a8",
+    "live": "1f0f91950e7ee14aabc7e09f4641a9745a03564e",
     "recovery": "455e0cc4880b42329169d7c569dffbe4adb9fb61"
   },
-  "source_commit_sha": "fb16bf2c147c0e8793c37b48ec11560d0fab1a6b",
+  "source_commit_sha": "b7b825755839515bb8d1a440cde755847a93cf32",
   "phase_1_accepted": false,
   "main_acquisition": {
-    "source_main_sha": "fb16bf2c147c0e8793c37b48ec11560d0fab1a6b",
+    "source_main_sha": "b7b825755839515bb8d1a440cde755847a93cf32",
     "manifest_sha256": "af19838e4ac10a3903abbdc1e238fff7694153d912b05469e634f76cedc32424",
     "status": "IMMUTABLE_POINT_IN_TIME_SNAPSHOT",
     "coverage": [
@@ -357,19 +357,19 @@
   },
   "expansion": {
     "status": "BLOCKED",
-    "source_commit_sha": "5e6be50e290dab6dad6e8a863da4ce8be31c6f20",
-    "started_at": "2026-10-15T23:05:17.163577+00:00",
+    "source_commit_sha": "fb16bf2c147c0e8793c37b48ec11560d0fab1a6b",
+    "started_at": "2026-10-16T04:31:59.381405+00:00",
     "branch": "codex/c17-archive-expansion",
-    "workflow_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38821255729",
+    "workflow_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38851000180",
     "scope": "authorized two-year selected archives",
     "processed": 0,
     "restorations": [],
     "errors": [],
     "complete_requested_window_certified": false,
     "phase_1_accepted": false,
-    "updated_at": "2026-10-15T23:12:44.137799+00:00",
-    "elapsed_seconds": 446.974,
-    "process_cpu_seconds": 445.589,
+    "updated_at": "2026-10-16T04:39:34.896750+00:00",
+    "elapsed_seconds": 455.516,
+    "process_cpu_seconds": 454.107,
     "github_rate_events": [],
     "github_read_retries": [],
     "remote_verified_partitions": 3925,
@@ -384,135 +384,19 @@
   },
   "latest_bounded_capture": {
     "schema_version": 1,
-    "status": "BOUNDED_CAPTURE_RESTORED",
-    "run_id": "38811912212",
-    "capture_id": "38811912212-1",
-    "source_commit_sha": "5e6be50e290dab6dad6e8a863da4ce8be31c6f20",
-    "workflow_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38811912212",
-    "started_at": "2026-10-15T21:43:37.839141+00:00",
+    "status": "RUNNING",
+    "run_id": "38853102366",
+    "capture_id": "38853102366-1",
+    "source_commit_sha": "b7b825755839515bb8d1a440cde755847a93cf32",
+    "workflow_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38853102366",
+    "started_at": "2026-10-16T04:56:27.026631+00:00",
     "requested_capture_seconds": 7200,
     "raw_format": "gzip JSONL, original messages plus receive timestamps/diagnostics",
     "capture_scope": "Actual live dates only; outside historical request window stored separately",
     "continuous_operation_certified": false,
     "full_L2_book_certified": false,
     "ledger_branch": "codex/live-observations",
-    "restorations": [
-      {
-        "route": "public",
-        "sha256": "8192d6cff7b5b1d88d140fdb1256a00f04bfd020a7a578e9ab5626aef1651485",
-        "bytes": 16997383,
-        "state": "RESTORED_AND_TESTED",
-        "rows": 377099,
-        "first_receive_ns": 1792100619838000389,
-        "last_receive_ns": 1792101219848172576,
-        "kinds": {
-          "connection_start": 1,
-          "event": 377098
-        },
-        "event_types": {
-          "bookTicker": 359761,
-          "depthUpdate": 17337
-        },
-        "symbols": {
-          "ETHUSDT": 141490,
-          "SOLUSDT": 40838,
-          "BTCUSDT": 194770
-        },
-        "streams": {
-          "ethusdt@bookTicker": 135630,
-          "solusdt@depth@100ms": 5596,
-          "solusdt@bookTicker": 35242,
-          "btcusdt@bookTicker": 188889,
-          "btcusdt@depth@100ms": 5881,
-          "ethusdt@depth@100ms": 5860
-        },
-        "diagnostic_examples": [
-          {
-            "receive_timestamp_ns": 1792100619838000389,
-            "kind": "connection_start",
-            "payload": {
-              "route": "public",
-              "continuity": "new_connection_unverified",
-              "previous_sequence_checkpoint": {},
-              "book_valid": false
-            }
-          }
-        ]
-      },
-      {
-        "route": "market",
-        "sha256": "79e819f0440b24bfd829342ed6a61922c38b95c65f8547eedf9b5a0ed8710d67",
-        "bytes": 449258,
-        "state": "RESTORED_AND_TESTED",
-        "rows": 10674,
-        "first_receive_ns": 1792100619860037812,
-        "last_receive_ns": 1792101220095501611,
-        "kinds": {
-          "connection_start": 1,
-          "event": 10673
-        },
-        "event_types": {
-          "aggTrade": 8872,
-          "markPriceUpdate": 1800,
-          "forceOrder": 1
-        },
-        "symbols": {
-          "BTCUSDT": 4660,
-          "ETHUSDT": 4769,
-          "SOLUSDT": 1243,
-          "unknown": 1
-        },
-        "streams": {
-          "btcusdt@aggTrade": 4060,
-          "btcusdt@markPrice@1s": 600,
-          "ethusdt@markPrice@1s": 600,
-          "solusdt@markPrice@1s": 600,
-          "ethusdt@aggTrade": 4169,
-          "solusdt@aggTrade": 643,
-          "btcusdt@forceOrder": 1
-        },
-        "diagnostic_examples": [
-          {
-            "receive_timestamp_ns": 1792100619860037812,
-            "kind": "connection_start",
-            "payload": {
-              "route": "market",
-              "continuity": "new_connection_unverified",
-              "previous_sequence_checkpoint": {},
-              "book_valid": false
-            }
-          }
-        ]
-      },
-      {
-        "route": "snapshots",
-        "sha256": "9ca26630ea1dc7afa6b2eb1f4ea5aa2617e0feaae3dcb97a76dd02f225c07e0e",
-        "bytes": 211,
-        "state": "RESTORED_AND_TESTED",
-        "rows": 1,
-        "first_receive_ns": 1792100619470796070,
-        "last_receive_ns": 1792100619470796070,
-        "kinds": {
-          "snapshot_unavailable": 1
-        },
-        "event_types": {},
-        "symbols": {},
-        "streams": {},
-        "diagnostic_examples": [
-          {
-            "receive_timestamp_ns": 1792100619470796070,
-            "kind": "snapshot_unavailable",
-            "payload": {
-              "symbol": "BTCUSDT",
-              "endpoint": "openInterest",
-              "http_status": 451,
-              "reason": "Official REST access blocked; polling stopped",
-              "book_valid": false
-            }
-          }
-        ]
-      }
-    ],
+    "restorations": [],
     "limitations": [
       "Hosted job finite; no 24/7 operation or automatic next-run coverage guarantee",
       "New run starts a new connection; downtime cannot be recovered by this collector",
@@ -521,55 +405,19 @@
       "Clock calibration absent; receive timestamp is application receipt, not kernel/network latency",
       "No local raw pruning; pending files require immutable-name reconciliation after failure"
     ],
-    "updated_at": "2026-10-15T23:44:06.285672+00:00",
-    "elapsed_seconds": 7228.447,
-    "process_cpu_seconds": 1807.714,
+    "updated_at": "2026-10-16T06:26:44.864142+00:00",
+    "elapsed_seconds": 5417.838,
+    "process_cpu_seconds": 1409.681,
     "github_rate_events": [],
-    "segments": 25,
+    "segments": 19,
     "segment_states": {
-      "remote_verified": 25
+      "remote_verified": 19
     },
-    "remote_verified_segments": 25,
-    "raw_rows": 4551338,
-    "remote_verified_bytes": 213402848,
-    "earliest_receive_ns": 1792100619470796070,
-    "latest_receive_ns": 1792107820318269609,
-    "capture_report": {
-      "status": "CAPTURE_FINISHED",
-      "integrity_status": "PASS",
-      "elapsed_seconds": 7213.352,
-      "requested_capture_seconds": 7200,
-      "publication": {
-        "status": "COMPLETE",
-        "published_segments": 25,
-        "pending_segments": 0
-      },
-      "segment_states": {
-        "remote_verified": 25
-      },
-      "retained_bytes": 213402848,
-      "notice": "Includes existing spool; no continuous coverage or valid L2 book claim; no pruning",
-      "error": null
-    },
-    "observed_stream_coverage": {
-      "required_streams": [
-        "btcusdt@aggTrade",
-        "btcusdt@bookTicker",
-        "btcusdt@depth@100ms",
-        "btcusdt@markPrice@1s",
-        "ethusdt@aggTrade",
-        "ethusdt@bookTicker",
-        "ethusdt@depth@100ms",
-        "ethusdt@markPrice@1s",
-        "solusdt@aggTrade",
-        "solusdt@bookTicker",
-        "solusdt@depth@100ms",
-        "solusdt@markPrice@1s"
-      ],
-      "missing_streams": [],
-      "status": "PASS"
-    },
-    "last_success_at": "2026-10-15T23:44:06.285553+00:00"
+    "remote_verified_segments": 19,
+    "raw_rows": 4016172,
+    "remote_verified_bytes": 188527274,
+    "earliest_receive_ns": 1792126588623936324,
+    "latest_receive_ns": 1792131990116639190
   },
   "original_capture_recovery": {
     "schema_version": 1,
@@ -727,14 +575,47 @@
   },
   "workflows": [
     {
-      "id": 38836452647,
+      "id": 38861160394,
       "name": "Research foundation operational evidence",
       "status": "in_progress",
       "conclusion": null,
       "head_branch": "main",
+      "head_sha": "b7b825755839515bb8d1a440cde755847a93cf32",
+      "created_at": "2026-10-16T06:25:55Z",
+      "updated_at": "2026-10-16T06:25:58Z",
+      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38861160394"
+    },
+    {
+      "id": 38853102366,
+      "name": "Resumable bounded live observations",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_branch": "main",
+      "head_sha": "b7b825755839515bb8d1a440cde755847a93cf32",
+      "created_at": "2026-10-16T04:55:27Z",
+      "updated_at": "2026-10-16T04:55:30Z",
+      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38853102366"
+    },
+    {
+      "id": 38851000180,
+      "name": "Research foundation acquisition and recovery",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_branch": "main",
+      "head_sha": "fb16bf2c147c0e8793c37b48ec11560d0fab1a6b",
+      "created_at": "2026-10-16T04:30:45Z",
+      "updated_at": "2026-10-16T04:39:39Z",
+      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38851000180"
+    },
+    {
+      "id": 38836452647,
+      "name": "Research foundation operational evidence",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "main",
       "head_sha": "fb16bf2c147c0e8793c37b48ec11560d0fab1a6b",
       "created_at": "2026-10-16T01:41:13Z",
-      "updated_at": "2026-10-16T01:41:17Z",
+      "updated_at": "2026-10-16T01:42:08Z",
       "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38836452647"
     },
     {
@@ -1022,39 +903,6 @@
       "created_at": "2026-10-14T04:52:22Z",
       "updated_at": "2026-10-14T05:01:10Z",
       "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38513641250"
-    },
-    {
-      "id": 38499679638,
-      "name": "Research foundation operational evidence",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "1e271f249fa9579ad7a9dee1230bdede792cd6c6",
-      "created_at": "2026-10-14T02:10:52Z",
-      "updated_at": "2026-10-14T02:12:12Z",
-      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38499679638"
-    },
-    {
-      "id": 38490948103,
-      "name": "Resumable bounded live observations",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "1e271f249fa9579ad7a9dee1230bdede792cd6c6",
-      "created_at": "2026-10-14T00:34:28Z",
-      "updated_at": "2026-10-14T02:36:08Z",
-      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38490948103"
-    },
-    {
-      "id": 38485964554,
-      "name": "Research foundation acquisition and recovery",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_branch": "main",
-      "head_sha": "43b63a21b942f03f7b9ca197e8fa017192fa67d3",
-      "created_at": "2026-10-13T23:43:28Z",
-      "updated_at": "2026-10-13T23:52:20Z",
-      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/38485964554"
     }
   ],
   "notice": "Inherited receipts are prior full readback evidence, not a fresh audit of every remote object. Independent ledgers remain distinct; records/bytes are not naively summed across overlapping tapes. Scheduled Actions may delay/drop runs and cannot guarantee 24/7 coverage."
