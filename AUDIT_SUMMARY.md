@@ -1,6 +1,6 @@
 # Current audit — Phase 1 incomplete
 
-Generated: 2026-10-20T20:00:10.382372+00:00
+Generated: 2026-10-20T20:00:14.158068+00:00
 
 2018 QA-passing partitions; 2018 verified remote RAW/Parquet pairs; 4 quarantined partitions.
 
