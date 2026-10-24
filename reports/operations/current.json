@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-10-24T12:15:08.845039+00:00",
+  "observed_at": "2026-10-24T16:16:57.518757+00:00",
   "evidence_commits": {
-    "main": "05013ae2fd3f9b5e4c8a864fa68d77bfdb059b07",
-    "expansion": "c290cdbab49c3c7e6a027abd8c082c08a597a964",
-    "live": "8beb7099348c08f2cc0fff7a67eb630af0a95c90",
+    "main": "a724ca76ad92ec5ac05aa29cda43314909e7d07b",
+    "expansion": "8dc0541a1916290f229af7b7abf50ef19cec1d8b",
+    "live": "197bda73da5ef369e25a2b6b2de24b516189f34c",
     "recovery": "455e0cc4880b42329169d7c569dffbe4adb9fb61"
   },
-  "source_commit_sha": "05013ae2fd3f9b5e4c8a864fa68d77bfdb059b07",
+  "source_commit_sha": "a724ca76ad92ec5ac05aa29cda43314909e7d07b",
   "phase_1_accepted": false,
   "main_acquisition": {
-    "source_main_sha": "05013ae2fd3f9b5e4c8a864fa68d77bfdb059b07",
+    "source_main_sha": "a724ca76ad92ec5ac05aa29cda43314909e7d07b",
     "manifest_sha256": "af19838e4ac10a3903abbdc1e238fff7694153d912b05469e634f76cedc32424",
     "status": "IMMUTABLE_POINT_IN_TIME_SNAPSHOT",
     "coverage": [
@@ -357,19 +357,19 @@
   },
   "expansion": {
     "status": "BLOCKED",
-    "source_commit_sha": "e507cbecd881d267e990e02db731f642ba2a5d39",
-    "started_at": "2026-10-24T04:36:28.583985+00:00",
+    "source_commit_sha": "05013ae2fd3f9b5e4c8a864fa68d77bfdb059b07",
+    "started_at": "2026-10-24T12:41:11.425073+00:00",
     "branch": "codex/c17-archive-expansion",
-    "workflow_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40062923869",
+    "workflow_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40094894187",
     "scope": "authorized two-year selected archives",
     "processed": 0,
     "restorations": [],
     "errors": [],
     "complete_requested_window_certified": false,
     "phase_1_accepted": false,
-    "updated_at": "2026-10-24T04:43:56.385349+00:00",
-    "elapsed_seconds": 447.802,
-    "process_cpu_seconds": 446.188,
+    "updated_at": "2026-10-24T12:47:32.407763+00:00",
+    "elapsed_seconds": 380.983,
+    "process_cpu_seconds": 379.623,
     "github_rate_events": [],
     "github_read_retries": [],
     "remote_verified_partitions": 3925,
@@ -385,11 +385,11 @@
   "latest_bounded_capture": {
     "schema_version": 1,
     "status": "RUNNING",
-    "run_id": "40090267381",
-    "capture_id": "40090267381-1",
-    "source_commit_sha": "05013ae2fd3f9b5e4c8a864fa68d77bfdb059b07",
-    "workflow_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40090267381",
-    "started_at": "2026-10-24T11:32:46.443501+00:00",
+    "run_id": "40110486036",
+    "capture_id": "40110486036-1",
+    "source_commit_sha": "a724ca76ad92ec5ac05aa29cda43314909e7d07b",
+    "workflow_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40110486036",
+    "started_at": "2026-10-24T16:13:36.215455+00:00",
     "requested_capture_seconds": 7200,
     "raw_format": "gzip JSONL, original messages plus receive timestamps/diagnostics",
     "capture_scope": "Actual live dates only; outside historical request window stored separately",
@@ -405,21 +405,19 @@
       "Clock calibration absent; receive timestamp is application receipt, not kernel/network latency",
       "No local raw pruning; pending files require immutable-name reconciliation after failure"
     ],
-    "updated_at": "2026-10-24T12:14:45.695854+00:00",
-    "elapsed_seconds": 2519.252,
-    "process_cpu_seconds": 365.698,
+    "updated_at": "2026-10-24T16:16:40.673750+00:00",
+    "elapsed_seconds": 184.458,
+    "process_cpu_seconds": 47.887,
     "github_rate_events": [],
-    "segments": 9,
+    "segments": 1,
     "segment_states": {
-      "remote_verified": 7,
-      "uploading": 1,
-      "closed": 1
+      "remote_verified": 1
     },
-    "remote_verified_segments": 7,
-    "raw_rows": 775727,
-    "remote_verified_bytes": 38109067,
-    "earliest_receive_ns": 1792841568100678611,
-    "latest_receive_ns": 1792843969107831160
+    "remote_verified_segments": 1,
+    "raw_rows": 1,
+    "remote_verified_bytes": 210,
+    "earliest_receive_ns": 1792858417985805708,
+    "latest_receive_ns": 1792858417985805708
   },
   "original_capture_recovery": {
     "schema_version": 1,
@@ -577,25 +575,58 @@
   },
   "workflows": [
     {
-      "id": 40093110680,
+      "id": 40110766723,
       "name": "Research foundation operational evidence",
       "status": "in_progress",
       "conclusion": null,
       "head_branch": "main",
+      "head_sha": "a724ca76ad92ec5ac05aa29cda43314909e7d07b",
+      "created_at": "2026-10-24T16:16:07Z",
+      "updated_at": "2026-10-24T16:16:09Z",
+      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40110766723"
+    },
+    {
+      "id": 40110486036,
+      "name": "Resumable bounded live observations",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_branch": "main",
+      "head_sha": "a724ca76ad92ec5ac05aa29cda43314909e7d07b",
+      "created_at": "2026-10-24T16:12:33Z",
+      "updated_at": "2026-10-24T16:12:37Z",
+      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40110486036"
+    },
+    {
+      "id": 40094894187,
+      "name": "Research foundation acquisition and recovery",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_branch": "main",
+      "head_sha": "05013ae2fd3f9b5e4c8a864fa68d77bfdb059b07",
+      "created_at": "2026-10-24T12:40:19Z",
+      "updated_at": "2026-10-24T12:47:37Z",
+      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40094894187"
+    },
+    {
+      "id": 40093110680,
+      "name": "Research foundation operational evidence",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "main",
       "head_sha": "05013ae2fd3f9b5e4c8a864fa68d77bfdb059b07",
       "created_at": "2026-10-24T12:14:27Z",
-      "updated_at": "2026-10-24T12:14:30Z",
+      "updated_at": "2026-10-24T12:15:13Z",
       "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40093110680"
     },
     {
       "id": 40090267381,
       "name": "Resumable bounded live observations",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "head_branch": "main",
       "head_sha": "05013ae2fd3f9b5e4c8a864fa68d77bfdb059b07",
       "created_at": "2026-10-24T11:31:46Z",
-      "updated_at": "2026-10-24T11:31:49Z",
+      "updated_at": "2026-10-24T13:33:19Z",
       "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40090267381"
     },
     {
@@ -872,39 +903,6 @@
       "created_at": "2026-10-22T17:34:17Z",
       "updated_at": "2026-10-22T19:35:34Z",
       "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/39823874473"
-    },
-    {
-      "id": 39807075035,
-      "name": "Research foundation operational evidence",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "068c40eaf6d0c8e0918e7b1fbf20841b275c4ff5",
-      "created_at": "2026-10-22T15:40:42Z",
-      "updated_at": "2026-10-22T15:41:29Z",
-      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/39807075035"
-    },
-    {
-      "id": 39789963526,
-      "name": "Research foundation acquisition and recovery",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_branch": "main",
-      "head_sha": "bc1120f6d3018b9d94407d3c5d972c89c5e20b68",
-      "created_at": "2026-10-22T13:47:20Z",
-      "updated_at": "2026-10-22T13:53:42Z",
-      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/39789963526"
-    },
-    {
-      "id": 39777346221,
-      "name": "Resumable bounded live observations",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "bc1120f6d3018b9d94407d3c5d972c89c5e20b68",
-      "created_at": "2026-10-22T12:19:05Z",
-      "updated_at": "2026-10-22T14:26:50Z",
-      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/39777346221"
     }
   ],
   "notice": "Inherited receipts are prior full readback evidence, not a fresh audit of every remote object. Independent ledgers remain distinct; records/bytes are not naively summed across overlapping tapes. Scheduled Actions may delay/drop runs and cannot guarantee 24/7 coverage."
