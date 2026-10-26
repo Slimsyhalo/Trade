@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-10-25T23:36:39.902751+00:00",
+  "observed_at": "2026-10-26T01:48:05.221860+00:00",
   "evidence_commits": {
     "main": "dda7da74b4e447a156e1fcf20e8b31bc013b1fec",
     "expansion": "85e8e2ef1be6d5bdff0bbd3b1fedfb9126fe8a56",
-    "live": "16d0ad6a44c63680f020b9f74bfe445a17bfd1be",
+    "live": "4084eff47edaf7eb5bc0fe1073ad5585de8b149f",
     "recovery": "455e0cc4880b42329169d7c569dffbe4adb9fb61"
   },
   "source_commit_sha": "dda7da74b4e447a156e1fcf20e8b31bc013b1fec",
@@ -384,7 +384,7 @@
   },
   "latest_bounded_capture": {
     "schema_version": 1,
-    "status": "RUNNING",
+    "status": "BLOCKED",
     "run_id": "40245055807",
     "capture_id": "40245055807-1",
     "source_commit_sha": "dda7da74b4e447a156e1fcf20e8b31bc013b1fec",
@@ -405,19 +405,23 @@
       "Clock calibration absent; receive timestamp is application receipt, not kernel/network latency",
       "No local raw pruning; pending files require immutable-name reconciliation after failure"
     ],
-    "updated_at": "2026-10-25T23:36:12.368069+00:00",
-    "elapsed_seconds": 306.908,
-    "process_cpu_seconds": 133.657,
+    "updated_at": "2026-10-26T01:31:09.259635+00:00",
+    "elapsed_seconds": 7203.799,
+    "process_cpu_seconds": 3427.364,
     "github_rate_events": [],
-    "segments": 2,
+    "segments": 29,
     "segment_states": {
-      "remote_verified": 2
+      "remote_verified": 25,
+      "closed": 3,
+      "upload_failed": 1
     },
-    "remote_verified_segments": 2,
-    "raw_rows": 762578,
-    "remote_verified_bytes": 32000249,
+    "remote_verified_segments": 25,
+    "raw_rows": 10675572,
+    "remote_verified_bytes": 459633958,
     "earliest_receive_ns": 1792971067204719855,
-    "latest_receive_ns": 1792971338772867440
+    "latest_receive_ns": 1792978267953792028,
+    "error_type": "RuntimeError",
+    "error": "Live integrity/publication incomplete; preserve spool and reconcile before resuming"
   },
   "original_capture_recovery": {
     "schema_version": 1,
@@ -575,25 +579,36 @@
   },
   "workflows": [
     {
-      "id": 40245453463,
+      "id": 40255893945,
       "name": "Research foundation operational evidence",
       "status": "in_progress",
       "conclusion": null,
       "head_branch": "main",
       "head_sha": "dda7da74b4e447a156e1fcf20e8b31bc013b1fec",
+      "created_at": "2026-10-26T01:46:59Z",
+      "updated_at": "2026-10-26T01:47:03Z",
+      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40255893945"
+    },
+    {
+      "id": 40245453463,
+      "name": "Research foundation operational evidence",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "main",
+      "head_sha": "dda7da74b4e447a156e1fcf20e8b31bc013b1fec",
       "created_at": "2026-10-25T23:35:25Z",
-      "updated_at": "2026-10-25T23:35:28Z",
+      "updated_at": "2026-10-25T23:36:44Z",
       "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40245453463"
     },
     {
       "id": 40245055807,
       "name": "Resumable bounded live observations",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "failure",
       "head_branch": "main",
       "head_sha": "dda7da74b4e447a156e1fcf20e8b31bc013b1fec",
       "created_at": "2026-10-25T23:30:14Z",
-      "updated_at": "2026-10-25T23:30:16Z",
+      "updated_at": "2026-10-26T01:31:28Z",
       "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40245055807"
     },
     {
@@ -892,17 +907,6 @@
       "created_at": "2026-10-24T04:57:57Z",
       "updated_at": "2026-10-24T06:59:22Z",
       "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40064400667"
-    },
-    {
-      "id": 40062923869,
-      "name": "Research foundation acquisition and recovery",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_branch": "main",
-      "head_sha": "e507cbecd881d267e990e02db731f642ba2a5d39",
-      "created_at": "2026-10-24T04:35:10Z",
-      "updated_at": "2026-10-24T04:44:02Z",
-      "html_url": "https://github.com/Slimsyhalo/Trade/actions/runs/40062923869"
     }
   ],
   "notice": "Inherited receipts are prior full readback evidence, not a fresh audit of every remote object. Independent ledgers remain distinct; records/bytes are not naively summed across overlapping tapes. Scheduled Actions may delay/drop runs and cannot guarantee 24/7 coverage."
