@@ -1,6 +1,6 @@
 # Current data coverage
 
-Generated: 2026-11-26T13:53:42.077794+00:00
+Generated: 2026-11-27T00:34:50.415511+00:00
 
 QA days count observed passing dates. Remote days require matching RAW and Parquet readback receipts. Monthly funding coverage counts observed dates, not one day per archive.
 
