@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "RUNNING",
+  "status": "BOUNDED_CAPTURE_RESTORED",
   "run_id": "46083866899",
   "capture_id": "46083866899-1",
   "source_commit_sha": "9d610fa36765193ad6839ca5daa09c36852c099a",
@@ -12,7 +12,124 @@
   "continuous_operation_certified": false,
   "full_L2_book_certified": false,
   "ledger_branch": "codex/live-observations",
-  "restorations": [],
+  "restorations": [
+    {
+      "route": "public",
+      "sha256": "44ae0fa296d91d3ed839e9e01ad4037dd09c4c6a585c1917703d58f5d3d92843",
+      "bytes": 11327782,
+      "state": "RESTORED_AND_TESTED",
+      "rows": 224281,
+      "first_receive_ns": 1795822935745332785,
+      "last_receive_ns": 1795823535747672964,
+      "kinds": {
+        "connection_start": 1,
+        "event": 224280
+      },
+      "event_types": {
+        "bookTicker": 206955,
+        "depthUpdate": 17325
+      },
+      "symbols": {
+        "BTCUSDT": 101365,
+        "ETHUSDT": 85546,
+        "SOLUSDT": 37369
+      },
+      "streams": {
+        "btcusdt@bookTicker": 95484,
+        "ethusdt@bookTicker": 79684,
+        "solusdt@depth@100ms": 5582,
+        "btcusdt@depth@100ms": 5881,
+        "ethusdt@depth@100ms": 5862,
+        "solusdt@bookTicker": 31787
+      },
+      "diagnostic_examples": [
+        {
+          "receive_timestamp_ns": 1795822935745332785,
+          "kind": "connection_start",
+          "payload": {
+            "route": "public",
+            "continuity": "new_connection_unverified",
+            "previous_sequence_checkpoint": {},
+            "book_valid": false
+          }
+        }
+      ]
+    },
+    {
+      "route": "market",
+      "sha256": "7c590a8ad93de58f683fb66e21d17818e683aefbe5707e62afafd2b36cc0d876",
+      "bytes": 297785,
+      "state": "RESTORED_AND_TESTED",
+      "rows": 6866,
+      "first_receive_ns": 1795822935732318488,
+      "last_receive_ns": 1795823535764381796,
+      "kinds": {
+        "connection_start": 1,
+        "event": 6865
+      },
+      "event_types": {
+        "aggTrade": 5059,
+        "markPriceUpdate": 1800,
+        "forceOrder": 6
+      },
+      "symbols": {
+        "ETHUSDT": 2666,
+        "BTCUSDT": 3003,
+        "SOLUSDT": 1190,
+        "unknown": 6
+      },
+      "streams": {
+        "ethusdt@aggTrade": 2066,
+        "btcusdt@markPrice@1s": 600,
+        "ethusdt@markPrice@1s": 600,
+        "solusdt@markPrice@1s": 600,
+        "solusdt@aggTrade": 590,
+        "btcusdt@aggTrade": 2403,
+        "ethusdt@forceOrder": 2,
+        "btcusdt@forceOrder": 4
+      },
+      "diagnostic_examples": [
+        {
+          "receive_timestamp_ns": 1795822935732318488,
+          "kind": "connection_start",
+          "payload": {
+            "route": "market",
+            "continuity": "new_connection_unverified",
+            "previous_sequence_checkpoint": {},
+            "book_valid": false
+          }
+        }
+      ]
+    },
+    {
+      "route": "snapshots",
+      "sha256": "c4c8dace5be57442aa95dfe34be4a67e4404a2ad916417bf971af5c3ea98e142",
+      "bytes": 210,
+      "state": "RESTORED_AND_TESTED",
+      "rows": 1,
+      "first_receive_ns": 1795822935459531229,
+      "last_receive_ns": 1795822935459531229,
+      "kinds": {
+        "snapshot_unavailable": 1
+      },
+      "event_types": {},
+      "symbols": {},
+      "streams": {},
+      "diagnostic_examples": [
+        {
+          "receive_timestamp_ns": 1795822935459531229,
+          "kind": "snapshot_unavailable",
+          "payload": {
+            "symbol": "BTCUSDT",
+            "endpoint": "openInterest",
+            "http_status": 451,
+            "reason": "Official REST access blocked; polling stopped",
+            "book_valid": false
+          }
+        }
+      ]
+    }
+  ],
   "limitations": [
     "Hosted job finite; no 24/7 operation or automatic next-run coverage guarantee",
     "New run starts a new connection; downtime cannot be recovered by this collector",
@@ -21,9 +138,9 @@
     "Clock calibration absent; receive timestamp is application receipt, not kernel/network latency",
     "No local raw pruning; pending files require immutable-name reconciliation after failure"
   ],
-  "updated_at": "2026-11-28T01:42:28.694952+00:00",
-  "elapsed_seconds": 7215.043,
-  "process_cpu_seconds": 1501.233,
+  "updated_at": "2026-11-28T01:42:40.313729+00:00",
+  "elapsed_seconds": 7226.662,
+  "process_cpu_seconds": 1504.431,
   "github_rate_events": [],
   "segments": 25,
   "segment_states": {
@@ -33,5 +150,41 @@
   "raw_rows": 3805416,
   "remote_verified_bytes": 181122183,
   "earliest_receive_ns": 1795822935459531229,
-  "latest_receive_ns": 1795830136175991865
+  "latest_receive_ns": 1795830136175991865,
+  "capture_report": {
+    "status": "CAPTURE_FINISHED",
+    "integrity_status": "PASS",
+    "elapsed_seconds": 7213.523,
+    "requested_capture_seconds": 7200,
+    "publication": {
+      "status": "COMPLETE",
+      "published_segments": 25,
+      "pending_segments": 0
+    },
+    "segment_states": {
+      "remote_verified": 25
+    },
+    "retained_bytes": 181122183,
+    "notice": "Includes existing spool; no continuous coverage or valid L2 book claim; no pruning",
+    "error": null
+  },
+  "observed_stream_coverage": {
+    "required_streams": [
+      "btcusdt@aggTrade",
+      "btcusdt@bookTicker",
+      "btcusdt@depth@100ms",
+      "btcusdt@markPrice@1s",
+      "ethusdt@aggTrade",
+      "ethusdt@bookTicker",
+      "ethusdt@depth@100ms",
+      "ethusdt@markPrice@1s",
+      "solusdt@aggTrade",
+      "solusdt@bookTicker",
+      "solusdt@depth@100ms",
+      "solusdt@markPrice@1s"
+    ],
+    "missing_streams": [],
+    "status": "PASS"
+  },
+  "last_success_at": "2026-11-28T01:42:40.313636+00:00"
 }
